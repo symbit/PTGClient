@@ -1,0 +1,9 @@
+{
+  "name": "ptg-client-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ptg-client-e2e/src",
+  "implicitDependencies": ["ptg-client"],
+  "// targets": "to see all targets run: nx show project ptg-client-e2e --web",
+  "targets": {}
+}
