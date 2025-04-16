@@ -15,13 +15,31 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ptg/analysis-feature-shell-web": [
+        "libs/ptg-client/analysis/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/articles-feature-shell-web": [
+        "libs/ptg-client/articles/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/dashboard-feature-dashboard": [
+        "libs/ptg-client/dashboard/feature-dashboard/src/index.ts"
+      ],
       "@ptg/feature-navigation": [
         "libs/ptg-client/feature-navigation/src/index.ts"
       ],
       "@ptg/feature-shell-web": [
         "libs/ptg-client/feature-shell-web/src/index.ts"
       ],
-      "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"]
+      "@ptg/predictions-feature-shell-web": [
+        "libs/ptg-client/predictions/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/rates-feature-shell-web": [
+        "libs/ptg-client/rates/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"],
+      "@ptg/users-feature-shell-web": [
+        "libs/ptg-client/users/feature-shell-web/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
