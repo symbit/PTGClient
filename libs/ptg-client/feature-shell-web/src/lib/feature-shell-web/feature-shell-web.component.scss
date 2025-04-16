@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--neutral-light-200);
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  flex: 1;
+  max-width: var(--max-layout-width, 1550px);
+  height: var(--layout-height, auto);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+opus-magnum-footer {
+  margin-top: auto;
+}

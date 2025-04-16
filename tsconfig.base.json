@@ -15,9 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ptg/feature-navigation": [
+        "libs/ptg-client/feature-navigation/src/index.ts"
+      ],
       "@ptg/feature-shell-web": [
         "libs/ptg-client/feature-shell-web/src/index.ts"
-      ]
+      ],
+      "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
