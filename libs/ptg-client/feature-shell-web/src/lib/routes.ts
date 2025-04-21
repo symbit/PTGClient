@@ -26,7 +26,7 @@ export const routes: Routes = [
       {
         path: 'articles',
         loadChildren: () =>
-          import('@ptg/articles-feature-shell-web').then((m) => m.routes),
+          import('@ptg/articles-feature-articles').then((m) => m.routes),
       },
       {
         path: 'predictions',

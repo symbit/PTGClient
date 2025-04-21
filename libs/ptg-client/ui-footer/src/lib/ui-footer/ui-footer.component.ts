@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'ptg-ui-footer',
@@ -12,18 +11,13 @@ import { MatIconButton } from '@angular/material/button';
         </p>
 
         <div>
-          <button mat-icon-button color="primary">
-            <mat-icon class="text-primary-100">info</mat-icon>
-          </button>
-
-          <button mat-icon-button color="primary">
-            <mat-icon class="text-primary-100">mail</mat-icon>
-          </button>
+          <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" />
+          <p-button icon="pi pi-envelope" [rounded]="true" [text]="true" />
         </div>
       </div>
     </footer>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatIconButton],
+  imports: [Button],
 })
 export class UiFooterComponent {}

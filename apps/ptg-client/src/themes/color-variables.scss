@@ -13,11 +13,12 @@
     --rgb-neutral-light-200: 238 238 238; // #EEEEEE
     --rgb-neutral-light-300: 229 229 229; // #e5e5e5
     --rgb-neutral-light-400: 245 245 245; // #f5f5f5
+    --rgb-neutral-light-500: 106 114 129; // #6A7281
 
     --rgb-neutral-dark-100: 0 0 0; // #000000
     --rgb-neutral-dark-200: 115, 115, 115; // #737373
 
-    --rgb-secondary-100: 208 51 46; // #D0332E
+    --rgb-secondary-100: 24, 54, 108; // #18366C
     --rgb-success-100: 76 175 80; // #4CAF50
     --rgb-info-100: 33 150 243; // #2196F3
   }
@@ -31,6 +32,7 @@
     --neutral-light-200: rgb(var(--rgb-neutral-light-200));
     --neutral-light-300: rgb(var(--rgb-neutral-light-300));
     --neutral-light-400: rgb(var(--rgb-neutral-light-400));
+    --neutral-light-500: rgb(var(--rgb-neutral-light-500));
 
     --neutral-dark-100: rgb(var(--rgb-neutral-dark-100));
     --neutral-dark-200: rgb(var(--rgb-neutral-dark-200));

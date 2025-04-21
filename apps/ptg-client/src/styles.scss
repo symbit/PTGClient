@@ -1,59 +1,78 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
-@use 'themes/theme-colors' as palette;
+@use 'primeicons/primeicons.css';
+
 @use 'themes/color-variables' as colors;
+@use 'themes/typography' as typography;
 @use 'sass:map';
 
-$theme: mat.define-theme(
-  (
-    color: (
-      primary: palette.$primary-palette,
-      tertiary: palette.$tertiary-palette,
-    ),
-  )
-);
-
 @include colors.color-variables;
-
-html {
-  @include mat.all-component-themes($theme);
-}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  button[color='warn'] {
-    @include mat.button-overrides(
-      (
-        filled-container-color: map.get(
-            map.get(palette.$palettes, secondary),
-            40
-          ),
-        filled-label-text-color: map.get(
-            map.get(palette.$palettes, neutral),
-            100
-          ),
-      )
-    );
+  // buttons
+  --p-button-rounded-border-radius: 8px !important;
+
+  --p-button-secondary-background: #d0332e !important;
+  --p-button-secondary-hover-background: #b42c28 !important;
+  --p-button-secondary-active-background: #982521 !important;
+
+  --p-button-secondary-border-color: #d0332e !important;
+  --p-button-secondary-hover-border-color: #b42c28 !important;
+  --p-button-secondary-active-border-color: #982521 !important;
+
+  --p-button-secondary-color: #ffffff !important;
+  --p-button-secondary-hover-color: #ffffff !important;
+  --p-button-secondary-active-color: #ffffff !important;
+
+  --p-button-secondary-focus-ring-color: rgba(
+    208,
+    51,
+    46,
+    0.4
+  ) !important; // soft red glow
+  --p-button-secondary-focus-ring-shadow: 0 0 0 0.25rem rgba(208, 51, 46, 0.4) !important;
+
+  --p-button-success-background: #4caf50 !important;
+  --p-button-success-hover-background: #449a48 !important;
+  --p-button-success-active-background: #3b8640 !important;
+
+  --p-button-success-border-color: #4caf50 !important;
+  --p-button-success-hover-border-color: #449a48 !important;
+  --p-button-success-active-border-color: #3b8640 !important;
+
+  --p-button-success-color: #ffffff !important;
+  --p-button-success-hover-color: #ffffff !important;
+  --p-button-success-active-color: #ffffff !important;
+
+  --p-button-success-focus-ring-color: rgba(76, 175, 80, 0.4) !important;
+  --p-button-success-focus-ring-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.4) !important;
+
+  --p-button-text-secondary-color: #d0332e !important;
+  --p-button-text-secondary-hover-background: rgba(
+    208,
+    51,
+    46,
+    0.08
+  ) !important;
+  --p-button-text-secondary-active-background: rgba(
+    208,
+    51,
+    46,
+    0.16
+  ) !important;
+
+  // tabs
+  --p-tabs-tablist-background: transparent !important;
+
+  // paginator
+  .p-paginator {
+    justify-content: flex-end;
   }
 
-  button[color='success'] {
-    @include mat.button-overrides(
-      (
-        filled-container-color: map.get(
-            map.get(palette.$palettes, tertiary),
-            40
-          ),
-        filled-label-text-color: map.get(
-            map.get(palette.$palettes, neutral),
-            100
-          ),
-      )
-    );
-  }
+  // dialog
+  --p-mask-background: rgba(0, 0, 0, 0.2) !important;
 }
 
 html,

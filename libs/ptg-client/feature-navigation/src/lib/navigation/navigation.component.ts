@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
 import { NavigationItemComponent } from './navigation-item.component';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'ptg-navigation',
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatIconButton, MatIconButton, NavigationItemComponent],
+  imports: [NavigationItemComponent, Button],
 })
 export class NavigationComponent {
   readonly items = [
