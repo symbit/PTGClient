@@ -1,0 +1,18 @@
+<p-card>
+  <div class="flex gap-2">
+    <input
+      class="flex-1"
+      type="text"
+      pInputText
+      placeholder="Szukaj artykułów..."
+    />
+
+    <p-select
+      [options]="industries"
+      placeholder="Wszystkie sektory"
+      class="w-full md:w-56"
+    />
+
+    <p-select placeholder="Ostatni miesiąc" class="w-full md:w-56" />
+  </div>
+</p-card>

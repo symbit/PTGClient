@@ -18,9 +18,13 @@
       "@ptg/analysis-feature-shell-web": [
         "libs/ptg-client/analysis/feature-shell-web/src/index.ts"
       ],
-      "@ptg/articles-feature-shell-web": [
-        "libs/ptg-client/articles/feature-shell-web/src/index.ts"
+      "@ptg/articles-data-access-articles": [
+        "libs/ptg-client/articles/data-access-articles/src/index.ts"
       ],
+      "@ptg/articles-feature-articles": [
+        "libs/ptg-client/articles/feature-articles/src/index.ts"
+      ],
+      "@ptg/articles-types": ["libs/ptg-client/articles/types/src/index.ts"],
       "@ptg/dashboard-feature-dashboard": [
         "libs/ptg-client/dashboard/feature-dashboard/src/index.ts"
       ],
@@ -36,6 +40,8 @@
       "@ptg/rates-feature-shell-web": [
         "libs/ptg-client/rates/feature-shell-web/src/index.ts"
       ],
+      "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
+      "@ptg/shared-types": ["libs/ptg-client/shared/types/src/index.ts"],
       "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"],
       "@ptg/users-feature-shell-web": [
         "libs/ptg-client/users/feature-shell-web/src/index.ts"

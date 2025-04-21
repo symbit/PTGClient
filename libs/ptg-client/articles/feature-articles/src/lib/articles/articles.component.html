@@ -1,0 +1,19 @@
+<h1 class="header-style-36 mb-6">Artykuły</h1>
+
+<ptg-articles-filters />
+
+<p-tabs class="mb-6" value="/articles">
+  <p-tablist>
+    @for (tab of tabs; track tab.route) {
+      <p-tab
+        [value]="tab.route"
+        [routerLink]="tab.route"
+        class="flex items-center !gap-2 text-inherit"
+      >
+        <span>{{ tab.label }}</span>
+      </p-tab>
+    }
+  </p-tablist>
+</p-tabs>
+
+<router-outlet />

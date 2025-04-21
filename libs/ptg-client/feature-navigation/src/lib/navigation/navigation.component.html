@@ -1,6 +1,6 @@
-<header class="flex bg-neutral-100 p-4 border-b border-neutral-300">
+<header class="flex bg-neutral-100 p-4 border-b border-neutral-300 mb-10">
   <div class="flex items-center text-primary-100">
-    <mat-icon>show_chart</mat-icon>
+    <i class="pi pi-chart-line"></i>
     <p class="ml-2">System Prognostyczny</p>
   </div>
 
@@ -11,12 +11,7 @@
   </nav>
 
   <div class="self-end">
-    <button mat-icon-button color="primary">
-      <mat-icon class="text-primary-100">notifications</mat-icon>
-    </button>
-
-    <button mat-icon-button color="primary">
-      <mat-icon class="text-primary-100">account_circle</mat-icon>
-    </button>
+    <p-button icon="pi pi-bell" [rounded]="true" [text]="true" />
+    <p-button icon="pi pi-user" [rounded]="true" [text]="true" />
   </div>
 </header>
