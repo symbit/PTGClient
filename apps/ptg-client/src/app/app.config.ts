@@ -8,12 +8,15 @@ import { appRoutes } from './app.routes';
 import {
   provideHttpClient,
   withFetch,
+  withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { providePrimeNG } from 'primeng/config';
 import { customPreset } from '../themes/theme';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideToastr } from 'ngx-toastr';
+import { tokenInterceptor } from '@ptg/auth-data-access-auth';
 
 if (environment.production) {
   enableProdMode();
@@ -23,7 +26,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
     provideRouter(appRoutes, withComponentInputBinding()),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      withFetch(),
+      withInterceptors([tokenInterceptor]),
+    ),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
@@ -32,6 +39,10 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false,
         },
       },
+    }),
+    provideToastr({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
     }),
     environment.providers || [],
   ],

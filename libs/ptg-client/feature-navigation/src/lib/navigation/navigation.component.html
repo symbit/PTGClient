@@ -12,6 +12,12 @@
 
   <div class="self-end">
     <p-button icon="pi pi-bell" [rounded]="true" [text]="true" />
-    <p-button icon="pi pi-user" [rounded]="true" [text]="true" />
+    <p-button
+      icon="pi pi-user"
+      (click)="menu.toggle($event)"
+      [rounded]="true"
+      [text]="true"
+    />
+    <p-menu #menu [model]="userOptions" [popup]="true" />
   </div>
 </header>

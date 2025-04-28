@@ -25,6 +25,13 @@
         "libs/ptg-client/articles/feature-articles/src/index.ts"
       ],
       "@ptg/articles-types": ["libs/ptg-client/articles/types/src/index.ts"],
+      "@ptg/auth-data-access-auth": [
+        "libs/ptg-client/auth/data-access-auth/src/index.ts"
+      ],
+      "@ptg/auth-feature-auth": [
+        "libs/ptg-client/auth/feature-auth/src/index.ts"
+      ],
+      "@ptg/auth-types": ["libs/ptg-client/auth/types/src/index.ts"],
       "@ptg/dashboard-feature-dashboard": [
         "libs/ptg-client/dashboard/feature-dashboard/src/index.ts"
       ],
@@ -42,6 +49,9 @@
       ],
       "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
       "@ptg/shared-types": ["libs/ptg-client/shared/types/src/index.ts"],
+      "@ptg/shared-utils-signal-store": [
+        "libs/ptg-client/shared/utils-signal-store/src/index.ts"
+      ],
       "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"],
       "@ptg/users-feature-shell-web": [
         "libs/ptg-client/users/feature-shell-web/src/index.ts"

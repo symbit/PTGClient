@@ -1,7 +1,7 @@
 {
-  "name": "feature-navigation",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ptg-client/feature-navigation/src",
+  "name": "auth-types",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ptg-client/auth/types/src",
   "prefix": "ptg",
   "projectType": "library",
   "tags": [],
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/ptg-client/feature-navigation/jest.config.ts"
+        "jestConfig": "libs/ptg-client/auth/types/jest.config.ts"
       }
     },
     "lint": {

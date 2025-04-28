@@ -1,18 +1,22 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NavigationItemComponent } from './navigation-item.component';
 import { Button } from 'primeng/button';
+import { Menu } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { AuthStore } from '@ptg/auth-data-access-auth';
 
 @Component({
   selector: 'ptg-navigation',
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NavigationItemComponent, Button],
+  imports: [NavigationItemComponent, Button, Menu],
 })
 export class NavigationComponent {
+  readonly authState = inject(AuthStore);
   readonly items = [
     {
-      link: '',
+      link: '/dashboard',
       label: 'Dashboard',
     },
     {
@@ -34,6 +38,14 @@ export class NavigationComponent {
     {
       link: '/users',
       label: 'Użytkownicy',
+    },
+  ];
+
+  readonly userOptions: MenuItem[] = [
+    {
+      label: 'Wyloguj się',
+      icon: 'pi pi-sign-out',
+      command: () => this.authState.logout(),
     },
   ];
 }
