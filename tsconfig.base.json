@@ -49,13 +49,23 @@
       ],
       "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
       "@ptg/shared-types": ["libs/ptg-client/shared/types/src/index.ts"],
+      "@ptg/shared-ui-back-button": [
+        "libs/ptg-client/shared/ui-back-button/src/index.ts"
+      ],
       "@ptg/shared-utils-signal-store": [
         "libs/ptg-client/shared/utils-signal-store/src/index.ts"
       ],
       "@ptg/ui-footer": ["libs/ptg-client/ui-footer/src/index.ts"],
-      "@ptg/users-feature-shell-web": [
-        "libs/ptg-client/users/feature-shell-web/src/index.ts"
-      ]
+      "@ptg/users-data-access-users": [
+        "libs/ptg-client/users/data-access-users/src/index.ts"
+      ],
+      "@ptg/users-feature-users": [
+        "libs/ptg-client/users/feature-users/src/index.ts"
+      ],
+      "@ptg/users-feature-your-data": [
+        "libs/ptg-client/users/feature-your-data/src/index.ts"
+      ],
+      "@ptg/users-utils": ["libs/ptg-client/users/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

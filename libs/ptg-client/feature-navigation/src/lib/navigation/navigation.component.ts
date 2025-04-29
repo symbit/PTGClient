@@ -43,6 +43,11 @@ export class NavigationComponent {
 
   readonly userOptions: MenuItem[] = [
     {
+      label: 'Twoje dane',
+      icon: 'pi pi-user-edit',
+      routerLink: '/users/your-data',
+    },
+    {
       label: 'Wyloguj się',
       icon: 'pi pi-sign-out',
       command: () => this.authState.logout(),

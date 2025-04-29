@@ -42,7 +42,7 @@ export const routes: Routes = [
       {
         path: 'users',
         loadChildren: () =>
-          import('@ptg/users-feature-shell-web').then((m) => m.routes),
+          import('@ptg/users-feature-users').then((m) => m.routes),
       },
     ],
   },

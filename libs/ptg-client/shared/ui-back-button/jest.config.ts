@@ -1,9 +1,9 @@
 export default {
-  displayName: 'users-feature-shell-web',
+  displayName: 'shared-ui-back-button',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory:
-    '../../../../coverage/libs/ptg-client/users/feature-shell-web',
+    '../../../../coverage/libs/ptg-client/shared/ui-back-button',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

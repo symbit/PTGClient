@@ -1,7 +1,7 @@
 {
-  "name": "users-feature-shell-web",
+  "name": "users-utils",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ptg-client/users/feature-shell-web/src",
+  "sourceRoot": "libs/ptg-client/users/utils/src",
   "prefix": "ptg",
   "projectType": "library",
   "tags": [],
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/ptg-client/users/feature-shell-web/jest.config.ts"
+        "jestConfig": "libs/ptg-client/users/utils/jest.config.ts"
       }
     },
     "lint": {
