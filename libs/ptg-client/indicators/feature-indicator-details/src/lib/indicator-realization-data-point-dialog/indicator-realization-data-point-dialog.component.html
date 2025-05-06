@@ -1,0 +1,44 @@
+<form [formGroup]="form" class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2">
+    <label for="value">Wartość wskaźnika</label>
+    <input
+      pInputText
+      id="value"
+      formControlName="value"
+      type="number"
+      placeholder="Wartość wskaźnika"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="date">Data</label>
+    <p-datepicker
+      id="date"
+      formControlName="date"
+      placeholder="Data"
+      dateFormat="dd.mm.yy"
+      required
+      appendTo="body"
+    />
+  </div>
+
+  <div class="flex justify-start">
+    @if (mode === 'create') {
+      <p-button
+        type="button"
+        label="Dodaj wartość"
+        severity="secondary"
+        [disabled]="form.invalid || !form.dirty"
+        (click)="addValue()"
+      />
+    } @else {
+      <p-button
+        type="button"
+        label="Edytuj wartość"
+        severity="secondary"
+        [disabled]="form.invalid || !form.dirty"
+        (click)="editValue()"
+      />
+    }
+  </div>
+</form>

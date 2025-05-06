@@ -15,6 +15,7 @@ import { Tag } from 'primeng/tag';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopup } from 'primeng/confirmpopup';
 import { Dialog } from 'primeng/dialog';
+import { DefaultSearchCriteria } from '@ptg/shared-types';
 
 @Component({
   selector: 'ptg-articles-list',
@@ -40,7 +41,7 @@ export class ArticlesListComponent implements OnInit {
   readonly visible = signal(false);
 
   ngOnInit(): void {
-    this.state.loadArticles();
+    this.state.loadArticles(DefaultSearchCriteria);
   }
 
   clonfirmBlock(event: Event) {

@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
@@ -41,17 +42,36 @@
       "@ptg/feature-shell-web": [
         "libs/ptg-client/feature-shell-web/src/index.ts"
       ],
+      "@ptg/indicators-data-access-indicators": [
+        "libs/ptg-client/indicators/data-access-indicators/src/index.ts"
+      ],
+      "@ptg/indicators-feature-indicator-details": [
+        "libs/ptg-client/indicators/feature-indicator-details/src/index.ts"
+      ],
+      "@ptg/indicators-feature-indicators-list": [
+        "libs/ptg-client/indicators/feature-indicators-list/src/index.ts"
+      ],
+      "@ptg/indicators-feature-shell-web": [
+        "libs/ptg-client/indicators/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/indicators-types": [
+        "libs/ptg-client/indicators/types/src/index.ts"
+      ],
       "@ptg/predictions-feature-shell-web": [
         "libs/ptg-client/predictions/feature-shell-web/src/index.ts"
       ],
-      "@ptg/rates-feature-shell-web": [
-        "libs/ptg-client/rates/feature-shell-web/src/index.ts"
-      ],
       "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
+      "@ptg/shared-data-access-constants": [
+        "libs/ptg-client/shared/data-access-constants/src/index.ts"
+      ],
       "@ptg/shared-types": ["libs/ptg-client/shared/types/src/index.ts"],
       "@ptg/shared-ui-back-button": [
         "libs/ptg-client/shared/ui-back-button/src/index.ts"
       ],
+      "@ptg/shared-ui-data-box": [
+        "libs/ptg-client/shared/ui-data-box/src/index.ts"
+      ],
+      "@ptg/shared-utils": ["libs/ptg-client/shared/utils/src/index.ts"],
       "@ptg/shared-utils-signal-store": [
         "libs/ptg-client/shared/utils-signal-store/src/index.ts"
       ],

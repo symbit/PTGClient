@@ -16,5 +16,5 @@ export const DefaultSearchCriteria: SearchCriteria = {
   page: 1,
   pageSize: 20,
   term: '',
-  filters: null,
+  filters: [],
 };

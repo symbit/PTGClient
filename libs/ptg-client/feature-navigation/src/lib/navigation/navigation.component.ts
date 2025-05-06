@@ -20,7 +20,7 @@ export class NavigationComponent {
       label: 'Dashboard',
     },
     {
-      link: '/rates',
+      link: '/indicators',
       label: 'Wskaźniki',
     },
     {

@@ -1,0 +1,30 @@
+<p-card [subheader]="'Kod: ' + indicator().symbol">
+  <ng-template #title>
+    <header class="flex items-center justify-between">
+      <div class="flex items-center gap-2 w-3/4">
+        <h3 class="header-style-18 max-w-[50%]">{{ indicator().name }}</h3>
+        <p-tag
+          severity="secondary"
+          [value]="'Źródło danych: ' + (indicator().source | indicatorSource)"
+        />
+      </div>
+      <p-tag
+        severity="secondary"
+        class="mr-2"
+        [value]="'Aktualizacja: ' + 'Kwartalna'"
+      />
+    </header>
+  </ng-template>
+
+  <p class="body-style-16--lighter">{{ indicator().description }}</p>
+
+  <ng-template #footer>
+    <p-button
+      label="Szczegóły"
+      variant="text"
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      [routerLink]="['/indicators', indicator().id]"
+    />
+  </ng-template>
+</p-card>

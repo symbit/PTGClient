@@ -20,9 +20,9 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'rates',
+        path: 'indicators',
         loadChildren: () =>
-          import('@ptg/rates-feature-shell-web').then((m) => m.routes),
+          import('@ptg/indicators-feature-shell-web').then((m) => m.routes),
       },
       {
         path: 'analysis',

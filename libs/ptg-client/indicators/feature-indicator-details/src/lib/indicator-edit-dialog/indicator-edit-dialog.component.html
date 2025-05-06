@@ -1,0 +1,93 @@
+<form [formGroup]="form" class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2">
+    <label for="name">Nazwa</label>
+    <input pInputText id="name" formControlName="name" placeholder="Nazwa" />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="description">Opis</label>
+    <textarea
+      id="description"
+      rows="5"
+      cols="30"
+      pTextarea
+      formControlName="description"
+      placeholder="Opis"
+    ></textarea>
+  </div>
+
+  <div class="flex gap-2">
+    <div class="flex flex-col gap-2 w-full">
+      <label for="symbol">Kod</label>
+      <input
+        pInputText
+        id="symbol"
+        formControlName="symbol"
+        placeholder="Kod"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="nextExecutionDate">Najbliższa data pobierania danych</label>
+      <p-datepicker
+        id="nextExecutionDate"
+        formControlName="nextExecutionDate"
+        placeholder="Najbliższa data pobierania danych"
+        dateFormat="dd.mm.yy"
+        required
+        appendTo="body"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="source">Źródło danych</label>
+      <input
+        pInputText
+        id="source"
+        [value]="state.indicator()!.source | indicatorSource"
+        [disabled]="true"
+        placeholder="Źródło danych"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label>Częstotliwość pobierania danych</label>
+
+    <div class="flex flex-wrap gap-2">
+      @for (frequency of frequencies(); track frequency) {
+        <p-chip class="w-max" [label]="frequency | frequency" />
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label>Branże wskaźnika</label>
+
+    <div class="flex flex-wrap gap-2">
+      @for (sector of sectors(); track sector) {
+        <p-chip class="w-max" [label]="sector | sector" />
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label>Dostępne województwa</label>
+
+    <div class="flex flex-wrap gap-2">
+      @for (region of regions(); track region) {
+        <p-chip class="w-max" [label]="region | region" />
+      }
+    </div>
+  </div>
+
+  <div class="flex gap-2 justify-start">
+    <p-button
+      type="button"
+      label="Zapisz zmiany"
+      severity="secondary"
+      [disabled]="form.invalid || !form.dirty"
+      (click)="save()"
+    />
+  </div>
+</form>

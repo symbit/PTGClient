@@ -1,0 +1,28 @@
+@if (state.indicator(); as indicator) {
+  <p-card class="mt-2" [subheader]="indicator.description">
+    <ng-template #title>
+      <div class="flex justify-between items-center">
+        <h2 class="header-style-22">{{ indicator.name }}</h2>
+
+        <div>
+          <p-button label="Edytuj" severity="secondary" (click)="edit()" />
+        </div>
+      </div>
+    </ng-template>
+    <h3 class="header-style-18 mt-2">Szczegóły wskaźnika</h3>
+
+    <div class="flex gap-4">
+      <ptg-data-box label="Kod wskaźnika">
+        <p>{{ indicator.symbol }}</p>
+      </ptg-data-box>
+
+      <ptg-data-box label="Źródło danych">
+        <p>{{ indicator.source | indicatorSource }}</p>
+      </ptg-data-box>
+
+      <ptg-data-box label="Najbliższa data pobierania danych">
+        <p>{{ indicator.nextExecutionDate | date: 'dd.MM.yyyy HH:mm' }}</p>
+      </ptg-data-box>
+    </div>
+  </p-card>
+}
