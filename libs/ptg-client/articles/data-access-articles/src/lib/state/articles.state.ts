@@ -1,14 +1,19 @@
-import { withCallState, withDevtools } from '@angular-architects/ngrx-toolkit';
+import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { setAllEntities, withEntities } from '@ngrx/signals/entities';
+import {
+  removeAllEntities,
+  setAllEntities,
+  withEntities,
+} from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { ArticlesService } from '../service/articles.service';
 import { Article } from '@ptg/articles-types';
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
+import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 
 interface ArticlesState {
   criteria: SearchCriteria;
@@ -27,13 +32,22 @@ export const ArticlesStore = signalStore(
   withDevtools('articles'),
   withState(initialState),
   withEntities<Article>(),
-  withCallState(),
+  withCallState('articles'),
   withMethods((store) => {
     const service = inject(ArticlesService);
 
     return {
       loadArticles: rxMethod<SearchCriteria>(
         switchMap((searchCriteria: SearchCriteria) => {
+          patchState(
+            store,
+            {
+              articlesCallState: LoadingState.LOADING,
+              criteria: searchCriteria,
+            },
+            removeAllEntities(),
+          );
+
           return service.getArticles(searchCriteria).pipe(
             tapResponse({
               next: (result) => {
@@ -48,7 +62,7 @@ export const ArticlesStore = signalStore(
               },
               error: (error: string) =>
                 patchState(store, {
-                  callState: { error },
+                  articlesCallState: { error },
                 }),
             }),
           );

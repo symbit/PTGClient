@@ -17,6 +17,8 @@ export function frequencyMapper(frequency: string): string {
       return 'Kwartalny';
     case 'yearly':
       return 'Roczny';
+    case 'na':
+      return 'Brak';
     default:
       return '-';
   }

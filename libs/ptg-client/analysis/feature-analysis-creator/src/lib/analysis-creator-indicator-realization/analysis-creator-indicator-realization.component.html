@@ -1,0 +1,26 @@
+<p-card>
+  <ng-template #title>
+    <div class="flex justify-between">
+      <h2 class="body-style-18">{{ label() }}</h2>
+      @if (removable()) {
+        <p-button
+          label="Usuń"
+          variant="text"
+          icon="pi pi-ban"
+          severity="secondary"
+          (click)="remove.emit()"
+        />
+      }
+    </div>
+  </ng-template>
+
+  <ptg-indicator-search
+    (selectedIndicatorChanged)="selectedIndicator.set($event)"
+  />
+
+  <ptg-indicator-realization
+    class="block mt-4"
+    [realizations]="selectedIndicator()?.realizations || []"
+    (changeSelectedRealization)="control().setValue($event)"
+  />
+</p-card>

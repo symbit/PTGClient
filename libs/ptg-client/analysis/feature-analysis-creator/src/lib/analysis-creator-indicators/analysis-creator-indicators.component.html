@@ -1,0 +1,45 @@
+<div class="flex flex-col">
+  <div class="flex flex-col gap-2">
+    @for (
+      control of realizations().controls;
+      track control;
+      let first = $first;
+      let last = $last;
+      let index = $index
+    ) {
+      <ptg-analysis-creator-indicator-realization
+        [label]="'Wskaźnik ' + (index + 1)"
+        [control]="$any(control)"
+        [removable]="!first && last"
+        (remove)="remove(index)"
+      />
+    }
+  </div>
+
+  @if (realizations().controls.length !== MAX_INDICATORS) {
+    <p-button
+      class="mt-4"
+      label="Dodaj wskaźnik do porównania"
+      severity="contrast"
+      icon="pi pi-plus-circle"
+      [outlined]="true"
+      (click)="addIndicator()"
+    />
+  }
+</div>
+<div class="flex pt-6 justify-between">
+  <p-button
+    label="Wróć"
+    severity="contrast"
+    icon="pi pi-arrow-left"
+    [outlined]="true"
+    (click)="previous.emit()"
+  />
+  <p-button
+    label="Generuj analizę porównawczą"
+    icon="pi pi-play"
+    severity="secondary"
+    [disabled]="realizations().invalid"
+    (click)="next.emit()"
+  />
+</div>

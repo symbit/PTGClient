@@ -1,6 +1,8 @@
 export type Filters = {
   name: string;
   value: string | number | boolean | object;
+  behaviour?: 'AND' | 'OR' | 'NOT';
+  operator?: 'ilike' | '==';
 }[];
 
 export interface SearchCriteria {

@@ -9,7 +9,7 @@ export function authGuard(): boolean {
 
   const token = state.accessToken();
 
-  if (!token) router.navigate(['/login']);
+  if (!token) router.navigate(['/auth/login']);
 
   return !!token;
 }

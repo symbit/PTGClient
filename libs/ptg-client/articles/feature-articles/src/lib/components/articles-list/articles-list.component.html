@@ -1,9 +1,8 @@
 <p-table
-  [value]="articles()"
+  [value]="state.entities() || []"
   [paginator]="true"
-  [rows]="5"
+  [rows]="ROWS_PER_PAGE"
   [tableStyle]="{ 'min-width': '50rem' }"
-  [rowsPerPageOptions]="[5, 10, 20]"
 >
   <ng-template #header>
     <tr>
@@ -21,16 +20,16 @@
   <ng-template #body let-element>
     <tr>
       <td>{{ element.id }}</td>
-      <td>{{ element.source }}</td>
+      <td>{{ element.provider }}</td>
       <td>{{ element.author }}</td>
       <td>{{ element.title }}</td>
-      <td class="">
-        @for (industry of element.industry; track industry) {
-          <p-tag severity="secondary" class="mr-2" [value]="industry" />
+      <td>
+        @for (sector of element.sectors; track sector) {
+          <p-tag severity="secondary" class="mr-2" [value]="sector | sector" />
         }
       </td>
-      <td>{{ element.date | date: 'dd.MM.yyyy' }}</td>
-      <td>{{ element.relevancy ? 'Tak' : 'Nie' }}</td>
+      <td>{{ element.publicationDate | date: 'dd.MM.yyyy' }}</td>
+      <td>{{ element.isRelevant ? 'Tak' : 'Nie' }}</td>
       <td>
         @let sentiment = element.sentiment | sentiment;
         <span [class]="sentiment.class">{{ sentiment.text }}</span>

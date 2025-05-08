@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { IndicatorInformationComponent } from '../indicator-information/indicator-information.component';
-import { IndicatorRealizationComponent } from '../indicator-realization/indicator-realization.component';
+import { IndicatorDataComponent } from '../indicator-data/indicator-data.component';
 import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { RouterLink } from '@angular/router';
 import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
@@ -18,7 +18,7 @@ import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 
     <ptg-indicator-information />
 
-    <ptg-indicator-realization />
+    <ptg-indicator-data />
   `,
   styles: `
     :host {
@@ -30,7 +30,7 @@ import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IndicatorInformationComponent,
-    IndicatorRealizationComponent,
+    IndicatorDataComponent,
     BackButtonComponent,
     RouterLink,
   ],

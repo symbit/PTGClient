@@ -15,9 +15,8 @@
   <p-table
     [value]="state.entities()"
     [paginator]="true"
-    [rows]="5"
+    [rows]="ROWS_PER_PAGE"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]"
     [totalRecords]="state.total()"
   >
     <ng-template #header>
@@ -64,8 +63,8 @@
           />
 
           <p-button
-            [disabled]="user.isInvited"
             icon="pi pi-send"
+            [disabled]="user.isInvited"
             [rounded]="true"
             [text]="true"
             (click)="onInvite($event, user)"

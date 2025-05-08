@@ -7,7 +7,6 @@ import { switchMap } from 'rxjs';
 
 import { ConstantsService } from '../service/constants.service';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
-import { frequencyMapper } from '@ptg/shared-utils';
 
 interface ConstantsState {
   sources: string[] | null;
@@ -105,7 +104,7 @@ export const ConstantsStore = signalStore(
             tapResponse({
               next: (result) => {
                 patchState(store, {
-                  frequencies: result.map((res) => frequencyMapper(res)),
+                  frequencies: result,
                 });
               },
               error: (error) =>

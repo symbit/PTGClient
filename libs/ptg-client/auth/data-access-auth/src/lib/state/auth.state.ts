@@ -148,7 +148,7 @@ export const AuthStore = signalStore(
             patchState(store, {
               ...initialState,
             });
-            router.navigate(['/login']);
+            router.navigate(['/auth/login']);
           }),
         ),
       ),

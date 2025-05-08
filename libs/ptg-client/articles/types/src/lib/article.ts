@@ -1,10 +1,12 @@
 export interface Article {
-  id: string;
-  source: string;
-  author: string;
+  id: number;
+  url: string;
   title: string;
-  industry: string[];
-  date: string;
-  relevancy: boolean;
-  sentiment: string;
+  provider: string;
+  source: string;
+  publicationDate: string;
+  summary: string;
+  isRelevant: true;
+  sentiment: 'positive' | 'negative' | 'neutral';
+  sectors: string[];
 }

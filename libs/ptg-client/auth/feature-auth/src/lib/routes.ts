@@ -26,9 +26,16 @@ export const routes: Routes = [
           ),
       },
       {
-        path: '',
+        path: 'confirm-invitation',
+        loadComponent: () =>
+          import('./confirm-invitation/confirm-invitation.component').then(
+            (m) => m.ConfirmInvitationComponent,
+          ),
+      },
+      {
+        path: '**',
         pathMatch: 'full',
-        redirectTo: '/login',
+        redirectTo: '/auth/login',
       },
     ],
   },

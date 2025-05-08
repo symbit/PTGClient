@@ -24,6 +24,12 @@ export function indicatorSourceMapper(source: IndicatorSources): string {
       return 'GoWork.pl';
     case 'pracuj.pl':
       return 'Pracuj.pl';
+    case 'zus':
+      return 'Zakład Ubezpieczeń Społecznych (ZUS)';
+    case 'cbop':
+      return 'Centralna Baza Ofert Pracy: (CBOP)';
+    case 'manual':
+      return 'Własny';
     default:
       return '-';
   }

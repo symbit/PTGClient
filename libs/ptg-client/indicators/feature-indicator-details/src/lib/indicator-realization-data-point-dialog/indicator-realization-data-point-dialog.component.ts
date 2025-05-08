@@ -60,12 +60,9 @@ export class IndicatorRealizationDataPointDialogComponent {
   }
 
   editValue(): void {
-    this._state.addRealizationDataPoint({
-      data: {
-        ...this.form.value,
-        date: dayjs(this.form.value.date).format(),
-      },
-      id: this._dynamicDialogConfig.data.id,
+    this._state.editRealizationDataPoint({
+      ...this.form.value,
+      date: dayjs(this.form.value.date).format(),
     });
     this._dialog.close();
   }

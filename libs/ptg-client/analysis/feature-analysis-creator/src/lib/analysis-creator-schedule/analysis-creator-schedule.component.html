@@ -1,0 +1,46 @@
+<p-card [formGroup]="form()">
+  <div class="flex gap-2">
+    <div class="flex flex-col gap-2 w-full">
+      <label for="frequency">Okres analizy</label>
+      <p-select
+        id="frequency"
+        [options]="frequancies"
+        placeholder="Okres analizy"
+        class="w-full"
+        [formControl]="period"
+      />
+    </div>
+
+    @if (period.value === 'custom') {
+      <div class="flex flex-col gap-2 w-full">
+        <label for="from">Data od</label>
+        <p-datepicker
+          formControlName="startDate"
+          id="from"
+          placeholder="Data od"
+          dateFormat="dd.mm.yy"
+          [maxDate]="MAX_DATE"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2 w-full">
+        <label for="to">Data do</label>
+        <p-datepicker
+          formControlName="endDate"
+          id="to"
+          placeholder="Data do"
+          dateFormat="dd.mm.yy"
+          [maxDate]="MAX_DATE"
+        />
+      </div>
+    }
+  </div>
+</p-card>
+<div class="flex justify-end mt-4">
+  <p-button
+    label="Przejdź dalej"
+    severity="secondary"
+    [disabled]="form().invalid"
+    (click)="next.emit()"
+  />
+</div>

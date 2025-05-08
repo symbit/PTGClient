@@ -1,9 +1,22 @@
 import { Routes } from '@angular/router';
-import { AnalysisFeatureShellWebComponent } from './analysis-feature-shell-web/analysis-feature-shell-web.component';
+import { inject } from '@angular/core';
+import { AnalysisCreatorWrapperComponent } from '@ptg/analysis-feature-analysis-creator';
+import { ConstantsStore } from '@ptg/shared-data-access-constants';
+import { AnalysisResultsComponent } from '@ptg/analysis-feature-analysis-results';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AnalysisFeatureShellWebComponent,
+    resolve: [
+      () => {
+        const state = inject(ConstantsStore);
+        state.loadSources();
+      },
+    ],
+    component: AnalysisCreatorWrapperComponent,
+  },
+  {
+    path: 'results',
+    component: AnalysisResultsComponent,
   },
 ];

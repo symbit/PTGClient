@@ -29,7 +29,7 @@ import { AuthStore } from '@ptg/auth-data-access-auth';
     <p-button
       label="Powrót do logowania"
       variant="text"
-      routerLink="/login"
+      routerLink="/auth/login"
     />`,
   styles: `
     ptg-reset-password {

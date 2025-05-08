@@ -6,7 +6,10 @@ export type IndicatorSources =
   | 'eurostat'
   | 'pmi'
   | 'gowork'
-  | 'pracuj.pl';
+  | 'pracuj.pl'
+  | 'cbop'
+  | 'zus'
+  | 'manual';
 
 export interface Indicator {
   id: number;

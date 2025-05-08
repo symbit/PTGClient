@@ -1,0 +1,27 @@
+<p-stepper [value]="1" [linear]="true">
+  <p-step-list>
+    <p-step [value]="1">Okres</p-step>
+    <p-step [value]="2">Wskaźniki</p-step>
+    <p-step [value]="3">Wynik</p-step>
+  </p-step-list>
+  <p-step-panels>
+    <p-step-panel [value]="1">
+      <ng-template #content let-activateCallback="activateCallback">
+        <ptg-analysis-creator-schedule
+          [form]="schedule"
+          (next)="activateCallback(2)"
+        />
+      </ng-template>
+    </p-step-panel>
+
+    <p-step-panel [value]="2">
+      <ng-template #content let-activateCallback="activateCallback">
+        <ptg-analysis-creator-indicators
+          [realizations]="realizations"
+          (previous)="activateCallback(1)"
+          (next)="generate()"
+        />
+      </ng-template>
+    </p-step-panel>
+  </p-step-panels>
+</p-stepper>

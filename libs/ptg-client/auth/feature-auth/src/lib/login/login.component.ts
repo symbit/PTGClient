@@ -40,7 +40,7 @@ import { RouterLink } from '@angular/router';
       <p-button
         label="Zapomniałeś hasła?"
         variant="text"
-        routerLink="/request-password-reset"
+        routerLink="/auth/request-password-reset"
       />
     </div>
 

@@ -16,9 +16,20 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ptg/analysis-data-access-analysis": [
+        "libs/ptg-client/analysis/data-access-analysis/src/index.ts"
+      ],
+      "@ptg/analysis-feature-analysis-creator": [
+        "libs/ptg-client/analysis/feature-analysis-creator/src/index.ts"
+      ],
+      "@ptg/analysis-feature-analysis-results": [
+        "libs/ptg-client/analysis/feature-analysis-results/src/index.ts"
+      ],
       "@ptg/analysis-feature-shell-web": [
         "libs/ptg-client/analysis/feature-shell-web/src/index.ts"
       ],
+      "@ptg/analysis-types": ["libs/ptg-client/analysis/types/src/index.ts"],
+      "@ptg/analysis-utils": ["libs/ptg-client/analysis/utils/src/index.ts"],
       "@ptg/articles-data-access-articles": [
         "libs/ptg-client/articles/data-access-articles/src/index.ts"
       ],
@@ -63,6 +74,9 @@
       "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
       "@ptg/shared-data-access-constants": [
         "libs/ptg-client/shared/data-access-constants/src/index.ts"
+      ],
+      "@ptg/shared-feature-indicator-relization": [
+        "libs/ptg-client/shared/feature-indicator-relization/src/index.ts"
       ],
       "@ptg/shared-types": ["libs/ptg-client/shared/types/src/index.ts"],
       "@ptg/shared-ui-back-button": [

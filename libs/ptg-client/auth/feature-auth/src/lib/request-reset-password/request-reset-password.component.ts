@@ -37,7 +37,11 @@ import { AuthStore } from '@ptg/auth-data-access-auth';
       (click)="state.requestPasswordReset(email.value || '')"
     />
 
-    <p-button label="Powrót do logowania" variant="text" routerLink="/login" />
+    <p-button
+      label="Powrót do logowania"
+      variant="text"
+      routerLink="/auth/login"
+    />
   `,
   styles: `
     ptg-request-reset-password {

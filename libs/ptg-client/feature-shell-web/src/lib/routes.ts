@@ -4,7 +4,7 @@ import { authGuard } from '@ptg/auth-data-access-auth';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('@ptg/auth-feature-auth').then((m) => m.routes),
   },
   {
@@ -43,6 +43,11 @@ export const routes: Routes = [
         path: 'users',
         loadChildren: () =>
           import('@ptg/users-feature-users').then((m) => m.routes),
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: '/dashboard',
       },
     ],
   },

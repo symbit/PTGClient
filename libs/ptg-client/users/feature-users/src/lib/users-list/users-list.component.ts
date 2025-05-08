@@ -11,6 +11,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { UserRolePipe, UserStatusPipe } from '@ptg/users-utils';
 
+const ROWS_PER_PAGE = 10;
+
 @Component({
   selector: 'ptg-users-list',
   templateUrl: './users-list.component.html',
@@ -31,6 +33,7 @@ import { UserRolePipe, UserStatusPipe } from '@ptg/users-utils';
 })
 export class UsersListComponent {
   readonly state = inject(UserStore);
+  readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
 
   private readonly _confirmationService = inject(ConfirmationService);
 

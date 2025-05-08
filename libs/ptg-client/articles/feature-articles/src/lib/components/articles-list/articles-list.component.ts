@@ -1,9 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
-  OnInit,
   signal,
 } from '@angular/core';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
@@ -15,7 +13,9 @@ import { Tag } from 'primeng/tag';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopup } from 'primeng/confirmpopup';
 import { Dialog } from 'primeng/dialog';
-import { DefaultSearchCriteria } from '@ptg/shared-types';
+import { SectorPipe } from '@ptg/shared-utils';
+
+const ROWS_PER_PAGE = 10;
 
 @Component({
   selector: 'ptg-articles-list',
@@ -30,19 +30,16 @@ import { DefaultSearchCriteria } from '@ptg/shared-types';
     Tag,
     ConfirmPopup,
     Dialog,
+    SectorPipe,
   ],
   providers: [ConfirmationService],
 })
-export class ArticlesListComponent implements OnInit {
+export class ArticlesListComponent {
   readonly state = inject(ArticlesStore);
   readonly confirmationService = inject(ConfirmationService);
 
-  readonly articles = computed(() => this.state.entities() || []);
   readonly visible = signal(false);
-
-  ngOnInit(): void {
-    this.state.loadArticles(DefaultSearchCriteria);
-  }
+  readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
 
   clonfirmBlock(event: Event) {
     this.confirmationService.confirm({

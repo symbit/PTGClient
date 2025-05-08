@@ -1,0 +1,47 @@
+<div class="mt-4 p-4 bg-neutral-200 rounded-lg border border-neutral-300">
+  <div class="flex gap-2" [formGroup]="searchForm">
+    <div class="flex flex-col gap-2">
+      <label for="source">Źródło wskaźnika</label>
+      <p-select
+        id="source"
+        [options]="constantsStore.sources() || []"
+        placeholder="Źródło wskaźnika"
+        formControlName="source"
+      >
+        <ng-template #item let-source>
+          <div>{{ source | indicatorSource }}</div>
+        </ng-template>
+
+        <ng-template #selectedItem let-source>
+          <div>{{ source | indicatorSource }}</div>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <div class="flex flex-col gap-2 w-full">
+      <label for="term">Szukaj wskaźnik</label>
+      <input
+        id="term"
+        pInputText
+        placeholder="Szukaj wskaźnik"
+        formControlName="term"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col mt-4 gap-4 max-h-48 overflow-y-auto">
+    @for (indicator of indicators.value(); track indicator) {
+      <div class="field-checkbox">
+        <p-radiobutton
+          [inputId]="indicator.symbol"
+          [value]="indicator"
+          [formControl]="selectedIndicator"
+        ></p-radiobutton>
+        <label [for]="indicator.symbol" class="ml-2"
+          >{{ indicator.name }}
+          <span class="text-dark-200">({{ indicator.symbol }})</span></label
+        >
+      </div>
+    }
+  </div>
+</div>
