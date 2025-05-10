@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'ptg-login',
   template: `
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="login()">
       <div class="flex flex-col gap-2">
         <label for="email">Email</label>
         <input
@@ -34,17 +34,22 @@ import { RouterLink } from '@angular/router';
           formControlName="password"
         />
       </div>
-    </form>
 
-    <div class="flex justify-end my-3">
+      <div class="flex justify-end my-3">
+        <p-button
+          label="Zapomniałeś hasła?"
+          variant="text"
+          routerLink="/auth/request-password-reset"
+        />
+      </div>
+
       <p-button
-        label="Zapomniałeś hasła?"
-        variant="text"
-        routerLink="/auth/request-password-reset"
+        type="submit"
+        label="Zaloguj się"
+        severity="secondary"
+        [disabled]="form.invalid || !form.dirty"
       />
-    </div>
-
-    <p-button label="Zaloguj się" severity="secondary" (click)="onLogin()" />
+    </form>
   `,
   styles: `
     ptg-login {
@@ -64,7 +69,7 @@ export class LoginComponent {
   });
   readonly state = inject(AuthStore);
 
-  onLogin(): void {
+  login(): void {
     if (this.form.invalid) return;
 
     const { email, password } = this.form.value;

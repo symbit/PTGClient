@@ -1,0 +1,29 @@
+@if (analysisDetails(); as details) {
+  <div class="flex gap-8">
+    <ptg-data-box label="Wybrane sektory do porównania">
+      <p class="body-style-14">
+        {{ details.indicatorSector | sector }}
+      </p>
+    </ptg-data-box>
+
+    <ptg-data-box label="Wybrane wskaźniki">
+      <p class="body-style-14">
+        {{ details.indicatorName }}
+      </p>
+    </ptg-data-box>
+
+    <ptg-data-box label="Zakres czasowy">
+      <div class="flex justify-between gap-8 body-style-14">
+        <div>
+          <p>Od</p>
+          <p>{{ details?.startDate | date: 'dd.MM.yyyy' }}</p>
+        </div>
+
+        <div>
+          <p>Do</p>
+          <p>{{ details?.endDate | date: 'dd.MM.yyyy' }}</p>
+        </div>
+      </div>
+    </ptg-data-box>
+  </div>
+}

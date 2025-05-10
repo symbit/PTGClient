@@ -36,7 +36,11 @@
     (click)="previous.emit()"
   />
   <p-button
-    label="Generuj analizę porównawczą"
+    [label]="
+      realizations().controls.length > 1
+        ? 'Generuj analizę porównawczą'
+        : 'Generuj analizę wskaźnika'
+    "
     icon="pi pi-play"
     severity="secondary"
     [disabled]="realizations().invalid"

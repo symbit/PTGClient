@@ -1,5 +1,5 @@
 FROM node:20-buster-slim as builder
-# opus-magnum / admin
+# ptg-client
 ARG APPLICATION
 ARG PROFILE=development
 ARG ARCHITECTURE=x64

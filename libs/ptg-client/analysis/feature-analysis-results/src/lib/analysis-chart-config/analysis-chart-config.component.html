@@ -1,0 +1,62 @@
+<div [formGroup]="form" class="flex gap-2 text-14">
+  <div class="flex flex-col gap-2">
+    <label for="ema">EMA (float)</label>
+    <input
+      pInputText
+      id="ema"
+      formControlName="emaHalflife"
+      type="number"
+      placeholder="EMA (float)"
+      size="small"
+      min="1"
+    />
+  </div>
+  <div class="flex flex-col gap-2">
+    <label for="ar">AR</label>
+    <input
+      pInputText
+      id="ar"
+      formControlName="ar"
+      type="number"
+      placeholder="AR"
+      size="small"
+      min="1"
+    />
+  </div>
+  <div class="flex flex-col gap-2">
+    <label for="i">I</label>
+    <input
+      pInputText
+      id="i"
+      formControlName="i"
+      type="number"
+      placeholder="I"
+      size="small"
+      min="1"
+    />
+  </div>
+  <div class="flex flex-col gap-2">
+    <label for="ma">MA</label>
+    <input
+      pInputText
+      id="ma"
+      formControlName="ma"
+      type="number"
+      placeholder="MA"
+      size="small"
+      min="1"
+    />
+  </div>
+  <div class="flex flex-col gap-2">
+    <label for="nForecasts">Zakres prognozy</label>
+    <input
+      pInputText
+      id="nForecasts"
+      formControlName="nForecasts"
+      type="number"
+      placeholder="Zakres prognozy"
+      size="small"
+      min="1"
+    />
+  </div>
+</div>

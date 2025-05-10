@@ -1,7 +1,13 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
@@ -40,7 +46,7 @@ export const AnalysisStore = signalStore(
           return service.createAnalysis(payload).pipe(
             tapResponse({
               next: (result) => {
-                router.navigate(['/analysis/result']);
+                router.navigate(['/analysis/results']);
                 patchState(store, {
                   analysis: result,
                   analysisCallState: LoadingState.LOADED,
@@ -58,4 +64,30 @@ export const AnalysisStore = signalStore(
       ),
     };
   }),
+  withComputed((store) => ({
+    analysisDetails: computed(() => {
+      const analysis = store.analysis();
+
+      if (!analysis) return null;
+
+      return {
+        startDate: analysis.startDate,
+        endDate: analysis.endDate,
+        ...analysis.realizationDetails,
+      };
+    }),
+    rawDataTable: computed(() => {
+      const analysis = store.analysis();
+
+      if (!analysis) return [];
+
+      return analysis.rawTimeSeries.values.map((value, index) => {
+        return {
+          date: analysis.rawTimeSeries.dates[index],
+          value: value,
+          trend: analysis.indicatorTrend[index],
+        };
+      });
+    }),
+  })),
 );

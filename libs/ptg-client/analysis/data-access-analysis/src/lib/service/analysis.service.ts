@@ -13,7 +13,7 @@ export class AnalysisService {
 
   createAnalysis(payload: CreateAnalysis): Observable<Analysis> {
     return this._httpClient.post<Analysis>(
-      `${this._apiUrl}/indicator-realizations/get-indicator-analysis`,
+      `${this._apiUrl}/indicator-realizations/get-analysis`,
       payload,
     );
   }

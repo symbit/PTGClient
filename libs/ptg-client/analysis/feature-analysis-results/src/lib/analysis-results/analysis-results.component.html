@@ -1,1 +1,48 @@
-<p>AnalysisFeatureAnalysisResults works!</p>
+<ptg-back-button routerLink="/analysis" label="Powrót do kreatora analiz" />
+@if (state.analysis(); as analysis) {
+  <p-card header="Wynik analizy wskaźnika">
+    <div class="flex flex-col gap-4">
+      <ptg-analysis-information [analysisDetails]="state.analysisDetails()" />
+
+      <ptg-analysis-chart
+        [rawTimeSeries]="analysis.rawTimeSeries"
+        [inSamplePrediction]="analysis.inSamplePrediction"
+        [indicatorEma]="analysis.indicatorEma"
+        [forecast]="analysis.forecast"
+      />
+
+      <ptg-analysis-row-data-table [data]="state.rawDataTable()" />
+
+      <p-accordion value="-1" [multiple]="true">
+        <p-accordion-panel value="0">
+          <p-accordion-header>Sezonowość</p-accordion-header>
+          <p-accordion-content>
+            <ptg-analysis-seasonal-decomposition
+              [seasonalDecomposition]="analysis.seasonalDecomposition"
+            />
+          </p-accordion-content>
+        </p-accordion-panel>
+
+        <p-accordion-panel value="1">
+          <p-accordion-header>Wykres funkcji autokorelacji</p-accordion-header>
+          <p-accordion-content>
+            <ptg-analysis-autocorrelation-chart
+              [acfAnalysis]="analysis.acfAnalysis"
+            />
+          </p-accordion-content>
+        </p-accordion-panel>
+
+        <p-accordion-panel value="2">
+          <p-accordion-header
+            >Wykres funkcji częściowej autokorelacji</p-accordion-header
+          >
+          <p-accordion-content>
+            <ptg-analysis-partial-autocorrelation-chart
+              [pacfAnalysis]="analysis.pacfAnalysis"
+            />
+          </p-accordion-content>
+        </p-accordion-panel>
+      </p-accordion>
+    </div>
+  </p-card>
+}

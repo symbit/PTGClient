@@ -1,10 +1,8 @@
-export interface CreateAnalysis {
-  nForecasts: number;
-  emaHalflife: number;
+import { AnalysisConfig } from './analysis-config';
+
+export interface CreateAnalysis extends AnalysisConfig {
+  realizationIds: number[];
   trendType: string;
-  ar: number;
-  i: number;
-  ma: number;
   startDate: string;
   endDate: string;
 }

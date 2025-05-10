@@ -17,6 +17,7 @@ import { customPreset } from '../themes/theme';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideToastr } from 'ngx-toastr';
 import { tokenInterceptor } from '@ptg/auth-data-access-auth';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 if (environment.production) {
   enableProdMode();
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
       timeOut: 10000,
       positionClass: 'toast-bottom-right',
     }),
+    provideCharts(withDefaultRegisterables()),
     environment.providers || [],
   ],
 };

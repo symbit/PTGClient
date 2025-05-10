@@ -1,0 +1,34 @@
+<p-table
+  [paginator]="true"
+  [rows]="5"
+  [value]="data()"
+  showGridlines
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+  <ng-template #header>
+    <tr>
+      <th>Data</th>
+      <th>Wartość</th>
+      <th>Trend</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-raw>
+    <tr>
+      <td>{{ raw.date | date: 'MM.yyyy' }}</td>
+      <td>{{ raw.value }}</td>
+      <td>
+        @switch (raw.trend) {
+          @case ('increasing') {
+            <i class="pi pi-arrow-up"></i>
+          }
+          @case ('decreasing') {
+            <i class="pi pi-arrow-down"></i>
+          }
+          @case ('flat') {
+            <i class="pi pi-minus"></i>
+          }
+        }
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

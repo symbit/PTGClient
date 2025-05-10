@@ -82,6 +82,9 @@
       "@ptg/shared-ui-back-button": [
         "libs/ptg-client/shared/ui-back-button/src/index.ts"
       ],
+      "@ptg/shared-ui-close-page-confirmation-dialog": [
+        "libs/ptg-client/shared/ui-close-page-confirmation-dialog/src/index.ts"
+      ],
       "@ptg/shared-ui-data-box": [
         "libs/ptg-client/shared/ui-data-box/src/index.ts"
       ],

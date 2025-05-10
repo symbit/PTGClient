@@ -50,7 +50,7 @@ export class AnalysisCreatorWrapperComponent {
     this._analysisStore.createAnalysis({
       ...this.schedule.value,
       ...analysisConfig,
-      realizations: this.realizations.value,
+      realizationIds: this.realizations.value,
     });
   }
 }
