@@ -4,6 +4,7 @@
     <p-select
       id="region"
       placeholder="Województwo"
+      [ngModel]="initialRealization()?.region"
       [options]="regionsOptions()"
       [disabled]="!realizations().length"
       (onChange)="region.set($event.value)"
@@ -23,6 +24,7 @@
     <p-select
       id="sector"
       placeholder="Branża"
+      [ngModel]="initialRealization()?.sector"
       [options]="sectorsOptions()"
       [disabled]="!realizations().length"
       (onChange)="sector.set($event.value)"
@@ -42,6 +44,7 @@
     <p-select
       id="frequency"
       placeholder="Okres pobierania danych"
+      [ngModel]="initialRealization()?.frequency"
       [options]="frequenciesOptions()"
       [disabled]="!realizations().length"
       (onChange)="frequency.set($event.value)"

@@ -1,15 +1,19 @@
 @if (analysisDetails(); as details) {
   <div class="flex gap-8">
     <ptg-data-box label="Wybrane sektory do porównania">
-      <p class="body-style-14">
-        {{ details.indicatorSector | sector }}
-      </p>
+      @for (sector of details.indicatorSectors; track sector) {
+        <p class="body-style-14">
+          {{ sector | sector }}
+        </p>
+      }
     </ptg-data-box>
 
     <ptg-data-box label="Wybrane wskaźniki">
-      <p class="body-style-14">
-        {{ details.indicatorName }}
-      </p>
+      @for (indicator of details.indicatorNames; track indicator) {
+        <p class="body-style-14">
+          {{ indicator }}
+        </p>
+      }
     </ptg-data-box>
 
     <ptg-data-box label="Zakres czasowy">

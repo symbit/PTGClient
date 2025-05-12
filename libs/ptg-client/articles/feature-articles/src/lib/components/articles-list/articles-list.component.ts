@@ -14,6 +14,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopup } from 'primeng/confirmpopup';
 import { Dialog } from 'primeng/dialog';
 import { SectorPipe } from '@ptg/shared-utils';
+import { Tooltip } from 'primeng/tooltip';
 
 const ROWS_PER_PAGE = 10;
 
@@ -31,6 +32,7 @@ const ROWS_PER_PAGE = 10;
     ConfirmPopup,
     Dialog,
     SectorPipe,
+    Tooltip,
   ],
   providers: [ConfirmationService],
 })
@@ -41,7 +43,7 @@ export class ArticlesListComponent {
   readonly visible = signal(false);
   readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
 
-  clonfirmBlock(event: Event) {
+  reject(event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       rejectButtonProps: {

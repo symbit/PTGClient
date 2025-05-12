@@ -1,0 +1,9 @@
+<p-card>
+  <ng-template #title>
+    <div class="flex justify-between">
+      <h2 class="header-style-18">Wykres</h2>
+    </div>
+  </ng-template>
+  <canvas baseChart [type]="'line'" [data]="chartData()" [options]="options">
+  </canvas>
+</p-card>

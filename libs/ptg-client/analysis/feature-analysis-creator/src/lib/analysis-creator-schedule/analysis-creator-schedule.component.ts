@@ -37,16 +37,16 @@ export class AnalysisCreatorScheduleComponent implements OnInit {
   readonly period = inject(FormBuilder).control('');
   readonly frequancies = [
     {
-      label: 'Miesięczny',
-      value: 'monthly',
+      label: 'Ostatni rok',
+      value: 'last-year',
     },
     {
-      label: 'Kwartalny',
-      value: 'quarterly',
+      label: 'Ostatnie 3 lata',
+      value: 'last-3-years',
     },
     {
-      label: 'Roczny',
-      value: 'yearly',
+      label: 'Ostatnie 5 lat',
+      value: 'last-5-years',
     },
     {
       label: 'Własny',
@@ -70,21 +70,21 @@ export class AnalysisCreatorScheduleComponent implements OnInit {
   }
 
   private _subtractStartDate(): void {
-    if (this.period.value === 'monthly') {
-      this.form()
-        .get('startDate')
-        ?.setValue(dayjs().subtract(1, 'month').format());
-    }
-
-    if (this.period.value === 'quarterly') {
-      this.form()
-        .get('startDate')
-        ?.setValue(dayjs().subtract(3, 'month').format());
-    }
-    if (this.period.value === 'yearly') {
+    if (this.period.value === 'last-year') {
       this.form()
         .get('startDate')
         ?.setValue(dayjs().subtract(1, 'year').format());
+    }
+
+    if (this.period.value === 'last-3-years') {
+      this.form()
+        .get('startDate')
+        ?.setValue(dayjs().subtract(3, 'year').format());
+    }
+    if (this.period.value === 'last-5-years') {
+      this.form()
+        .get('startDate')
+        ?.setValue(dayjs().subtract(5, 'year').format());
     }
   }
 }

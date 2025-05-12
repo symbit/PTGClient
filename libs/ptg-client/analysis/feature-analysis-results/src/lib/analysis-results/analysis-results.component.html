@@ -1,48 +1,68 @@
 <ptg-back-button routerLink="/analysis" label="Powrót do kreatora analiz" />
+
 @if (state.analysis(); as analysis) {
+  @let multipleIndicators = analysis.analysisResults.length > 1;
+  @let analysisResults = analysis.analysisResults[0];
+
   <p-card header="Wynik analizy wskaźnika">
     <div class="flex flex-col gap-4">
-      <ptg-analysis-information [analysisDetails]="state.analysisDetails()" />
-
-      <ptg-analysis-chart
-        [rawTimeSeries]="analysis.rawTimeSeries"
-        [inSamplePrediction]="analysis.inSamplePrediction"
-        [indicatorEma]="analysis.indicatorEma"
-        [forecast]="analysis.forecast"
+      <ptg-analysis-information
+        [analysisDetails]="$any(state.analysisDetails())"
       />
+
+      @if (multipleIndicators) {
+        <ptg-comparative-analysis-chart
+          [comparativeAnalysisChart]="$any(state.comparativeAnalysisChart())"
+        />
+      } @else {
+        <ptg-analysis-chart
+          [rawTimeSeries]="analysisResults.rawTimeSeries"
+          [inSamplePrediction]="analysisResults.inSamplePrediction"
+          [indicatorEma]="analysisResults.indicatorEma"
+          [forecast]="analysisResults.forecast"
+        />
+      }
 
       <ptg-analysis-row-data-table [data]="state.rawDataTable()" />
 
-      <p-accordion value="-1" [multiple]="true">
-        <p-accordion-panel value="0">
-          <p-accordion-header>Sezonowość</p-accordion-header>
-          <p-accordion-content>
-            <ptg-analysis-seasonal-decomposition
-              [seasonalDecomposition]="analysis.seasonalDecomposition"
-            />
-          </p-accordion-content>
-        </p-accordion-panel>
+      @if (!multipleIndicators) {
+        <p-accordion value="-1" [multiple]="true">
+          <p-accordion-panel value="0">
+            <p-accordion-header>Sezonowość</p-accordion-header>
+            <p-accordion-content>
+              <ptg-analysis-seasonal-decomposition
+                [seasonalDecomposition]="analysisResults.seasonalDecomposition"
+              />
+            </p-accordion-content>
+          </p-accordion-panel>
 
-        <p-accordion-panel value="1">
-          <p-accordion-header>Wykres funkcji autokorelacji</p-accordion-header>
-          <p-accordion-content>
-            <ptg-analysis-autocorrelation-chart
-              [acfAnalysis]="analysis.acfAnalysis"
-            />
-          </p-accordion-content>
-        </p-accordion-panel>
+          <p-accordion-panel value="1">
+            <p-accordion-header
+              >Wykres funkcji autokorelacji</p-accordion-header
+            >
+            <p-accordion-content>
+              <ptg-analysis-autocorrelation-chart
+                [acfAnalysis]="analysisResults.acfAnalysis"
+              />
+            </p-accordion-content>
+          </p-accordion-panel>
 
-        <p-accordion-panel value="2">
-          <p-accordion-header
-            >Wykres funkcji częściowej autokorelacji</p-accordion-header
-          >
-          <p-accordion-content>
-            <ptg-analysis-partial-autocorrelation-chart
-              [pacfAnalysis]="analysis.pacfAnalysis"
-            />
-          </p-accordion-content>
-        </p-accordion-panel>
-      </p-accordion>
+          <p-accordion-panel value="2">
+            <p-accordion-header
+              >Wykres funkcji częściowej autokorelacji</p-accordion-header
+            >
+            <p-accordion-content>
+              <ptg-analysis-partial-autocorrelation-chart
+                [pacfAnalysis]="analysisResults.pacfAnalysis"
+              />
+            </p-accordion-content>
+          </p-accordion-panel>
+        </p-accordion>
+      }
+
+      @if (multipleIndicators) {
+        <ptg-results-analysis [resultsAnalysis]="state.resultsAnalysis()" />
+      }
     </div>
   </p-card>
 }

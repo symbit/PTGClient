@@ -14,9 +14,14 @@ import { switchMap } from 'rxjs';
 import { AnalysisService } from '../service/analysis.service';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 
-import { Analysis, CreateAnalysis } from '@ptg/analysis-types';
+import {
+  Analysis,
+  CreateAnalysis,
+  RealizationDetails,
+} from '@ptg/analysis-types';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { round, uniq } from 'lodash-es';
 
 interface AnalysisState {
   analysis: Analysis | null;
@@ -65,15 +70,28 @@ export const AnalysisStore = signalStore(
     };
   }),
   withComputed((store) => ({
-    analysisDetails: computed(() => {
+    analysisDetails: computed<RealizationDetails | null>(() => {
       const analysis = store.analysis();
 
       if (!analysis) return null;
 
       return {
-        startDate: analysis.startDate,
-        endDate: analysis.endDate,
-        ...analysis.realizationDetails,
+        startDate: analysis.analysisResults[0].startDate,
+        endDate: analysis.analysisResults[0].endDate,
+        indicatorNames: analysis.analysisResults.map(
+          (result) => result.realizationDetails.indicatorName,
+        ),
+        indicatorSectors: uniq(
+          analysis.analysisResults.map(
+            (result) => result.realizationDetails.indicatorSector,
+          ),
+        ),
+        indicatorRegions: analysis.analysisResults.map(
+          (result) => result.realizationDetails.indicatorRegion,
+        ),
+        indicatorFrequencies: analysis.analysisResults.map(
+          (result) => result.realizationDetails.indicatorFrequency,
+        ),
       };
     }),
     rawDataTable: computed(() => {
@@ -81,13 +99,40 @@ export const AnalysisStore = signalStore(
 
       if (!analysis) return [];
 
-      return analysis.rawTimeSeries.values.map((value, index) => {
-        return {
-          date: analysis.rawTimeSeries.dates[index],
-          value: value,
-          trend: analysis.indicatorTrend[index],
-        };
-      });
+      return analysis.analysisResults[0].rawTimeSeries.values.map(
+        (value, index) => {
+          return {
+            date: analysis.analysisResults[0].rawTimeSeries.dates[index],
+            value: analysis.analysisResults.map(
+              (result) => result.rawTimeSeries.values[index],
+            ),
+
+            trend: analysis.analysisResults[0].indicatorTrend[index],
+          };
+        },
+      );
+    }),
+    comparativeAnalysisChart: computed(() => {
+      const analysis = store.analysis();
+
+      return {
+        labels: analysis?.analysisResults[0].rawTimeSeries.dates,
+        datasets: analysis?.analysisResults.map((result) => {
+          return {
+            label: result.realizationDetails.indicatorName,
+            data: result.rawTimeSeries.values,
+          };
+        }),
+      };
+    }),
+    resultsAnalysis: computed(() => {
+      const analysis = store.analysis();
+
+      if (!analysis?.correlation) return { correlation: 0 };
+
+      return {
+        correlation: round(analysis.correlation, 3),
+      };
     }),
   })),
 );

@@ -1,10 +1,10 @@
 export interface RealizationDetails {
-  indicatorName: string;
-  indicatorSector: string;
-  indicatorRegion: string;
-  indicatorFrequency: string;
-  startDate?: string;
-  endDate?: string;
+  indicatorNames: string[];
+  indicatorSectors: string[];
+  indicatorRegions: string[];
+  indicatorFrequencies: string[];
+  startDate: string;
+  endDate: string;
 }
 
 export type IndicatorTrend = 'flat' | 'increasing' | 'decreasing';
@@ -40,10 +40,16 @@ export interface PacfAnalysis {
   pacfUpperCi: number[];
 }
 
-export interface Analysis {
+export interface AnalysisResults {
   startDate: string;
   endDate: string;
-  realizationDetails: RealizationDetails;
+  realizationDetails: {
+    realizationId: number;
+    indicatorName: string;
+    indicatorSector: string;
+    indicatorRegion: string;
+    indicatorFrequency: string;
+  };
   rawTimeSeries: RawTimeSeries;
   inSamplePrediction: InSamplePrediction;
   indicatorEma: RawTimeSeries;
@@ -54,8 +60,13 @@ export interface Analysis {
   pacfAnalysis: PacfAnalysis;
 }
 
+export interface Analysis {
+  correlation: number | null;
+  analysisResults: AnalysisResults[];
+}
+
 export interface RawData {
   date: string;
-  value: number;
+  value: number[];
   trend: IndicatorTrend;
 }

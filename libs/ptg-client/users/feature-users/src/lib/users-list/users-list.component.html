@@ -24,7 +24,7 @@
         <th style="flex: 1">Użytkownik</th>
         <th>Rola</th>
         <th>Status</th>
-        <th>Akcje</th>
+        <th class="w-40">Akcje</th>
       </tr>
     </ng-template>
     <ng-template #body let-user>
@@ -57,6 +57,7 @@
         <td>
           <p-button
             icon="pi pi-pen-to-square"
+            pTooltip="Edytuj użytkownika"
             [rounded]="true"
             [text]="true"
             [routerLink]="[user.id]"
@@ -64,6 +65,7 @@
 
           <p-button
             icon="pi pi-send"
+            pTooltip="Zaproś użytkownika"
             [disabled]="user.isInvited"
             [rounded]="true"
             [text]="true"
@@ -72,6 +74,7 @@
 
           <p-button
             icon="pi pi-trash"
+            pTooltip="Usuń użytkownika"
             [rounded]="true"
             [text]="true"
             (click)="onDelete($event, user)"

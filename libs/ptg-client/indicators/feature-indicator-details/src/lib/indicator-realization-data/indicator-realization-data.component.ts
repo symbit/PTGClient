@@ -11,18 +11,14 @@ import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { Table, TableModule, TablePageEvent } from 'primeng/table';
 import { DatePipe } from '@angular/common';
-import {
-  DefaultSearchCriteria,
-  SearchCriteria,
-  Sort,
-  User,
-} from '@ptg/shared-types';
+import { DefaultSearchCriteria, SearchCriteria, Sort } from '@ptg/shared-types';
 import { DialogService } from 'primeng/dynamicdialog';
 import { IndicatorRealizationDataPointDialogComponent } from '../indicator-realization-data-point-dialog/indicator-realization-data-point-dialog.component';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 import { IndicatorRealizationImportComponent } from '../indicator-realization-import/indicator-realization-import.component';
+import { Tooltip } from 'primeng/tooltip';
 
 const ROWS_PER_PAGE = 10;
 
@@ -31,7 +27,7 @@ const ROWS_PER_PAGE = 10;
   templateUrl: './indicator-realization-data.component.html',
   styleUrl: './indicator-realization-data.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Card, Button, TableModule, DatePipe, ConfirmDialog],
+  imports: [Card, Button, TableModule, DatePipe, ConfirmDialog, Tooltip],
   providers: [DialogService, ConfirmationService],
 })
 export class IndicatorRealizationDataComponent {

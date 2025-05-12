@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
+  model,
   output,
 } from '@angular/core';
 import {
@@ -15,11 +17,7 @@ import { RadioButton } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
 import { ConstantsStore } from '@ptg/shared-data-access-constants';
 import { map } from 'rxjs';
-import {
-  rxResource,
-  takeUntilDestroyed,
-  toSignal,
-} from '@angular/core/rxjs-interop';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { IndicatorsService } from '@ptg/indicators-data-access-indicators';
 import { Indicator } from '@ptg/indicators-types';
 
@@ -67,16 +65,17 @@ export class IndicatorSearchComponent {
     source: '',
     term: '',
   });
-  readonly selectedIndicator = this._fb.control('');
+  readonly selectedIndicator = model<Indicator | null>(null);
 
   private readonly _formChanged = toSignal(this.searchForm.valueChanges);
   private readonly _indicatorsService = inject(IndicatorsService);
 
   constructor() {
-    this.selectedIndicator.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        this.selectedIndicatorChanged.emit(value);
-      });
+    effect(() => {
+      const selectedIndicator = this.selectedIndicator();
+      if (!selectedIndicator) return;
+
+      this.selectedIndicatorChanged.emit(selectedIndicator);
+    });
   }
 }

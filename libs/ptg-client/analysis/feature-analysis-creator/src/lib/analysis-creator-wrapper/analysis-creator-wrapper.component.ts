@@ -11,6 +11,7 @@ import { AnalysisCreatorIndicatorsComponent } from '../analysis-creator-indicato
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnalysisStore } from '@ptg/analysis-data-access-analysis';
 import { analysisConfig } from '@ptg/analysis-utils';
+import { Realization } from '@ptg/indicators-types';
 
 @Component({
   selector: 'ptg-analysis-creator-wrapper',
@@ -50,7 +51,7 @@ export class AnalysisCreatorWrapperComponent {
     this._analysisStore.createAnalysis({
       ...this.schedule.value,
       ...analysisConfig,
-      realizationIds: this.realizations.value,
+      realizationIds: this.realizations.value.map((r: Realization) => r.id),
     });
   }
 }

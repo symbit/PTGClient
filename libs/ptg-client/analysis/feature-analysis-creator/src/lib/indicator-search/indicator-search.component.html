@@ -33,9 +33,8 @@
     @for (indicator of indicators.value(); track indicator) {
       <div class="field-checkbox">
         <p-radiobutton
-          [inputId]="indicator.symbol"
           [value]="indicator"
-          [formControl]="selectedIndicator"
+          [(ngModel)]="selectedIndicator"
         ></p-radiobutton>
         <label [for]="indicator.symbol" class="ml-2"
           >{{ indicator.name }}

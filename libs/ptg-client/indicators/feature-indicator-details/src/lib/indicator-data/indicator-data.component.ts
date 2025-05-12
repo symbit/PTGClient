@@ -10,6 +10,7 @@ import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { IndicatorRealizationComponent } from '@ptg/shared-feature-indicator-relization';
 import { Card } from 'primeng/card';
+import { Realization } from '@ptg/indicators-types';
 
 @Component({
   selector: 'ptg-indicator-data',
@@ -22,14 +23,15 @@ import { Card } from 'primeng/card';
     <p-card>
       <ptg-indicator-realization
         [realizations]="state.realizations()"
-        (changeSelectedRealization)="selectedRealizationId.set($event)"
+        [initialRealization]="selectedRealization()"
+        (changeSelectedRealization)="selectedRealization.set($event)"
       />
     </p-card>
 
     <ptg-indicator-realization-data
       [data]="state.entities()"
       [total]="state.total()"
-      [realizationId]="selectedRealizationId()"
+      [realizationId]="selectedRealization()?.id || 0"
       (loadRealizationData)="loadRealizationData($event)"
     />
   `,
@@ -45,25 +47,26 @@ import { Card } from 'primeng/card';
 export class IndicatorDataComponent {
   readonly state = inject(IndicatorDetailsStore);
 
-  readonly selectedRealizationId = signal<number>(0);
+  readonly selectedRealization = signal<Realization | null>(null);
 
   constructor() {
     // set initial selectedRealizationId to the first realization id
     effect(() => {
-      const initialRealizationId = this.state.realizations()?.[0]?.id;
-      if (!initialRealizationId) return;
-      this.selectedRealizationId.set(initialRealizationId);
+      const initialRealization = this.state.realizations()?.[0];
+      if (!initialRealization) return;
+      this.selectedRealization.set(initialRealization);
     });
 
     // load realization data when selectedRealizationId changes
     effect(() => {
-      if (!this.selectedRealizationId()) return;
+      if (!this.selectedRealization()) return;
       this.state.loadRealizationData({
         searchCriteria: {
           ...DefaultSearchCriteria,
+          sort: 'updatedAt-asc',
           pageSize: 10,
         },
-        id: this.selectedRealizationId(),
+        id: this.selectedRealization()?.id || 0,
       });
     });
   }
@@ -71,7 +74,7 @@ export class IndicatorDataComponent {
   loadRealizationData(searchCriteria: SearchCriteria) {
     this.state.loadRealizationData({
       searchCriteria,
-      id: this.selectedRealizationId(),
+      id: this.selectedRealization()?.id || 0,
     });
   }
 }

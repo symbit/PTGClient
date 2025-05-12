@@ -87,7 +87,7 @@ export const AuthStore = signalStore(
             authService.confirmInvitation(token, password).pipe(
               tapResponse({
                 next: () => {
-                  router.navigate(['login']);
+                  router.navigate(['/auth/login']);
                 },
                 error: (error) =>
                   patchState(store, {
@@ -109,7 +109,7 @@ export const AuthStore = signalStore(
             authService.resetPassword(token, password).pipe(
               tapResponse({
                 next: () => {
-                  router.navigate(['login']);
+                  router.navigate(['/auth/login']);
                 },
                 error: (error) =>
                   patchState(store, {
@@ -131,7 +131,7 @@ export const AuthStore = signalStore(
             authService.requestPasswordReset(email).pipe(
               tapResponse({
                 next: () => {
-                  router.navigate(['login']);
+                  router.navigate(['/auth/login']);
                 },
                 error: (error) =>
                   patchState(store, {

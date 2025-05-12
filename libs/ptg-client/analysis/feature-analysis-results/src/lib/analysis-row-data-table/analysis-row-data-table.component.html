@@ -1,3 +1,5 @@
+@let multipleAnalysis = data()[0].value.length > 1;
+
 <p-table
   [paginator]="true"
   [rows]="5"
@@ -8,27 +10,41 @@
   <ng-template #header>
     <tr>
       <th>Data</th>
-      <th>Wartość</th>
-      <th>Trend</th>
+      @if (multipleAnalysis) {
+        @for (value of data()[0].value; track value; let i = $index) {
+          <th>Wartość {{ i + 1 }}</th>
+        }
+      } @else {
+        <th>Wartość</th>
+      }
+      @if (!multipleAnalysis) {
+        <th>Trend</th>
+      }
     </tr>
   </ng-template>
   <ng-template #body let-raw>
     <tr>
       <td>{{ raw.date | date: 'MM.yyyy' }}</td>
-      <td>{{ raw.value }}</td>
-      <td>
-        @switch (raw.trend) {
-          @case ('increasing') {
-            <i class="pi pi-arrow-up"></i>
+      @for (value of raw.value; track value) {
+        <td>
+          {{ value }}
+        </td>
+      }
+      @if (!multipleAnalysis) {
+        <td>
+          @switch (raw.trend) {
+            @case ('increasing') {
+              <i class="pi pi-arrow-up"></i>
+            }
+            @case ('decreasing') {
+              <i class="pi pi-arrow-down"></i>
+            }
+            @case ('flat') {
+              <i class="pi pi-minus"></i>
+            }
           }
-          @case ('decreasing') {
-            <i class="pi pi-arrow-down"></i>
-          }
-          @case ('flat') {
-            <i class="pi pi-minus"></i>
-          }
-        }
-      </td>
+        </td>
+      }
     </tr>
   </ng-template>
 </p-table>

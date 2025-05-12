@@ -8,25 +8,25 @@
     <tr>
       <th>ID</th>
       <th>Źródło</th>
-      <th>Autor</th>
       <th>Tytuł</th>
       <th>Branża</th>
       <th>Data</th>
       <th>Relevancy</th>
       <th>Sentyment</th>
-      <th>Akcje</th>
+      <th class="w-40">Akcje</th>
     </tr>
   </ng-template>
   <ng-template #body let-element>
     <tr>
       <td>{{ element.id }}</td>
       <td>{{ element.provider }}</td>
-      <td>{{ element.author }}</td>
       <td>{{ element.title }}</td>
       <td>
-        @for (sector of element.sectors; track sector) {
-          <p-tag severity="secondary" class="mr-2" [value]="sector | sector" />
-        }
+        <div class="flex flex-wrap gap-2">
+          @for (sector of element.sectors; track sector) {
+            <p-tag severity="secondary" [value]="sector | sector" />
+          }
+        </div>
       </td>
       <td>{{ element.publicationDate | date: 'dd.MM.yyyy' }}</td>
       <td>{{ element.isRelevant ? 'Tak' : 'Nie' }}</td>
@@ -37,10 +37,11 @@
       <td>
         <p-button
           icon="pi pi-ban"
+          severity="secondary"
+          pTooltip="Odrzuć artykuł"
           [rounded]="true"
           [text]="true"
-          severity="secondary"
-          (click)="clonfirmBlock($event)"
+          (click)="reject($event)"
         />
         <p-confirmpopup>
           <ng-template #content let-message>
@@ -55,6 +56,7 @@
 
         <p-button
           icon="pi pi-sparkles"
+          pTooltip="Pokaż podsumowanie"
           [rounded]="true"
           [text]="true"
           (click)="showSummary()"
@@ -91,7 +93,15 @@
           <span></span>
         }
 
-        <p-button icon="pi pi-link" [rounded]="true" [text]="true" />
+        <a [href]="element.url" target="_blank">
+          <p-button
+            icon="pi pi-link"
+            pTooltip="Przejdź do źródła"
+            [rounded]="true"
+            [text]="true"
+            href
+          />
+        </a>
       </td>
     </tr>
   </ng-template>

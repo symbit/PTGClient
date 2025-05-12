@@ -12,17 +12,26 @@ import { PrimeTemplate } from 'primeng/api';
 import { Select } from 'primeng/select';
 import { uniqBy } from 'lodash-es';
 import { Realization } from '@ptg/indicators-types';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'ptg-indicator-realization',
   templateUrl: './indicator-realization.component.html',
   styleUrl: './indicator-realization.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PrimeTemplate, Select, FrequencyPipe, RegionPipe, SectorPipe],
+  imports: [
+    PrimeTemplate,
+    Select,
+    FrequencyPipe,
+    RegionPipe,
+    SectorPipe,
+    FormsModule,
+  ],
 })
 export class IndicatorRealizationComponent {
   readonly realizations = input.required<Realization[]>();
-  readonly changeSelectedRealization = output<number>();
+  readonly initialRealization = input<Realization | null>();
+  readonly changeSelectedRealization = output<Realization>();
 
   readonly region = signal<string | null>(null);
   readonly sector = signal<string | null>(null);
@@ -58,16 +67,16 @@ export class IndicatorRealizationComponent {
 
   constructor() {
     effect(() => {
-      const realizationId = this.realizations().find(
+      const realization = this.realizations().find(
         (r) =>
           r.region === this.region() &&
           r.sector === this.sector() &&
           r.frequency === this.frequency(),
-      )?.id;
+      );
 
-      if (!realizationId) return;
+      if (!realization) return;
 
-      this.changeSelectedRealization.emit(realizationId);
+      this.changeSelectedRealization.emit(realization);
     });
   }
 }

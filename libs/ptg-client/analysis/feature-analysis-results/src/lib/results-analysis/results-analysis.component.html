@@ -1,0 +1,14 @@
+<p-card>
+  <ng-template #title>
+    <h2 class="header-style-18">Analiza wyników</h2>
+  </ng-template>
+
+  <div
+    class="bg-neutral-100 rounded-lg border border-solid border-dark-200 p-4"
+  >
+    <p class="header-style-16 text-primary-100">Korelacja</p>
+    <p class="body-style-16">
+      Korelacja wynosi: {{ this.resultsAnalysis()['correlation'] }}
+    </p>
+  </div>
+</p-card>

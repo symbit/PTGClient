@@ -24,6 +24,8 @@ import {
 } from 'primeng/accordion';
 import { AnalysisPartialAutocorrelationChartComponent } from '../analysis-autocorrelation-chart/analysis-partial-autocorrelation-chart.component';
 import { AnalysisAutocorrelationChartComponent } from '../analysis-partial-autocorrelation-chart/analysis-autocorrelation-chart.component';
+import { ComparativeAnalysisChartComponent } from '../comparative-analysis-chart/comparative-analysis-chart.component';
+import { ResultsAnalysisComponent } from '../results-analysis/results-analysis.component';
 
 @Component({
   selector: 'ptg-analysis-results',
@@ -44,6 +46,8 @@ import { AnalysisAutocorrelationChartComponent } from '../analysis-partial-autoc
     AnalysisSeasonalDecompositionComponent,
     AnalysisPartialAutocorrelationChartComponent,
     AnalysisAutocorrelationChartComponent,
+    ComparativeAnalysisChartComponent,
+    ResultsAnalysisComponent,
   ],
 })
 export class AnalysisResultsComponent implements ComponentCanDeactivate {

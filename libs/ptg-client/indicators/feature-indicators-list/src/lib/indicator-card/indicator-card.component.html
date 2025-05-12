@@ -1,17 +1,10 @@
 <p-card [subheader]="'Kod: ' + indicator().symbol">
   <ng-template #title>
-    <header class="flex items-center justify-between">
-      <div class="flex items-center gap-2 w-3/4">
-        <h3 class="header-style-18 max-w-[50%]">{{ indicator().name }}</h3>
-        <p-tag
-          severity="secondary"
-          [value]="'Źródło danych: ' + (indicator().source | indicatorSource)"
-        />
-      </div>
+    <header class="flex items-center gap-2">
+      <h3 class="header-style-18 max-w-[50%]">{{ indicator().name }}</h3>
       <p-tag
         severity="secondary"
-        class="mr-2"
-        [value]="'Aktualizacja: ' + 'Kwartalna'"
+        [value]="'Źródło danych: ' + (indicator().source | indicatorSource)"
       />
     </header>
   </ng-template>
