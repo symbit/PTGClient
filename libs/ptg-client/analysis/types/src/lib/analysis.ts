@@ -70,3 +70,11 @@ export interface RawData {
   value: number[];
   trend: IndicatorTrend;
 }
+
+export interface ComparativeAnalysisChart {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+  }[];
+}

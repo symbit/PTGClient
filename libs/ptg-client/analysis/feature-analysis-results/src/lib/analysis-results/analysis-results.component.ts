@@ -26,6 +26,7 @@ import { AnalysisPartialAutocorrelationChartComponent } from '../analysis-autoco
 import { AnalysisAutocorrelationChartComponent } from '../analysis-partial-autocorrelation-chart/analysis-autocorrelation-chart.component';
 import { ComparativeAnalysisChartComponent } from '../comparative-analysis-chart/comparative-analysis-chart.component';
 import { ResultsAnalysisComponent } from '../results-analysis/results-analysis.component';
+import { AnalysisConfig } from '@ptg/analysis-types';
 
 @Component({
   selector: 'ptg-analysis-results',
@@ -56,5 +57,21 @@ export class AnalysisResultsComponent implements ComponentCanDeactivate {
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): boolean {
     return false;
+  }
+
+  onConfigChanged(config: AnalysisConfig): void {
+    const analysis = this.state.analysis();
+
+    if (!analysis) return;
+
+    const { startDate, endDate } = analysis.analysisResults[0];
+
+    this.state.updateAnalysis({
+      ...config,
+      realizationIds: this.state.realizationsIds(),
+      trendType: 'first_difference',
+      startDate,
+      endDate,
+    });
   }
 }

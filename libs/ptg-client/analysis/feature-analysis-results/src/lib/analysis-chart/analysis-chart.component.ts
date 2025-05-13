@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   input,
+  output,
   signal,
 } from '@angular/core';
 import {
@@ -41,6 +42,8 @@ export class AnalysisChartComponent {
   readonly inSamplePrediction = input.required<InSamplePrediction>();
   readonly indicatorEma = input.required<RawTimeSeries>();
   readonly forecast = input.required<Forecast>();
+
+  readonly configChanged = output<AnalysisConfig>();
 
   readonly showArima = signal<boolean>(false);
   readonly showEma = signal<boolean>(true);
@@ -117,10 +120,6 @@ export class AnalysisChartComponent {
       ],
     };
   });
-
-  onConfigChanged(config: AnalysisConfig): void {
-    console.log(config);
-  }
 
   onArimaToggle(): void {
     this.showArima.set(!this.showArima());

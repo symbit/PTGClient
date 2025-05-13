@@ -14,6 +14,7 @@ import { InputText } from 'primeng/inputtext';
 import { AnalysisConfig } from '@ptg/analysis-types';
 import { analysisConfig } from '@ptg/analysis-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'ptg-analysis-chart-config',
@@ -37,7 +38,7 @@ export class AnalysisChartConfigComponent {
     this.form.patchValue(analysisConfig);
 
     this.form.valueChanges
-      .pipe(takeUntilDestroyed())
+      .pipe(debounceTime(500), takeUntilDestroyed())
       .subscribe(() => this.configChanged.emit(this.form.value));
   }
 }

@@ -16,6 +16,7 @@ import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 
 import {
   Analysis,
+  ComparativeAnalysisChart,
   CreateAnalysis,
   RealizationDetails,
 } from '@ptg/analysis-types';
@@ -52,6 +53,30 @@ export const AnalysisStore = signalStore(
             tapResponse({
               next: (result) => {
                 router.navigate(['/analysis/results']);
+                patchState(store, {
+                  analysis: result,
+                  analysisCallState: LoadingState.LOADED,
+                });
+              },
+              error: (error) => {
+                toastrService.error('Bład podczas tworzenia analizy.', 'Error');
+                patchState(store, {
+                  analysisCallState: { error },
+                });
+              },
+            }),
+          );
+        }),
+      ),
+      updateAnalysis: rxMethod<CreateAnalysis>(
+        switchMap((payload: CreateAnalysis) => {
+          patchState(store, {
+            analysisCallState: LoadingState.LOADING,
+          });
+
+          return service.createAnalysis(payload).pipe(
+            tapResponse({
+              next: (result) => {
                 patchState(store, {
                   analysis: result,
                   analysisCallState: LoadingState.LOADED,
@@ -112,20 +137,21 @@ export const AnalysisStore = signalStore(
         },
       );
     }),
-    comparativeAnalysisChart: computed(() => {
+    comparativeAnalysisChart: computed<ComparativeAnalysisChart>(() => {
       const analysis = store.analysis();
 
       return {
-        labels: analysis?.analysisResults[0].rawTimeSeries.dates,
-        datasets: analysis?.analysisResults.map((result) => {
-          return {
-            label: result.realizationDetails.indicatorName,
-            data: result.rawTimeSeries.values,
-          };
-        }),
+        labels: analysis?.analysisResults[0].rawTimeSeries.dates || [],
+        datasets:
+          analysis?.analysisResults.map((result) => {
+            return {
+              label: result.realizationDetails.indicatorName,
+              data: result.rawTimeSeries.values,
+            };
+          }) || [],
       };
     }),
-    resultsAnalysis: computed(() => {
+    resultsAnalysis: computed<Record<string, number>>(() => {
       const analysis = store.analysis();
 
       if (!analysis?.correlation) return { correlation: 0 };
@@ -134,5 +160,13 @@ export const AnalysisStore = signalStore(
         correlation: round(analysis.correlation, 3),
       };
     }),
+    realizationsIds: computed<number[]>(
+      () =>
+        store
+          .analysis()
+          ?.analysisResults.map(
+            (result) => result.realizationDetails.realizationId,
+          ) || [],
+    ),
   })),
 );

@@ -9,14 +9,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { ChartOptions, LegendItem } from 'chart.js';
 import { Card } from 'primeng/card';
-
-interface ComparativeAnalysisChart {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-  }[];
-}
+import { ComparativeAnalysisChart } from '@ptg/analysis-types';
 
 @Component({
   selector: 'ptg-comparative-analysis-chart',

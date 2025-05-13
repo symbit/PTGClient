@@ -6,13 +6,11 @@
 
   <p-card header="Wynik analizy wskaźnika">
     <div class="flex flex-col gap-4">
-      <ptg-analysis-information
-        [analysisDetails]="$any(state.analysisDetails())"
-      />
+      <ptg-analysis-information [analysisDetails]="state.analysisDetails()" />
 
       @if (multipleIndicators) {
         <ptg-comparative-analysis-chart
-          [comparativeAnalysisChart]="$any(state.comparativeAnalysisChart())"
+          [comparativeAnalysisChart]="state.comparativeAnalysisChart()"
         />
       } @else {
         <ptg-analysis-chart
@@ -20,6 +18,7 @@
           [inSamplePrediction]="analysisResults.inSamplePrediction"
           [indicatorEma]="analysisResults.indicatorEma"
           [forecast]="analysisResults.forecast"
+          (configChanged)="onConfigChanged($event)"
         />
       }
 
