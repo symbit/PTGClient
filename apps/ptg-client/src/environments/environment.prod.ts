@@ -8,7 +8,7 @@ export const environment: EnvironmentConfig = {
 
   providers: [
     provideConfig({
-      apiUrl: `http://localhost:8000/api`,
+      apiUrl: `https://192.168.33.18:8000/api`,
     }),
   ],
 };
