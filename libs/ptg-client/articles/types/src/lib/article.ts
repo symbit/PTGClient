@@ -1,3 +1,5 @@
+export type Sentiment = 'positive' | 'negative' | 'neutral';
+
 export interface Article {
   id: number;
   url: string;
@@ -7,6 +9,6 @@ export interface Article {
   publicationDate: string;
   summary: string;
   isRelevant: true;
-  sentiment: 'positive' | 'negative' | 'neutral';
+  sentiment: Sentiment;
   sectors: string[];
 }

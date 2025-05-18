@@ -4,16 +4,26 @@ import { ArticlesListComponent } from './components/articles-list/articles-list.
 import { ArticlesStatisticsComponent } from './components/articles-statistics/articles-statistics.component';
 import { inject } from '@angular/core';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
+import { ConstantsStore } from '@ptg/shared-data-access-constants';
 
 export const routes: Routes = [
   {
     path: '',
     component: ArticlesComponent,
+    resolve: [
+      () => {
+        inject(ConstantsStore).loadSectors();
+      },
+    ],
     children: [
       {
         path: '',
-        resolve: [
-          () => {
+        component: ArticlesStatisticsComponent,
+      },
+      {
+        path: 'accepted',
+        resolve: {
+          data: () => {
             const state = inject(ArticlesStore);
 
             state.loadArticles({
@@ -27,13 +37,14 @@ export const routes: Routes = [
               ],
             });
           },
-        ],
+          type: () => 'accepted',
+        },
         component: ArticlesListComponent,
       },
       {
         path: 'rejected',
-        resolve: [
-          () => {
+        resolve: {
+          data: () => {
             const state = inject(ArticlesStore);
 
             state.loadArticles({
@@ -47,12 +58,9 @@ export const routes: Routes = [
               ],
             });
           },
-        ],
+          type: () => 'rejected',
+        },
         component: ArticlesListComponent,
-      },
-      {
-        path: 'statistics',
-        component: ArticlesStatisticsComponent,
       },
     ],
   },

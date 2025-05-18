@@ -21,17 +21,17 @@ export class ArticlesComponent {
   readonly tabs = [
     {
       route: '/articles',
+      label: 'Statystyki',
+      routerLinkActiveOptions: { exact: true },
+    },
+    {
+      route: '/articles/accepted',
       label: 'Zaakceptowane',
       routerLinkActiveOptions: { exact: true },
     },
     {
       route: '/articles/rejected',
       label: 'Odrzucone',
-      routerLinkActiveOptions: { exact: true },
-    },
-    {
-      route: '/articles/statistics',
-      label: 'Statystyki',
       routerLinkActiveOptions: { exact: true },
     },
   ];

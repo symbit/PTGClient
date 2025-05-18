@@ -3,16 +3,43 @@
     <input
       class="flex-1"
       type="text"
+      [formControl]="form.controls.term"
       pInputText
       placeholder="Szukaj artykułów..."
     />
 
     <p-select
-      [options]="industries"
-      placeholder="Wszystkie sektory"
-      class="w-full md:w-56"
+      [options]="constantsStore.sectors() || []"
+      [formControl]="form.controls.sector"
+      [showClear]="true"
+      placeholder="Branża"
+      class="min-w-48"
+    >
+      <ng-template pTemplate="selectedItem" let-sector>
+        {{ sector | sector }}
+      </ng-template>
+
+      <ng-template pTemplate="item" let-sector>
+        {{ sector | sector }}
+      </ng-template>
+    </p-select>
+
+    <p-select
+      [(ngModel)]="selectedPublicationDate"
+      [options]="publicationDateOptions"
+      [showClear]="true"
+      placeholder="Data publikacji"
+      class="min-w-48"
     />
 
-    <p-select placeholder="Ostatni miesiąc" class="w-full md:w-56" />
+    @if (selectedPublicationDate() === 'custom') {
+      <p-datepicker
+        placeholder="Data publikacji"
+        [formControl]="form.controls.publicationDate"
+        selectionMode="range"
+        [readonlyInput]="true"
+        class="min-w-48"
+      />
+    }
   </div>
 </p-card>

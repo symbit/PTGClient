@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigService } from '@ptg/shared-config';
-import { Article } from '@ptg/articles-types';
+import { Article, Sentiment } from '@ptg/articles-types';
 import { SearchCriteria, SearchResults } from '@ptg/shared-types';
 
 @Injectable({
@@ -18,6 +18,37 @@ export class ArticlesService {
     return this._httpClient.post<SearchResults<Article>>(
       `${this._apiUrl}/news/search`,
       searchCriteria,
+    );
+  }
+
+  setRelevancy(id: number, relevancy: boolean): Observable<Article> {
+    return this._httpClient.put<Article>(
+      `${this._apiUrl}/news/${id}/set-relevancy`,
+      null,
+      {
+        params: {
+          relevancy,
+        },
+      },
+    );
+  }
+
+  setSentiment(id: number, sentiment: Sentiment): Observable<Article> {
+    return this._httpClient.put<Article>(
+      `${this._apiUrl}/news/${id}/set-sentiment`,
+      null,
+      {
+        params: {
+          sentiment,
+        },
+      },
+    );
+  }
+
+  setSectors(id: number, sectors: string[]): Observable<Article> {
+    return this._httpClient.put<Article>(
+      `${this._apiUrl}/news/${id}/set-sectors`,
+      sectors,
     );
   }
 }

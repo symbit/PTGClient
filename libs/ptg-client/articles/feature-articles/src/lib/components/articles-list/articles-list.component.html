@@ -13,7 +13,7 @@
       <th>Data</th>
       <th>Relevancy</th>
       <th>Sentyment</th>
-      <th class="w-40">Akcje</th>
+      <th class="w-10">Akcje</th>
     </tr>
   </ng-template>
   <ng-template #body let-element>
@@ -31,78 +31,19 @@
       <td>{{ element.publicationDate | date: 'dd.MM.yyyy' }}</td>
       <td>{{ element.isRelevant ? 'Tak' : 'Nie' }}</td>
       <td>
-        @let sentiment = element.sentiment | sentiment;
-        <span [class]="sentiment.class">{{ sentiment.text }}</span>
+        <span [class]="sentimentColors[element.sentiment]">{{
+          element.sentiment | sentiment
+        }}</span>
       </td>
       <td>
         <p-button
-          icon="pi pi-ban"
-          severity="secondary"
-          pTooltip="Odrzuć artykuł"
-          [rounded]="true"
+          icon="pi pi-ellipsis-v"
           [text]="true"
-          (click)="reject($event)"
+          (click)="menu.toggle($event); menuSelectedItem.set(element)"
         />
-        <p-confirmpopup>
-          <ng-template #content let-message>
-            <div class="flex items-center">
-              <i class="pi pi-ban text-secondary-100"></i>
-              <p class="ml-2">
-                Jesteś pewny, że chcesz odrzucić wybrany artykuł?
-              </p>
-            </div>
-          </ng-template>
-        </p-confirmpopup>
-
-        <p-button
-          icon="pi pi-sparkles"
-          pTooltip="Pokaż podsumowanie"
-          [rounded]="true"
-          [text]="true"
-          (click)="showSummary()"
-        />
-
-        @defer (when visible()) {
-          <p-dialog
-            header="Edit Profile"
-            [modal]="true"
-            [(visible)]="visible"
-            [style]="{ width: '25rem' }"
-          >
-            <ng-template #header>
-              <div class="flex items-center text-primary-100">
-                <i class="pi pi-sparkles"></i>
-                <p class="ml-2">Automatyzacja w przemyśle</p>
-              </div>
-            </ng-template>
-
-            <ng-template #closeicon>
-              <i class="pi pi-times text-primary-100"></i>
-            </ng-template>
-
-            <p class="text-dark-200">
-              Ten artykuł traktuje o wpływie automatyzacji na zatrudnienie w
-              sektorze przemysłowym...Ten artykuł traktuje o wpływie
-              automatyzacji na zatrudnienie w sektorze przemysłowym...Ten
-              artykuł traktuje o wpływie automatyzacji na zatrudnienie w
-              sektorze przemysłowym...Ten artykuł traktuje o wpływie
-              automatyzacji na zatrudnienie w sektorze przemysłowym...
-            </p>
-          </p-dialog>
-        } @placeholder {
-          <span></span>
-        }
-
-        <a [href]="element.url" target="_blank">
-          <p-button
-            icon="pi pi-link"
-            pTooltip="Przejdź do źródła"
-            [rounded]="true"
-            [text]="true"
-            href
-          />
-        </a>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-menu #menu [model]="items()" [popup]="true" />

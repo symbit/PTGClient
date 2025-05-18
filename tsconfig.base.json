@@ -85,6 +85,9 @@
       "@ptg/shared-ui-close-page-confirmation-dialog": [
         "libs/ptg-client/shared/ui-close-page-confirmation-dialog/src/index.ts"
       ],
+      "@ptg/shared-ui-confirm-delete-dialog": [
+        "libs/ptg-client/shared/ui-confirm-delete-dialog/src/index.ts"
+      ],
       "@ptg/shared-ui-data-box": [
         "libs/ptg-client/shared/ui-data-box/src/index.ts"
       ],
