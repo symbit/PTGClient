@@ -47,6 +47,27 @@
           ],
           "outputHashing": "all"
         },
+        "staging": {
+          "fileReplacements": [
+            {
+              "replace": "{projectRoot}/src/environments/environment.ts",
+              "with": "{projectRoot}/src/environments/environment.staging.ts"
+            }
+          ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
         "development": {
           "optimization": false,
           "extractLicenses": false,
