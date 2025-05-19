@@ -2,7 +2,7 @@ export type Filters = {
   name: string;
   value: string | number | boolean | object;
   behaviour?: 'AND' | 'OR' | 'NOT';
-  operator?: 'ilike' | '==' | '<=' | '>=';
+  operator?: 'ilike' | '==' | '<=' | '>=' | 'any';
 }[];
 
 export interface SearchCriteria {

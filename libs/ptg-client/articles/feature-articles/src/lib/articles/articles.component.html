@@ -1,14 +1,15 @@
 <h1 class="header-style-36 mb-6">Artykuły</h1>
 
-<ptg-articles-filters />
+<div #angularCdkPortalOutlet></div>
 
-<p-tabs class="mb-6" value="/articles">
+<p-tabs class="mb-6" [value]="url">
   <p-tablist>
     @for (tab of tabs; track tab.route) {
       <p-tab
         [value]="tab.route"
         [routerLink]="tab.route"
         class="flex items-center !gap-2 text-inherit"
+        (click)="selectedTab.set(tab.route)"
       >
         <span>{{ tab.label }}</span>
       </p-tab>

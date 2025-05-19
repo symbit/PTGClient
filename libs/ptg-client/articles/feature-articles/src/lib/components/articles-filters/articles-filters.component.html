@@ -30,6 +30,7 @@
       [showClear]="true"
       placeholder="Data publikacji"
       class="min-w-48"
+      (onClear)="onClearPublicationDate()"
     />
 
     @if (selectedPublicationDate() === 'custom') {

@@ -1,7 +1,13 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import {
   removeAllEntities,
   removeEntity,
@@ -13,24 +19,33 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { ArticlesService } from '../service/articles.service';
-import { Article, Sentiment } from '@ptg/articles-types';
+import {
+  Article,
+  ArticleInsights,
+  ArticlesStatistics,
+  NumberOfArticlesByRelevancy,
+  NumberOfArticlesBySentiment,
+  NumberOfArticlesBySource,
+  Sentiment,
+} from '@ptg/articles-types';
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 
 interface ArticlesState {
   criteria: SearchCriteria;
+  statistics: ArticlesStatistics | null;
   total: number;
   maxPage: number;
 }
 
 const initialState: ArticlesState = {
   criteria: DefaultSearchCriteria,
+  statistics: null,
   total: 0,
   maxPage: 0,
 };
 
 export const ArticlesStore = signalStore(
-  { providedIn: 'root' },
   withDevtools('articles'),
   withState(initialState),
   withEntities<Article>(),
@@ -139,6 +154,42 @@ export const ArticlesStore = signalStore(
           );
         }),
       ),
+      loadNewsDashboard: rxMethod<void>(
+        switchMap(() => {
+          patchState(store, {
+            articlesCallState: LoadingState.LOADING,
+          });
+
+          return service.getNewsDashboard().pipe(
+            tapResponse({
+              next: (result) => {
+                patchState(store, { statistics: result });
+              },
+              error: (error: string) =>
+                patchState(store, {
+                  articlesCallState: { error },
+                }),
+            }),
+          );
+        }),
+      ),
     };
   }),
+  withComputed((store) => ({
+    totalNumberOfArticles: computed<number>(
+      () => store.statistics()?.totalNumberOfArticles || 0,
+    ),
+    numberOfArticlesByRelevancy: computed<NumberOfArticlesByRelevancy | null>(
+      () => store.statistics()?.numberOfArticlesByRelevancy || null,
+    ),
+    numberOfArticlesBySentiment: computed<NumberOfArticlesBySentiment | null>(
+      () => store.statistics()?.numberOfArticlesBySentiment || null,
+    ),
+    numberOfArticlesBySource: computed<NumberOfArticlesBySource | null>(
+      () => store.statistics()?.numberOfArticlesBySource || null,
+    ),
+    articleInsights: computed<ArticleInsights | null>(
+      () => store.statistics()?.articleInsights || null,
+    ),
+  })),
 );

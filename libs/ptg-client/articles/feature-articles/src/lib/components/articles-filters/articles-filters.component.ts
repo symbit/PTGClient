@@ -6,6 +6,7 @@ import {
   inject,
   model,
   OnInit,
+  output,
 } from '@angular/core';
 import { InputText } from 'primeng/inputtext';
 import { Card } from 'primeng/card';
@@ -40,6 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class ArticlesFiltersComponent implements OnInit {
   readonly constantsStore = inject(ConstantsStore);
 
+  readonly filtersChanged = output<void>();
   readonly selectedPublicationDate = model(null);
   readonly publicationDateOptions = [
     {
@@ -67,10 +69,7 @@ export class ArticlesFiltersComponent implements OnInit {
   readonly form = inject(FormBuilder).group({
     term: '',
     sector: null,
-    publicationDate: {
-      startDate: '',
-      endDate: '',
-    },
+    publicationDate: [],
   });
 
   private readonly _articlesStore = inject(ArticlesStore);
@@ -79,18 +78,9 @@ export class ArticlesFiltersComponent implements OnInit {
   constructor() {
     effect(() => {
       const publicationDate = this.selectedPublicationDate();
-      if (!publicationDate) {
-        this.form.patchValue(
-          {
-            publicationDate: { startDate: '', endDate: '' },
-          },
-          { emitEvent: false },
-        );
-        return;
-      }
+      if (!publicationDate) return;
 
       let startDate = '';
-
       switch (publicationDate) {
         case 'week':
           startDate = dayjs().subtract(7, 'day').format();
@@ -110,15 +100,27 @@ export class ArticlesFiltersComponent implements OnInit {
 
       if (publicationDate !== 'custom')
         this.form.patchValue({
-          publicationDate: { startDate, endDate: dayjs().format() } as any,
+          publicationDate: [startDate, dayjs().format()] as any,
         });
     });
   }
 
   ngOnInit(): void {
+    this._onFiltersChanged();
+  }
+
+  onClearPublicationDate(): void {
+    this.form.patchValue({
+      publicationDate: [] as any,
+    });
+  }
+
+  private _onFiltersChanged(): void {
     this.form.valueChanges
       .pipe(debounceTime(300), takeUntilDestroyed(this._destroyRef))
       .subscribe((value) => {
+        this.filtersChanged.emit();
+
         this._articlesStore.loadArticles({
           ...this._articlesStore.criteria(),
           page: 1,
@@ -142,30 +144,30 @@ export class ArticlesFiltersComponent implements OnInit {
 
     if (this.form.value.sector) {
       filters.push({
-        name: 'sector',
+        name: 'sectors',
         value: this.form.value.sector,
         behaviour: 'AND',
+        operator: 'any',
       });
     }
 
-    if (this.form.value.publicationDate?.startDate) {
+    if (this.form.value.publicationDate?.[0]) {
       filters.push({
         name: 'publicationDate',
-        value: this.form.value.publicationDate?.startDate,
+        value: this.form.value.publicationDate[0],
         behaviour: 'AND',
         operator: '>=',
       });
     }
 
-    if (this.form.value.publicationDate?.endDate) {
+    if (this.form.value.publicationDate?.[1]) {
       filters.push({
         name: 'publicationDate',
-        value: this.form.value.publicationDate?.endDate,
+        value: this.form.value.publicationDate[1],
         behaviour: 'AND',
         operator: '<=',
       });
     }
-
     return filters;
   }
 }

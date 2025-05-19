@@ -1,18 +1,36 @@
+<div #content>
+  <ptg-articles-filters (filtersChanged)="table.first = 0" />
+</div>
+
 <p-table
+  #table
   [value]="state.entities() || []"
+  [lazy]="true"
   [paginator]="true"
+  [customSort]="true"
   [rows]="ROWS_PER_PAGE"
+  [totalRecords]="state.total()"
   [tableStyle]="{ 'min-width': '50rem' }"
+  (onSort)="onSort($event)"
+  (onPage)="onPageChange($event)"
 >
   <ng-template #header>
     <tr>
-      <th>ID</th>
-      <th>Źródło</th>
-      <th>Tytuł</th>
+      <th class="min-w-20" pSortableColumn="id">
+        ID <p-sortIcon field="id" />
+      </th>
+      <th class="min-w-40" pSortableColumn="source">
+        Źródło <p-sortIcon field="source" />
+      </th>
+      <th pSortableColumn="title">Tytuł <p-sortIcon field="title" /></th>
       <th>Branża</th>
-      <th>Data</th>
+      <th pSortableColumn="publicationDate">
+        Data <p-sortIcon field="publicationDate" />
+      </th>
       <th>Relevancy</th>
-      <th>Sentyment</th>
+      <th class="min-w-40" pSortableColumn="sentiment">
+        Sentyment <p-sortIcon field="sentiment" />
+      </th>
       <th class="w-10">Akcje</th>
     </tr>
   </ng-template>

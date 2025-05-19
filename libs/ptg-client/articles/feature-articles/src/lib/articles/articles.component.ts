@@ -1,28 +1,37 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ArticlesFiltersComponent } from '../components/articles-filters/articles-filters.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Tab, TabList, Tabs } from 'primeng/tabs';
+import { AngularCdkTeleportService } from '@ptg/shared-utils';
 
 @Component({
   selector: 'ptg-articles',
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ArticlesFiltersComponent,
-    RouterOutlet,
-    RouterLink,
-    Tabs,
-    TabList,
-    Tab,
-  ],
+  imports: [RouterOutlet, RouterLink, Tabs, TabList, Tab],
 })
-export class ArticlesComponent {
+export class ArticlesComponent implements OnDestroy {
+  private readonly _router = inject(Router);
+
+  get url(): string {
+    return this._router.url;
+  }
+
+  readonly selectedTab = signal<string>(this.url);
   readonly tabs = [
     {
-      route: '/articles',
+      route: '/articles/statistics',
       label: 'Statystyki',
       routerLinkActiveOptions: { exact: true },
+      selected: true,
     },
     {
       route: '/articles/accepted',
@@ -35,4 +44,20 @@ export class ArticlesComponent {
       routerLinkActiveOptions: { exact: true },
     },
   ];
+
+  @ViewChild('angularCdkPortalOutlet') set angularCdkPortalOutletElement(
+    elementRef: ElementRef<HTMLElement>,
+  ) {
+    this._angularCdkTeleportService.registerPortalOutlet(
+      elementRef.nativeElement,
+    );
+  }
+
+  private readonly _angularCdkTeleportService = inject(
+    AngularCdkTeleportService,
+  );
+
+  ngOnDestroy(): void {
+    this._angularCdkTeleportService.unregisterPortalOutlet();
+  }
 }

@@ -2,17 +2,26 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   inject,
   input,
+  OnDestroy,
+  OnInit,
   signal,
+  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
 import { DatePipe } from '@angular/common';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule, TablePageEvent } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { MenuItem } from 'primeng/api';
-import { SectorPipe, SentimentMapper } from '@ptg/shared-utils';
+import {
+  AngularCdkTeleportService,
+  SectorPipe,
+  SentimentMapper,
+} from '@ptg/shared-utils';
 import { Menu } from 'primeng/menu';
 import { Article } from '@ptg/articles-types';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -20,6 +29,9 @@ import { ConfirmDeleteDialogComponent } from '@ptg/shared-ui-confirm-delete-dial
 import { firstValueFrom } from 'rxjs';
 import { ArticleSummaryDialogComponent } from '../article-summary-dialog/article-summary-dialog.component';
 import { ArticleEditDialogComponent } from '../article-edit-dialog/article-edit-dialog.component';
+import { Sort } from '@ptg/shared-types';
+import { ArticlesFiltersComponent } from '../articles-filters/articles-filters.component';
+import { DomPortal } from '@angular/cdk/portal';
 
 const ROWS_PER_PAGE = 10;
 
@@ -37,10 +49,12 @@ const ROWS_PER_PAGE = 10;
     SectorPipe,
     Menu,
     SentimentMapper,
+    ArticlesFiltersComponent,
   ],
-  providers: [DialogService],
+  providers: [ArticlesStore, DialogService],
 })
-export class ArticlesListComponent {
+export class ArticlesListComponent implements OnInit, OnDestroy {
+  readonly table = viewChild<Table>('table');
   readonly type = input<'rejected' | 'accepted'>();
   readonly state = inject(ArticlesStore);
 
@@ -81,7 +95,29 @@ export class ArticlesListComponent {
     neutral: 'text-info-100',
   };
 
+  @ViewChild('content') set content(elemRef: ElementRef<HTMLElement>) {
+    this._angularCdkTeleportService.teleport(new DomPortal(elemRef));
+  }
+
   private readonly _dialogService = inject(DialogService);
+  private readonly _articlesStore = inject(ArticlesStore);
+  private readonly _angularCdkTeleportService = inject(
+    AngularCdkTeleportService,
+  );
+
+  ngOnInit(): void {
+    this._articlesStore.loadArticles({
+      ...this._articlesStore.criteria(),
+      pageSize: 10,
+      filters: [
+        {
+          name: 'isRelevant',
+          value: this.type() === 'accepted',
+          behaviour: 'AND',
+        },
+      ],
+    });
+  }
 
   async reject(): Promise<void> {
     const dialog = await firstValueFrom(
@@ -150,5 +186,33 @@ export class ArticlesListComponent {
         summary: this.menuSelectedItem()?.summary,
       },
     });
+  }
+
+  onSort(sort: Sort): void {
+    this._articlesStore.loadArticles({
+      page: 1,
+      pageSize: ROWS_PER_PAGE,
+      sort: sort.order === 1 ? `${sort.field}-asc` : `${sort.field}-desc`,
+      filters: this._articlesStore.criteria().filters,
+    });
+  }
+
+  onPageChange(page: TablePageEvent): void {
+    const { sortOrder, sortField } = this.table()!.createLazyLoadMetadata();
+
+    this._articlesStore.loadArticles({
+      page: page.first / ROWS_PER_PAGE + 1,
+      pageSize: ROWS_PER_PAGE,
+      sort: sortField
+        ? sortOrder === 1
+          ? `${sortField}-asc`
+          : `${sortField}-desc`
+        : '',
+      filters: this._articlesStore.criteria().filters,
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._angularCdkTeleportService.finishTeleportation();
   }
 }
