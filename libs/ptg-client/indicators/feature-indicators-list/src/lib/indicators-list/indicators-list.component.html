@@ -18,6 +18,7 @@
   }
   <p-paginator
     #paginator
+    [first]="(currentPage() - 1) * ROWS_PER_PAGE"
     [rows]="ROWS_PER_PAGE"
     [totalRecords]="state.total()"
     (onPageChange)="onPageChange($event)"

@@ -87,7 +87,7 @@ export class GeneralStatisticsComponent {
     if (!numberOfArticlesByRelevancy) return;
 
     return {
-      labels: ['Relevant', 'Inrelevant'],
+      labels: ['Relevant', 'Irrelevant'],
       datasets: [
         {
           data: [

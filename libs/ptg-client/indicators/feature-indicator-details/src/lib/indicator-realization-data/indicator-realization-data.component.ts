@@ -4,14 +4,13 @@ import {
   inject,
   input,
   output,
-  viewChild,
 } from '@angular/core';
 import { RealizationData } from '@ptg/indicators-types';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
-import { Table, TableModule, TablePageEvent } from 'primeng/table';
+import { TableModule, TablePageEvent } from 'primeng/table';
 import { DatePipe } from '@angular/common';
-import { DefaultSearchCriteria, SearchCriteria, Sort } from '@ptg/shared-types';
+import { SearchCriteria, Sort } from '@ptg/shared-types';
 import { DialogService } from 'primeng/dynamicdialog';
 import { IndicatorRealizationDataPointDialogComponent } from '../indicator-realization-data-point-dialog/indicator-realization-data-point-dialog.component';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -31,8 +30,6 @@ const ROWS_PER_PAGE = 10;
   providers: [DialogService, ConfirmationService],
 })
 export class IndicatorRealizationDataComponent {
-  readonly table = viewChild<Table>('table');
-
   readonly data = input.required<RealizationData[]>();
   readonly total = input.required<number>();
   readonly realizationId = input.required<number>();
@@ -46,7 +43,7 @@ export class IndicatorRealizationDataComponent {
 
   onSort(sort: Sort): void {
     this.loadRealizationData.emit({
-      ...DefaultSearchCriteria,
+      ...this._state.criteria(),
       page: 1,
       pageSize: ROWS_PER_PAGE,
       sort: sort.order === 1 ? `${sort.field}-asc` : `${sort.field}-desc`,
@@ -54,17 +51,10 @@ export class IndicatorRealizationDataComponent {
   }
 
   onPageChange(page: TablePageEvent): void {
-    const { sortOrder, sortField } = this.table()!.createLazyLoadMetadata();
-
     this.loadRealizationData.emit({
-      ...DefaultSearchCriteria,
+      ...this._state.criteria(),
       page: page.first / ROWS_PER_PAGE + 1,
       pageSize: ROWS_PER_PAGE,
-      sort: sortField
-        ? sortOrder === 1
-          ? `${sortField}-asc`
-          : `${sortField}-desc`
-        : '',
     });
   }
 

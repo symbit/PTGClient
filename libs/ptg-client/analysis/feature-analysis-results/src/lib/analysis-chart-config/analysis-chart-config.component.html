@@ -20,7 +20,8 @@
       type="number"
       placeholder="AR"
       size="small"
-      min="1"
+      min="0"
+      [max]="n() - form.value.i"
     />
   </div>
   <div class="flex flex-col gap-2">
@@ -32,7 +33,7 @@
       type="number"
       placeholder="I"
       size="small"
-      min="1"
+      min="0"
     />
   </div>
   <div class="flex flex-col gap-2">
@@ -44,7 +45,8 @@
       type="number"
       placeholder="MA"
       size="small"
-      min="1"
+      min="0"
+      [max]="n() - form.value.i - 1"
     />
   </div>
   <div class="flex flex-col gap-2">

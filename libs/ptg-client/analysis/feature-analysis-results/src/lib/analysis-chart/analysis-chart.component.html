@@ -3,7 +3,10 @@
     <div class="flex justify-between">
       <h2 class="header-style-18">Wykres</h2>
 
-      <ptg-analysis-chart-config (configChanged)="configChanged.emit($event)" />
+      <ptg-analysis-chart-config
+        (configChanged)="configChanged.emit($event)"
+        [n]="this.rawTimeSeries().values.length"
+      />
     </div>
   </ng-template>
 

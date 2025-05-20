@@ -15,6 +15,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { injectDestroyRef } from '@ptg/shared-utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, filter } from 'rxjs';
+import { linkedQueryParam } from 'ngxtension/linked-query-param';
+import { DefaultSearchCriteria } from '@ptg/shared-types';
 
 const ROWS_PER_PAGE = 20;
 
@@ -34,14 +36,26 @@ const ROWS_PER_PAGE = 20;
   encapsulation: ViewEncapsulation.None,
 })
 export class IndicatorsListComponent {
+  readonly currentPage = linkedQueryParam('page', {
+    parse: (value) => parseInt(value ?? '1', 10),
+  });
+
+  readonly term = linkedQueryParam('term');
+
   readonly paginator = viewChild<Paginator>('paginator');
   readonly state = inject(IndicatorsStore);
   readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
-  readonly search = inject(FormBuilder).control('');
+  readonly search = inject(FormBuilder).control(this.term() || '');
 
   private readonly _destroyRef = injectDestroyRef();
 
   constructor() {
+    this.state.loadIndicators({
+      ...DefaultSearchCriteria,
+      page: this.currentPage(),
+      term: this.term() || '',
+    });
+
     this.search.valueChanges
       .pipe(
         filter((value) => value !== null),
@@ -49,16 +63,18 @@ export class IndicatorsListComponent {
         takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((term) => {
+        this.term.set(term);
         this.state.loadIndicators({
           ...this.state.criteria(),
           page: 1,
           term,
         });
-        this.paginator()?.changePage(0);
+        this.paginator()!.first = 0;
       });
   }
 
   onPageChange(event: PaginatorState): void {
+    this.currentPage.set((event.page || 0) + 1);
     this.state.loadIndicators({
       ...this.state.criteria(),
       page: (event.page || 0) + 1,

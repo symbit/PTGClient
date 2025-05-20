@@ -124,8 +124,8 @@ export const AnalysisStore = signalStore(
 
       if (!analysis) return [];
 
-      return analysis.analysisResults[0].rawTimeSeries.values.map(
-        (value, index) => {
+      return analysis.analysisResults[0].rawTimeSeries.values
+        .map((value, index) => {
           return {
             date: analysis.analysisResults[0].rawTimeSeries.dates[index],
             value: analysis.analysisResults.map(
@@ -134,8 +134,8 @@ export const AnalysisStore = signalStore(
 
             trend: analysis.analysisResults[0].indicatorTrend[index],
           };
-        },
-      );
+        })
+        .sort((a, b) => b.date.localeCompare(a.date));
     }),
     comparativeAnalysisChart: computed<ComparativeAnalysisChart>(() => {
       const analysis = store.analysis();

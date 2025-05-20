@@ -2,12 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  input,
   output,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormsModule,
   ReactiveFormsModule,
   UntypedFormBuilder,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
@@ -24,13 +27,14 @@ import { debounceTime } from 'rxjs';
   imports: [FormsModule, InputText, ReactiveFormsModule],
 })
 export class AnalysisChartConfigComponent {
+  readonly n = input<number>(0);
   readonly configChanged = output<AnalysisConfig>();
 
   readonly form = inject(UntypedFormBuilder).group({
     emaHalflife: [null, Validators.min(1)],
-    ar: [null, Validators.min(1)],
+    ar: [null, [Validators.min(1), this.arValidator()]],
     i: [null, Validators.min(1)],
-    ma: [null, Validators.min(1)],
+    ma: [null, [Validators.min(1), this.maValidator()]],
     nForecasts: [1, Validators.min(1)],
   });
 
@@ -39,6 +43,36 @@ export class AnalysisChartConfigComponent {
 
     this.form.valueChanges
       .pipe(debounceTime(500), takeUntilDestroyed())
-      .subscribe(() => this.configChanged.emit(this.form.value));
+      .subscribe(() => {
+        if (this.form.valid) this.configChanged.emit(this.form.value);
+      });
+  }
+
+  arValidator(): ValidatorFn {
+    const n = this.n();
+
+    if (!n) return () => null;
+
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const max = n - control.parent?.value.i;
+      if (control.value != null && control.value > max) {
+        return { max: { requiredMax: max, actual: control.value } };
+      }
+      return null;
+    };
+  }
+
+  maValidator(): ValidatorFn {
+    const n = this.n();
+
+    if (!n) return () => null;
+
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const max = n - control.parent?.value.i - 1;
+      if (control.value != null && control.value > max) {
+        return { max: { requiredMax: max, actual: control.value } };
+      }
+      return null;
+    };
   }
 }
