@@ -67,6 +67,15 @@ export class IndicatorRealizationComponent {
 
   constructor() {
     effect(() => {
+      const initialRealization = this.initialRealization();
+      if (!initialRealization) return;
+
+      this.sector.set(initialRealization.sector);
+      this.region.set(initialRealization.region);
+      this.frequency.set(initialRealization.frequency);
+    });
+
+    effect(() => {
       const realization = this.realizations().find(
         (r) =>
           r.region === this.region() &&

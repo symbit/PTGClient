@@ -22,6 +22,7 @@ import { Carousel } from 'primeng/carousel';
         <a
           class="block border rounded-md border-neutral-300 m-2 p-4 bg-neutral-400 max-w-1/3"
           [href]="source.url"
+          target="_blank"
         >
           <p>{{ source.title }}</p>
         </a>

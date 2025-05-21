@@ -2,12 +2,14 @@
   <h3 class="header-style-16">Posty ogółem</h3>
   <p class="text-4xl font-bold mt-4">{{ totalNumberOfArticles() }}</p>
 
-  <canvas
-    class="mt-4"
-    baseChart
-    [type]="'doughnut'"
-    [data]="chartData()"
-    [options]="options"
-  >
-  </canvas>
+  <div class="w-9/12">
+    <canvas
+      class="mt-4"
+      baseChart
+      [type]="'doughnut'"
+      [data]="chartData()"
+      [options]="options"
+    >
+    </canvas>
+  </div>
 </p-card>

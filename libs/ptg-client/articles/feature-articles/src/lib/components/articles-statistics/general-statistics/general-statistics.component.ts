@@ -27,7 +27,6 @@ export class GeneralStatisticsComponent {
     input.required<NumberOfArticlesByRelevancy | null>();
 
   protected readonly options: ChartOptions = {
-    responsive: true,
     plugins: {
       legend: {
         display: true,

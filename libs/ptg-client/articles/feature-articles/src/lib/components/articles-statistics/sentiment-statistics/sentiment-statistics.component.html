@@ -2,13 +2,15 @@
   <div class="flex flex-col gap-4 justify-between">
     <h3 class="header-style-16">Sentyment</h3>
 
-    <canvas
-      class="mt-4"
-      baseChart
-      type="doughnut"
-      [data]="chartData()"
-      [options]="options"
-    >
-    </canvas>
+    <div class="w-11/12">
+      <canvas
+        class="mt-4"
+        baseChart
+        type="doughnut"
+        [data]="chartData()"
+        [options]="options"
+      >
+      </canvas>
+    </div>
   </div>
 </p-card>
