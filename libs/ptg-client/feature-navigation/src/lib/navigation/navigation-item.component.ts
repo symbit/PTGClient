@@ -11,7 +11,7 @@ type NavigationItem = {
   template: `
     <a
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
+      [routerLinkActiveOptions]="{ exact: false }"
       [routerLink]="item().link"
       class="p-2 rounded-md"
       >{{ item().label }}</a

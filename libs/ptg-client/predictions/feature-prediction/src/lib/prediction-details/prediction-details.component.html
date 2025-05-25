@@ -1,0 +1,43 @@
+@let prediction = state.prediction();
+<div class="flex justify-between items-center">
+  <ptg-back-button routerLink="/predictions" label="Powrót do listy prognoz" />
+
+  @if (prediction) {
+    <div class="flex items-center gap-4">
+      <p>{{ prediction.user.name }}</p>
+
+      <p>{{ prediction.generationDate | date: 'dd.MM.yyyy' }}</p>
+
+      @let status = prediction.status | predictionStatus;
+      <p-tag [class]="status.class" [value]="status.label" />
+
+      <p-button
+        icon="pi pi-trash"
+        severity="secondary"
+        pTooltip="Usuń prognozę"
+        [rounded]="true"
+        [text]="true"
+        (click)="onDelete($event, prediction.id)"
+      />
+      <p-confirm-dialog />
+    </div>
+  }
+</div>
+
+@if (prediction) {
+  <p-card
+    class="block mt-4"
+    [header]="prediction.predictionDefinition.name"
+    [subheader]="
+      (prediction.dataImpliedStartDateTime | date: 'dd.MM.yyyy') +
+        ' - ' +
+        (prediction.dataImpliedEndDateTime | date: 'dd.MM.yyyy') || ''
+    "
+  >
+    <ptg-prediction-chart [analysisResults]="prediction.analysisResults" />
+  </p-card>
+
+  <p-card class="block mt-4" header="Analiza Ekonomiczna">
+    <p class="body-style-16">{{ prediction.generatedComment }}</p>
+  </p-card>
+}

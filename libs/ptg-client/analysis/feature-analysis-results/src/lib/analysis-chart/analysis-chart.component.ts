@@ -7,19 +7,23 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { Card } from 'primeng/card';
+import { ToggleSwitch } from 'primeng/toggleswitch';
+
 import {
   AnalysisConfig,
   Forecast,
   InSamplePrediction,
-  RawTimeSeries,
 } from '@ptg/analysis-types';
-import { Card } from 'primeng/card';
-import { DatePipe } from '@angular/common';
-import { AnalysisChartConfigComponent } from '../analysis-chart-config/analysis-chart-config.component';
-import { ToggleSwitch } from 'primeng/toggleswitch';
-import { FormsModule } from '@angular/forms';
-import { BaseChartDirective } from 'ng2-charts';
 import { chartOptions } from '@ptg/shared-utils';
+import { RawTimeSeries } from '@ptg/shared-types';
+
+import { BaseChartDirective } from 'ng2-charts';
+
+import { AnalysisChartConfigComponent } from '../analysis-chart-config/analysis-chart-config.component';
 
 @Component({
   selector: 'ptg-analysis-chart',

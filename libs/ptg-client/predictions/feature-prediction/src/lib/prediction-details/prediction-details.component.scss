@@ -1,0 +1,17 @@
+.in-progress {
+  --p-tag-primary-background: #ffe0b2;
+  --p-tag-primary-color: var(--neutral-dark-100);
+  --p-tag-font-weight: 400;
+}
+
+.success {
+  --p-tag-primary-background: #a5d6a7;
+  --p-tag-font-weight: 400;
+  --p-tag-primary-color: var(--neutral-dark-100);
+}
+
+.failure {
+  --p-tag-primary-background: #d0332e;
+  --p-tag-primary-color: var(--neutral-light-100);
+  --p-tag-font-weight: 400;
+}

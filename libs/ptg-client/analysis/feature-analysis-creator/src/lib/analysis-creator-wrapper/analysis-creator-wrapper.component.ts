@@ -12,6 +12,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnalysisStore } from '@ptg/analysis-data-access-analysis';
 import { analysisConfig } from '@ptg/analysis-utils';
 import { Realization } from '@ptg/indicators-types';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'ptg-analysis-creator-wrapper',
@@ -34,7 +35,7 @@ export class AnalysisCreatorWrapperComponent {
   readonly form = this._fb.group({
     schedule: this._fb.group({
       startDate: [null, Validators.required],
-      endDate: [new Date(), Validators.required],
+      endDate: [dayjs().format(), Validators.required],
     }),
     realizations: this._fb.array([this._fb.control(null, Validators.required)]),
   });

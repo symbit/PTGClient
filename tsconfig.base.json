@@ -68,8 +68,26 @@
       "@ptg/indicators-types": [
         "libs/ptg-client/indicators/types/src/index.ts"
       ],
+      "@ptg/predictions-data-access-predictions": [
+        "libs/ptg-client/predictions/data-access-predictions/src/index.ts"
+      ],
+      "@ptg/predictions-feature-prediction": [
+        "libs/ptg-client/predictions/feature-prediction/src/index.ts"
+      ],
+      "@ptg/predictions-feature-predictions-list": [
+        "libs/ptg-client/predictions/feature-predictions-list/src/index.ts"
+      ],
       "@ptg/predictions-feature-shell-web": [
         "libs/ptg-client/predictions/feature-shell-web/src/index.ts"
+      ],
+      "@ptg/predictions-types": [
+        "libs/ptg-client/predictions/types/src/index.ts"
+      ],
+      "@ptg/predictions-ui-force-new-prediction-dialog": [
+        "libs/ptg-client/predictions/ui-force-new-prediction-dialog/src/index.ts"
+      ],
+      "@ptg/predictions-utils": [
+        "libs/ptg-client/predictions/utils/src/index.ts"
       ],
       "@ptg/shared-config": ["libs/ptg-client/shared/config/src/index.ts"],
       "@ptg/shared-data-access-constants": [
@@ -90,6 +108,9 @@
       ],
       "@ptg/shared-ui-data-box": [
         "libs/ptg-client/shared/ui-data-box/src/index.ts"
+      ],
+      "@ptg/shared-ui-period-form": [
+        "libs/ptg-client/shared/ui-period-form/src/index.ts"
       ],
       "@ptg/shared-utils": ["libs/ptg-client/shared/utils/src/index.ts"],
       "@ptg/shared-utils-signal-store": [

@@ -1,9 +1,28 @@
-import { Routes } from '@angular/router';
-import { PredictionsFeatureShellWebComponent } from './predictions-feature-shell-web/predictions-feature-shell-web.component';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { PredictionsListComponent } from '@ptg/predictions-feature-predictions-list';
+import { PredictionsListStore } from '@ptg/predictions-data-access-predictions';
+import {
+  PredictionCreatorStepperComponent,
+  PredictionDetailsComponent,
+} from '@ptg/predictions-feature-prediction';
+import { DialogService } from 'primeng/dynamicdialog';
 
 export const routes: Routes = [
   {
     path: '',
-    component: PredictionsFeatureShellWebComponent,
+    component: PredictionsListComponent,
+    providers: [PredictionsListStore, DialogService],
+  },
+  {
+    path: 'creator',
+    component: PredictionCreatorStepperComponent,
+    providers: [PredictionsListStore, DialogService],
+  },
+  {
+    path: ':id',
+    resolve: {
+      id: (route: ActivatedRouteSnapshot) => Number(route.paramMap.get('id')),
+    },
+    component: PredictionDetailsComponent,
   },
 ];

@@ -1,3 +1,5 @@
+import { RawTimeSeries } from '@ptg/shared-types';
+
 export interface RealizationDetails {
   indicatorNames: string[];
   indicatorSectors: string[];
@@ -8,11 +10,6 @@ export interface RealizationDetails {
 }
 
 export type IndicatorTrend = 'flat' | 'increasing' | 'decreasing';
-
-export interface RawTimeSeries {
-  dates: string[];
-  values: number[];
-}
 
 export interface InSamplePrediction extends RawTimeSeries {
   predictionLowerCi: number[];
