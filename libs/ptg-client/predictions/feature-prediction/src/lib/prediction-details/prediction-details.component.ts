@@ -10,17 +10,14 @@ import { Card } from 'primeng/card';
 import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import {
-  PredictionPeriodPipe,
-  PredictionStatusPillPipe,
-} from '@ptg/predictions-utils';
-import { Tag } from 'primeng/tag';
+import { PredictionPeriodPipe } from '@ptg/predictions-utils';
 import { Button } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
 import { PredictionChartComponent } from '../prediction-information/prediction-chart.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { PredictionForecastDataTableComponent } from '../prediction-forecast-data-table/prediction-forecast-data-table.component';
+import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
 
 @Component({
   selector: 'ptg-prediction-details',
@@ -32,14 +29,13 @@ import { PredictionForecastDataTableComponent } from '../prediction-forecast-dat
     BackButtonComponent,
     RouterLink,
     DatePipe,
-    PredictionStatusPillPipe,
-    Tag,
     Button,
     Tooltip,
     PredictionChartComponent,
     ConfirmDialog,
     PredictionPeriodPipe,
     PredictionForecastDataTableComponent,
+    PredictionStatusPillComponent,
   ],
   providers: [PredictionDetailsStore, ConfirmationService],
 })

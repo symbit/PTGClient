@@ -1,0 +1,20 @@
+{
+  "name": "predictions-ui-prediction-status-pill",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ptg-client/predictions/ui-prediction-status-pill/src",
+  "prefix": "ptg",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/ptg-client/predictions/ui-prediction-status-pill/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

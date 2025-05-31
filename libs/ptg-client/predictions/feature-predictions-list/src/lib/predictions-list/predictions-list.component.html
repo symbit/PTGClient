@@ -49,8 +49,7 @@
           }}
         </td>
         <td>
-          @let status = data.status | predictionStatus;
-          <p-tag [class]="status.class" [value]="status.label" />
+          <ptg-prediction-status-pill [status]="data.status" />
         </td>
         <td>{{ data.user.name }} {{ data.user.surname }}</td>
 

@@ -44,6 +44,9 @@
         "libs/ptg-client/auth/feature-auth/src/index.ts"
       ],
       "@ptg/auth-types": ["libs/ptg-client/auth/types/src/index.ts"],
+      "@ptg/dashboard-data-access-dashboard": [
+        "libs/ptg-client/dashboard/data-access-dashboard/src/index.ts"
+      ],
       "@ptg/dashboard-feature-dashboard": [
         "libs/ptg-client/dashboard/feature-dashboard/src/index.ts"
       ],
@@ -85,6 +88,9 @@
       ],
       "@ptg/predictions-ui-force-new-prediction-dialog": [
         "libs/ptg-client/predictions/ui-force-new-prediction-dialog/src/index.ts"
+      ],
+      "@ptg/predictions-ui-prediction-status-pill": [
+        "libs/ptg-client/predictions/ui-prediction-status-pill/src/index.ts"
       ],
       "@ptg/predictions-utils": [
         "libs/ptg-client/predictions/utils/src/index.ts"

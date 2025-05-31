@@ -87,7 +87,7 @@ export class PeriodFormComponent {
   readonly endDateControl = input.required<FormControl>();
 
   readonly options = input<PeriodOption[]>(DEFAULT_OPTIONS);
-  readonly label = input<string>('Horyzont czasowy');
+  readonly label = input<string>();
   readonly minDate = input<Date | null>(null);
   readonly maxDate = input<Date | null>(new Date());
 

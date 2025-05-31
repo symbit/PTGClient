@@ -8,8 +8,7 @@
 
       <p>{{ prediction.generationDate | date: 'dd.MM.yyyy' }}</p>
 
-      @let status = prediction.status | predictionStatus;
-      <p-tag [class]="status.class" [value]="status.label" />
+      <ptg-prediction-status-pill [status]="prediction.status" />
 
       <p-button
         icon="pi pi-trash"
