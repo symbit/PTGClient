@@ -6,7 +6,7 @@ import { IndicatorItemComponent } from './indicator-item.component';
 @Component({
   selector: 'ptg-dashboard-indicators',
   template: `
-    <p-card header="Najnowsze artykuły">
+    <p-card header="Aktualizacja wskaźników">
       <div class="flex flex-col gap-2">
         @for (indicator of state.indicators(); track indicator) {
           <ptg-indicator-item [indicator]="indicator" />
