@@ -5,9 +5,8 @@ export interface PredictionDefinition {
   name: string;
   targetRealizationId: number;
   explanatoryRealizationIds: number[];
-  nForecast: number;
   useRecentNews: true;
-  systemPrompt: string;
+  frequency: 'monthly' | 'quarterly' | 'yearly';
 }
 
 export type PredictionStatus = 'inprogress' | 'success' | 'failure';
@@ -29,9 +28,9 @@ export interface Prediction {
   user: User;
   predictionDefinitionId: number;
   predictionDefinition: PredictionDefinition;
+  nForecast: number;
   analysisResults: PredictionAnalysisResults;
   status: PredictionStatus;
-  dataImpliedStartDateTime: string;
   dataImpliedEndDateTime: string;
   generatedComment: string;
 }

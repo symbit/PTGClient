@@ -6,17 +6,21 @@
       [showClear]="true"
       placeholder="Prognoza"
       optionLabel="name"
-      optionValue="id"
+      formControlName="predictionDefinition"
       class="w-full"
-      formControlName="predictionDefinitionId"
     />
   </div>
 
-  <ptg-period-form
-    class="block mt-4"
-    [startDateControl]="form.controls.startDateTime"
-    [endDateControl]="form.controls.endDateTime"
-  />
+  <div class="flex flex-col gap-2 w-full mt-4">
+    <label for="region">Horyzont czasowy</label>
+    <p-select
+      [options]="periodOptions()"
+      [showClear]="true"
+      placeholder="Horyzont czasowy"
+      formControlName="nForecast"
+      class="w-full"
+    />
+  </div>
 </p-card>
 
 <div class="flex justify-end mt-4">

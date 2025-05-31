@@ -29,15 +29,19 @@
     class="block mt-4"
     [header]="prediction.predictionDefinition.name"
     [subheader]="
-      (prediction.dataImpliedStartDateTime | date: 'dd.MM.yyyy') +
-        ' - ' +
-        (prediction.dataImpliedEndDateTime | date: 'dd.MM.yyyy') || ''
+      prediction.nForecast
+        | predictionPeriod: prediction.predictionDefinition.frequency
     "
   >
     <ptg-prediction-chart [analysisResults]="prediction.analysisResults" />
+
+    <ptg-prediction-forecast-data-table
+      class="block mt-4"
+      [forecastData]="state.forecastTableData()"
+    />
   </p-card>
 
   <p-card class="block mt-4" header="Analiza Ekonomiczna">
-    <p class="body-style-16">{{ prediction.generatedComment }}</p>
+    <p class="body-style-16" [innerHTML]="prediction.generatedComment"></p>
   </p-card>
 }

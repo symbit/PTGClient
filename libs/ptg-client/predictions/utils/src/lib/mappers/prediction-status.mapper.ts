@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { PredictionStatus } from '@ptg/predictions-types';
-import { predictionStatusMapper } from './prediction-status.mapper';
+
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'predictionStatus',
@@ -18,5 +18,18 @@ export class PredictionStatusPillPipe implements PipeTransform {
       default:
         return { label, class: 'unknown' };
     }
+  }
+}
+
+export function predictionStatusMapper(status: PredictionStatus) {
+  switch (status) {
+    case 'inprogress':
+      return 'W trakcie';
+    case 'success':
+      return 'Wygenerowana';
+    case 'failure':
+      return 'Błąd';
+    default:
+      return 'Nieznany';
   }
 }

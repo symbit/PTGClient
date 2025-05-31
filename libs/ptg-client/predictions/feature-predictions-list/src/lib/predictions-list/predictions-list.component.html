@@ -43,8 +43,10 @@
         <td>{{ data.predictionDefinition.name }}</td>
         <td>{{ data.generationDate | date: 'dd.MM.yyy' }}</td>
         <td>
-          {{ data.dataImpliedStartDateTime | date: 'dd.MM.yyy' }} -
-          {{ data.dataImpliedEndDateTime | date: 'dd.MM.yyy' }}
+          {{
+            data.nForecast
+              | predictionPeriod: data.predictionDefinition.frequency
+          }}
         </td>
         <td>
           @let status = data.status | predictionStatus;

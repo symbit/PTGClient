@@ -9,15 +9,28 @@ import { chartOptions } from '@ptg/shared-utils';
 import { DatePipe } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { PredictionAnalysisResults } from '@ptg/predictions-types';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'ptg-prediction-chart',
   template: `
-    <canvas baseChart [type]="'line'" [data]="chartData()" [options]="options">
-    </canvas>
+    <p-card>
+      <canvas
+        baseChart
+        [type]="'line'"
+        [data]="chartData()"
+        [options]="options"
+      >
+      </canvas>
+    </p-card>
+  `,
+  styles: `
+    :host {
+      --p-card-background: var(--neutral-light-200);
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, Card],
   providers: [DatePipe],
 })
 export class PredictionChartComponent {
@@ -32,13 +45,14 @@ export class PredictionChartComponent {
 
     return {
       labels: [
-        ...analysisResults.rawTimeSeries.dates,
+        // display only the 3 latest elements from the raw data
+        ...analysisResults.rawTimeSeries.dates.slice(-3),
         ...analysisResults.forecast.dates,
       ].map((date) => this._datePipe.transform(date, 'MM.yyyy')),
       datasets: [
         {
           data: [
-            ...analysisResults.rawTimeSeries.values,
+            ...analysisResults.rawTimeSeries.values.slice(-3),
             ...analysisResults.forecast.values,
           ],
           pointRadius: 2,
@@ -55,7 +69,7 @@ export class PredictionChartComponent {
         // przedziały ufności
         {
           data: [
-            ...analysisResults.rawTimeSeries.values.map(() => null),
+            ...analysisResults.rawTimeSeries.values.slice(-3).map(() => null),
             ...analysisResults.forecast.predictionLowerCi,
           ],
           backgroundColor: 'rgb(24, 54, 108, 0.1)',
@@ -66,7 +80,7 @@ export class PredictionChartComponent {
         },
         {
           data: [
-            ...analysisResults.rawTimeSeries.values.map(() => null),
+            ...analysisResults.rawTimeSeries.values.slice(-3).map(() => null),
             ...analysisResults.forecast.predictionUpperCi,
           ],
           backgroundColor: 'rgb(24, 54, 108, 0.1)',

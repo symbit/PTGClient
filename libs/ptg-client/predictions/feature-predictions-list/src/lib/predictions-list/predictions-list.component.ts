@@ -12,7 +12,10 @@ import { TableModule, TablePageEvent } from 'primeng/table';
 import { Tooltip } from 'primeng/tooltip';
 import { PredictionsListStore } from '@ptg/predictions-data-access-predictions';
 import { DefaultSearchCriteria, Sort } from '@ptg/shared-types';
-import { PredictionStatusPillPipe } from '@ptg/predictions-utils';
+import {
+  PredictionPeriodPipe,
+  PredictionStatusPillPipe,
+} from '@ptg/predictions-utils';
 import { Tag } from 'primeng/tag';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -34,6 +37,7 @@ const ROWS_PER_PAGE = 10;
     PredictionStatusPillPipe,
     Tag,
     ConfirmDialog,
+    PredictionPeriodPipe,
   ],
   providers: [ConfirmationService],
 })

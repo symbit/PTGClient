@@ -1,2 +1,2 @@
-export * from './lib/prediction-status.mapper';
-export * from './lib/prediction-status-pill.pipe';
+export * from './lib/mappers';
+export * from './lib/consts';
