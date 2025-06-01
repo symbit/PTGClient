@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
@@ -46,6 +41,7 @@ export class PredictionsListComponent {
   constructor() {
     this.state.loadPredictions({
       ...DefaultSearchCriteria,
+      sort: 'generationDate',
       page: 1,
       pageSize: ROWS_PER_PAGE,
     });

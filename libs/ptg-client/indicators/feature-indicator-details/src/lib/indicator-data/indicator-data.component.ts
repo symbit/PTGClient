@@ -63,7 +63,7 @@ export class IndicatorDataComponent {
       this.state.loadRealizationData({
         searchCriteria: {
           ...DefaultSearchCriteria,
-          sort: 'updatedAt-asc',
+          sort: 'date-desc',
           pageSize: 10,
         },
         id: this.selectedRealization()?.id || 0,

@@ -9,11 +9,10 @@ import {
   OnInit,
   signal,
   ViewChild,
-  viewChild,
 } from '@angular/core';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
 import { DatePipe } from '@angular/common';
-import { Table, TableModule, TablePageEvent } from 'primeng/table';
+import { TableModule, TablePageEvent } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { MenuItem } from 'primeng/api';
@@ -54,7 +53,6 @@ const ROWS_PER_PAGE = 10;
   providers: [ArticlesStore, DialogService],
 })
 export class ArticlesListComponent implements OnInit, OnDestroy {
-  readonly table = viewChild<Table>('table');
   readonly type = input<'rejected' | 'accepted'>();
   readonly state = inject(ArticlesStore);
 
@@ -109,6 +107,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
     this._articlesStore.loadArticles({
       ...this._articlesStore.criteria(),
       pageSize: 10,
+      sort: 'publicationDate-desc',
       filters: [
         {
           name: 'isRelevant',
@@ -198,16 +197,10 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: TablePageEvent): void {
-    const { sortOrder, sortField } = this.table()!.createLazyLoadMetadata();
-
     this._articlesStore.loadArticles({
+      ...this._articlesStore.criteria(),
       page: page.first / ROWS_PER_PAGE + 1,
       pageSize: ROWS_PER_PAGE,
-      sort: sortField
-        ? sortOrder === 1
-          ? `${sortField}-asc`
-          : `${sortField}-desc`
-        : '',
       filters: this._articlesStore.criteria().filters,
     });
   }
