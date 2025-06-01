@@ -32,9 +32,9 @@ export class AnalysisChartConfigComponent {
 
   readonly form = inject(UntypedFormBuilder).group({
     emaHalflife: [null, Validators.min(1)],
-    ar: [null, [Validators.min(1), this.arValidator()]],
-    i: [null, Validators.min(1)],
-    ma: [null, [Validators.min(1), this.maValidator()]],
+    ar: [null, [Validators.min(0), this.arValidator()]],
+    i: [null, Validators.min(0)],
+    ma: [null, [Validators.min(0), this.maValidator()]],
     nForecasts: [1, Validators.min(1)],
   });
 
