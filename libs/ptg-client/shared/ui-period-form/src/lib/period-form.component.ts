@@ -105,6 +105,10 @@ export class PeriodFormComponent {
 
       if (!value) return;
 
+      if (value() !== 'custom') {
+        this.endDateControl().setValue(dayjs().format());
+      }
+
       if (dayjs(value()).isBefore(dayjs())) {
         this.startDateControl().setValue(value());
       } else {
