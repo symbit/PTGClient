@@ -109,6 +109,7 @@ export class PeriodFormComponent {
         this.endDateControl().setValue(dayjs().format());
       }
 
+      // component supports periods in the past and in the future, we define that base on the selected value
       if (dayjs(value()).isBefore(dayjs())) {
         this.startDateControl().setValue(value());
       } else {

@@ -47,5 +47,8 @@ export const chartOptions: ChartOptions = {
       },
     },
     zoom: zoomOptions,
+    datalabels: {
+      display: false,
+    } as any,
   },
 };
