@@ -4,7 +4,6 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { Card } from 'primeng/card';
 import { GeneralStatisticsComponent } from './general-statistics/general-statistics.component';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
 import { SentimentStatisticsComponent } from './sentiment-statistics/sentiment-statistics.component';
@@ -17,7 +16,6 @@ import { InsightsListComponent } from './insights-list/insights-list.component';
   styleUrl: './articles-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    Card,
     GeneralStatisticsComponent,
     SentimentStatisticsComponent,
     SourceStatisticsComponent,

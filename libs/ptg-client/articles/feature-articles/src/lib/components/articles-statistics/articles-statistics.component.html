@@ -1,24 +1,22 @@
-<p-card>
-  <div class="flex gap-4 justify-between items-stretch">
-    <ptg-general-statistics
-      class="flex-1"
-      [totalNumberOfArticles]="state.totalNumberOfArticles()"
-      [numberOfArticlesByRelevancy]="state.numberOfArticlesByRelevancy()"
-    />
-
-    <ptg-sentiment-statistics
-      class="flex-1"
-      [totalNumberOfArticles]="state.totalNumberOfArticles()"
-      [numberOfArticlesBySentiment]="state.numberOfArticlesBySentiment()"
-    />
-    <ptg-source-statistics
-      class="flex-1"
-      [numberOfArticlesBySource]="state.numberOfArticlesBySource()"
-    />
-  </div>
-
-  <ptg-insights-list
-    class="block mt-4"
-    [articleInsights]="state.articleInsights()"
+<div class="flex gap-4 justify-between items-stretch">
+  <ptg-general-statistics
+    class="flex-1"
+    [totalNumberOfArticles]="state.totalNumberOfArticles()"
+    [numberOfArticlesByRelevancy]="state.numberOfArticlesByRelevancy()"
   />
-</p-card>
+
+  <ptg-sentiment-statistics
+    class="flex-1"
+    [totalNumberOfArticles]="state.totalNumberOfArticles()"
+    [numberOfArticlesBySentiment]="state.numberOfArticlesBySentiment()"
+  />
+  <ptg-source-statistics
+    class="flex-1"
+    [numberOfArticlesBySource]="state.numberOfArticlesBySource()"
+  />
+</div>
+
+<ptg-insights-list
+  class="block mt-4"
+  [articleInsights]="state.articleInsights()"
+/>

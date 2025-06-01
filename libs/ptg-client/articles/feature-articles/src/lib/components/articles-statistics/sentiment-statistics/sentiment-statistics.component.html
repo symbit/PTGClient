@@ -2,15 +2,19 @@
   <div class="flex flex-col gap-4 justify-between">
     <h3 class="header-style-16">Sentyment</h3>
 
-    <div class="w-11/12">
-      <canvas
-        class="mt-4"
-        baseChart
-        type="doughnut"
-        [data]="chartData()"
-        [options]="options"
-      >
-      </canvas>
-    </div>
+    @if (totalNumberOfArticles()) {
+      <div class="w-11/12">
+        <canvas
+          class="mt-4"
+          baseChart
+          type="doughnut"
+          [data]="chartData()"
+          [options]="options"
+        >
+        </canvas>
+      </div>
+    } @else {
+      <p class="body-style-16--lighter">Brak danych</p>
+    }
   </div>
 </p-card>
