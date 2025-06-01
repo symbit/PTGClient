@@ -1,1 +1,2 @@
-docker image build -t medcam2021/ptg-frontend --build-arg PROFILE=production --build-arg APPLICATION=ptg-client .
+docker image build -t medcam2021/ptg-frontend:production --build-arg PROFILE=production --build-arg APPLICATION=ptg-client .
+docker image build -t medcam2021/ptg-frontend --build-arg PROFILE=staging --build-arg APPLICATION=ptg-client .
