@@ -65,7 +65,7 @@ export class SourceStatisticsComponent {
     layout: {
       padding: {
         left: 10,
-        right: 10,
+        right: 60,
         top: 10,
         bottom: 10,
       },
