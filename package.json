@@ -25,6 +25,7 @@
     "@primeng/themes": "^19.1.2",
     "chart.js": "^4.4.9",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "chartjs-plugin-zoom": "^2.2.0",
     "dayjs": "^1.11.13",
     "lodash-es": "^4.17.21",
     "ng2-charts": "^8.0.0",

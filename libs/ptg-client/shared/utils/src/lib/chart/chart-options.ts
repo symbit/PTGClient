@@ -1,4 +1,24 @@
 import { ChartOptions, LegendItem } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import { Chart } from 'chart.js';
+
+Chart.register(zoomPlugin);
+
+const zoomOptions = {
+  pan: {
+    enabled: true,
+    mode: 'xy',
+  },
+  zoom: {
+    wheel: {
+      enabled: true,
+    },
+    pinch: {
+      enabled: true,
+    },
+    mode: 'xy',
+  },
+} as any;
 
 export const chartOptions: ChartOptions = {
   responsive: true,
@@ -26,5 +46,6 @@ export const chartOptions: ChartOptions = {
         boxHeight: 10,
       },
     },
+    zoom: zoomOptions,
   },
 };
