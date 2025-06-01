@@ -9,6 +9,7 @@ export const environment: EnvironmentConfig = {
   providers: [
     provideConfig({
       apiUrl: `http://localhost:8000/api`,
+      wsUrl: `ws://localhost:8000/api`,
     }),
   ],
 };

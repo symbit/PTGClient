@@ -10,13 +10,65 @@
     }
   </nav>
 
-  <div class="self-end">
-    <p-button icon="pi pi-bell" [rounded]="true" [text]="true" />
+  <div class="flex self-end">
+    <p-overlaybadge
+      [badgeDisabled]="!unreadNotifications()"
+      [value]="unreadNotifications()"
+      severity="secondary"
+      size="small"
+    >
+      <p-button
+        icon="pi pi-bell"
+        pTooltip="Brak nowych powiadomień"
+        tooltipPosition="left"
+        [rounded]="true"
+        [text]="true"
+        [disabled]="!notifications().length"
+        (click)="notificationMenu.toggle($event); unreadNotifications.set(0)"
+      />
+    </p-overlaybadge>
+    <p-menu
+      [style]="{ width: '350px' }"
+      #notificationMenu
+      [model]="notifications()"
+      [popup]="true"
+    >
+      <ng-template #item let-item>
+        <a pRipple class="flex items-center p-menu-item-link">
+          @let prediction = item.data;
+          @if (prediction.newStatus === 'success') {
+            <span class="pi pi-check-circle text-success-100"></span>
+            <span class="ml-2"
+              >Prognoza
+              <span class="font-semibold"
+                >"{{ prediction.predictionDefinitionName }}"</span
+              >
+              jest gotowa!</span
+            >
+            <p-button
+              icon="pi pi-arrow-right"
+              [rounded]="true"
+              [text]="true"
+              [routerLink]="['/predictions', prediction.predictionId]"
+            />
+          } @else {
+            <span class="pi pi-times-circle text-secondary-100"></span>
+            <span class="ml-2"
+              >Nie udało się wygenerować prognozy
+              <span class="font-semibold"
+                >"{{ prediction.predictionDefinitionName }}"</span
+              >. Spróbuj ponownie.</span
+            >
+          }
+        </a>
+      </ng-template>
+    </p-menu>
+
     <p-button
       icon="pi pi-user"
-      (click)="menu.toggle($event)"
       [rounded]="true"
       [text]="true"
+      (click)="menu.toggle($event)"
     />
     <p-menu #menu [model]="userOptions" [popup]="true" />
   </div>

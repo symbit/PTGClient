@@ -71,6 +71,9 @@
       "@ptg/indicators-types": [
         "libs/ptg-client/indicators/types/src/index.ts"
       ],
+      "@ptg/notifications-data-access-notifications": [
+        "libs/ptg-client/notifications/data-access-notifications/src/index.ts"
+      ],
       "@ptg/predictions-data-access-predictions": [
         "libs/ptg-client/predictions/data-access-predictions/src/index.ts"
       ],

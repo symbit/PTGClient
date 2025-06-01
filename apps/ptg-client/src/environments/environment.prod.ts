@@ -9,6 +9,7 @@ export const environment: EnvironmentConfig = {
   providers: [
     provideConfig({
       apiUrl: `https://backend.prognozy.iptg.pl/api`,
+      wsUrl: `ws://backend.prognozy.iptg.pl/api`,
     }),
   ],
 };
