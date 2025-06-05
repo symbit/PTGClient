@@ -4,7 +4,7 @@
       <label for="source">Źródło wskaźnika</label>
       <p-select
         id="source"
-        [options]="constantsStore.sources() || []"
+        [options]="state.constantsStore.sources() || []"
         placeholder="Źródło wskaźnika"
         formControlName="source"
       >
@@ -29,18 +29,24 @@
     </div>
   </div>
 
-  <div class="flex flex-col mt-4 gap-4 max-h-48 overflow-y-auto">
-    @for (indicator of indicators.value(); track indicator) {
-      <div class="field-checkbox">
-        <p-radiobutton
-          [value]="indicator"
-          [(ngModel)]="selectedIndicator"
-        ></p-radiobutton>
-        <label [for]="indicator.symbol" class="ml-2"
-          >{{ indicator.name }}
-          <span class="text-dark-200">({{ indicator.symbol }})</span></label
-        >
-      </div>
-    }
-  </div>
+  @if (!state.indicators.isLoading()) {
+    <div class="flex flex-col mt-4 gap-4 max-h-48 overflow-y-auto">
+      @for (indicator of state.indicators.value(); track indicator) {
+        <div class="field-checkbox">
+          <p-radiobutton
+            [value]="indicator"
+            [(ngModel)]="selectedIndicator"
+          ></p-radiobutton>
+          <label [for]="indicator.symbol" class="ml-2"
+            >{{ indicator.name }}
+            <span class="text-dark-200">({{ indicator.symbol }})</span></label
+          >
+        </div>
+      } @empty {
+        <ptg-empty-state align="left" />
+      }
+    </div>
+  } @else {
+    <ptg-indicator-search-loading class="block mt-4" />
+  }
 </div>

@@ -1,7 +1,13 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
@@ -69,6 +75,11 @@ export const IndicatorsStore = signalStore(
           );
         }),
       ),
+    };
+  }),
+  withComputed((store) => {
+    return {
+      isLoading: computed(() => store.isIndicatorsStateLoading()),
     };
   }),
 );

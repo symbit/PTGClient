@@ -9,6 +9,7 @@ import { ArticlesStore } from '@ptg/articles-data-access-articles';
 import { SentimentStatisticsComponent } from './sentiment-statistics/sentiment-statistics.component';
 import { SourceStatisticsComponent } from './source-statistics/source-statistics.component';
 import { InsightsListComponent } from './insights-list/insights-list.component';
+import { ArticlesStatisticsLoadingComponent } from './articles-statistics-loading.component';
 
 @Component({
   selector: 'ptg-articles-statistics',
@@ -20,6 +21,7 @@ import { InsightsListComponent } from './insights-list/insights-list.component';
     SentimentStatisticsComponent,
     SourceStatisticsComponent,
     InsightsListComponent,
+    ArticlesStatisticsLoadingComponent,
   ],
   providers: [ArticlesStore],
 })

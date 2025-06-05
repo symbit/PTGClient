@@ -13,14 +13,20 @@
 </div>
 
 <div class="flex flex-col gap-4 mt-4">
-  @for (indicator of state.entities(); track indicator.id) {
-    <ptg-indicator-card [indicator]="indicator" />
+  @if (!state.isLoading()) {
+    @for (indicator of state.entities(); track indicator.id) {
+      <ptg-indicator-card [indicator]="indicator" />
+    } @empty {
+      <ptg-empty-state />
+    }
+    <p-paginator
+      #paginator
+      [first]="(currentPage() - 1) * ROWS_PER_PAGE"
+      [rows]="ROWS_PER_PAGE"
+      [totalRecords]="state.total()"
+      (onPageChange)="onPageChange($event)"
+    />
+  } @else {
+    <ptg-indicators-list-loading />
   }
-  <p-paginator
-    #paginator
-    [first]="(currentPage() - 1) * ROWS_PER_PAGE"
-    [rows]="ROWS_PER_PAGE"
-    [totalRecords]="state.total()"
-    (onPageChange)="onPageChange($event)"
-  />
 </div>

@@ -1,67 +1,70 @@
 <div #content>
-  <ptg-articles-filters (filtersChanged)="table.first = 0" />
+  <ptg-articles-filters (filtersChanged)="onFiltersChanged()" />
 </div>
+@if (!state.isLoading()) {
+  <p-table
+    #table
+    [value]="state.entities() || []"
+    [lazy]="true"
+    [paginator]="true"
+    [customSort]="true"
+    [rows]="ROWS_PER_PAGE"
+    [totalRecords]="state.total()"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (onSort)="onSort($event)"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template #header>
+      <tr>
+        <th class="min-w-20" pSortableColumn="id">
+          ID <p-sortIcon field="id" />
+        </th>
+        <th class="min-w-40" pSortableColumn="source">
+          Źródło <p-sortIcon field="source" />
+        </th>
+        <th pSortableColumn="title">Tytuł <p-sortIcon field="title" /></th>
+        <th>Branża</th>
+        <th pSortableColumn="publicationDate">
+          Data <p-sortIcon field="publicationDate" />
+        </th>
+        <th>Relevancy</th>
+        <th class="min-w-40" pSortableColumn="sentiment">
+          Sentyment <p-sortIcon field="sentiment" />
+        </th>
+        <th class="w-10">Akcje</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-element>
+      <tr>
+        <td>{{ element.id }}</td>
+        <td>{{ element.provider }}</td>
+        <td>{{ element.title }}</td>
+        <td>
+          <div class="flex flex-wrap gap-2">
+            @for (sector of element.sectors; track sector) {
+              <p-tag severity="secondary" [value]="sector | sector" />
+            }
+          </div>
+        </td>
+        <td>{{ element.publicationDate | date: 'dd.MM.yyyy' }}</td>
+        <td>{{ element.isRelevant ? 'Tak' : 'Nie' }}</td>
+        <td>
+          <span [class]="sentimentColors[element.sentiment]">{{
+            element.sentiment | sentiment
+          }}</span>
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-ellipsis-v"
+            [text]="true"
+            (click)="menu.toggle($event); menuSelectedItem.set(element)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
-<p-table
-  #table
-  [value]="state.entities() || []"
-  [lazy]="true"
-  [paginator]="true"
-  [customSort]="true"
-  [rows]="ROWS_PER_PAGE"
-  [totalRecords]="state.total()"
-  [tableStyle]="{ 'min-width': '50rem' }"
-  (onSort)="onSort($event)"
-  (onPage)="onPageChange($event)"
->
-  <ng-template #header>
-    <tr>
-      <th class="min-w-20" pSortableColumn="id">
-        ID <p-sortIcon field="id" />
-      </th>
-      <th class="min-w-40" pSortableColumn="source">
-        Źródło <p-sortIcon field="source" />
-      </th>
-      <th pSortableColumn="title">Tytuł <p-sortIcon field="title" /></th>
-      <th>Branża</th>
-      <th pSortableColumn="publicationDate">
-        Data <p-sortIcon field="publicationDate" />
-      </th>
-      <th>Relevancy</th>
-      <th class="min-w-40" pSortableColumn="sentiment">
-        Sentyment <p-sortIcon field="sentiment" />
-      </th>
-      <th class="w-10">Akcje</th>
-    </tr>
-  </ng-template>
-  <ng-template #body let-element>
-    <tr>
-      <td>{{ element.id }}</td>
-      <td>{{ element.provider }}</td>
-      <td>{{ element.title }}</td>
-      <td>
-        <div class="flex flex-wrap gap-2">
-          @for (sector of element.sectors; track sector) {
-            <p-tag severity="secondary" [value]="sector | sector" />
-          }
-        </div>
-      </td>
-      <td>{{ element.publicationDate | date: 'dd.MM.yyyy' }}</td>
-      <td>{{ element.isRelevant ? 'Tak' : 'Nie' }}</td>
-      <td>
-        <span [class]="sentimentColors[element.sentiment]">{{
-          element.sentiment | sentiment
-        }}</span>
-      </td>
-      <td>
-        <p-button
-          icon="pi pi-ellipsis-v"
-          [text]="true"
-          (click)="menu.toggle($event); menuSelectedItem.set(element)"
-        />
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-
-<p-menu #menu [model]="items()" [popup]="true" />
+  <p-menu #menu [model]="items()" [popup]="true" />
+} @else {
+  <ptg-articles-list-loading />
+}

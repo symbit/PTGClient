@@ -3,13 +3,13 @@ import {
   Component,
   computed,
   input,
-  ViewEncapsulation,
 } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { Card } from 'primeng/card';
 import { Chart, ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { NumberOfArticlesBySource } from '@ptg/articles-types';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 Chart.register(ChartDataLabels);
 
@@ -18,8 +18,7 @@ Chart.register(ChartDataLabels);
   templateUrl: './source-statistics.component.html',
   styleUrl: './source-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Card],
-  encapsulation: ViewEncapsulation.None,
+  imports: [BaseChartDirective, Card, EmptyStateComponent],
 })
 export class SourceStatisticsComponent {
   readonly numberOfArticlesBySource =

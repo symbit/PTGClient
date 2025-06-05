@@ -1,52 +1,75 @@
-@let user = authState.user();
-<p-card>
-  <ng-template #title>
-    <div class="flex items-center gap-2">
-      <h2 class="header-style-22">Twoje dane</h2>
+@if (!state.isLoading()) {
+  @let user = authState.user();
+  <p-card>
+    <ng-template #title>
+      <div class="flex items-center gap-2">
+        <h2 class="header-style-22">Twoje dane</h2>
 
-      @if (user) {
-        <p-tag severity="secondary" class="mr-2" [value]="user | userStatus" />
-      }
-    </div>
-  </ng-template>
+        @if (user) {
+          <p-tag
+            severity="secondary"
+            class="mr-2"
+            [value]="user | userStatus"
+          />
+        }
+      </div>
+    </ng-template>
 
-  <form [formGroup]="form" class="w-[400px] flex flex-col gap-2">
-    <div class="flex gap-2">
-      <div class="flex flex-col gap-2">
-        <label for="name">Imię</label>
-        <input pInputText id="name" formControlName="name" />
+    <form [formGroup]="form" class="w-[400px] flex flex-col gap-2">
+      <div class="flex gap-2">
+        <div class="flex flex-col gap-2">
+          <label for="name">Imię</label>
+          <input
+            placeholder="Imię"
+            pInputText
+            id="name"
+            formControlName="name"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="surname">Nazwisko</label>
+          <input
+            placeholder="Nazwisko"
+            pInputText
+            id="surname"
+            formControlName="surname"
+          />
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="surname">Nazwisko</label>
-        <input pInputText id="surname" formControlName="surname" />
+        <label for="email">Email</label>
+        <input
+          placeholder="Email"
+          pInputText
+          id="email"
+          formControlName="email"
+        />
       </div>
-    </div>
 
-    <div class="flex flex-col gap-2">
-      <label for="email">Email</label>
-      <input pInputText id="email" formControlName="email" />
-    </div>
+      <ptg-password-form [form]="passwordForm" />
 
-    <ptg-password-form [form]="passwordForm" />
+      <div class="flex gap-2">
+        <p-button
+          [disabled]="
+            (form.invalid || !form.dirty) &&
+            (passwordForm.invalid || !passwordForm.dirty)
+          "
+          label="Zapisz zmiany"
+          severity="secondary"
+          (click)="onSave()"
+        />
 
-    <div class="flex gap-2">
-      <p-button
-        [disabled]="
-          (form.invalid || !form.dirty) &&
-          (passwordForm.invalid || !passwordForm.dirty)
-        "
-        label="Zapisz zmiany"
-        severity="secondary"
-        (click)="onSave()"
-      />
-
-      <p-button
-        label="Anuluj"
-        variant="outlined"
-        severity="contrast"
-        routerLink="/users"
-      />
-    </div>
-  </form>
-</p-card>
+        <p-button
+          label="Anuluj"
+          variant="outlined"
+          severity="contrast"
+          routerLink="/users"
+        />
+      </div>
+    </form>
+  </p-card>
+} @else {
+  <ptg-your-data-loading />
+}

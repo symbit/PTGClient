@@ -11,6 +11,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { UserRolePipe, UserStatusPipe } from '@ptg/users-utils';
 import { Tooltip } from 'primeng/tooltip';
+import { UsersListLoadingComponent } from './users-list-loading.component';
 
 const ROWS_PER_PAGE = 10;
 
@@ -30,6 +31,7 @@ const ROWS_PER_PAGE = 10;
     UserStatusPipe,
     RouterLink,
     Tooltip,
+    UsersListLoadingComponent,
   ],
   providers: [ConfirmationService],
 })

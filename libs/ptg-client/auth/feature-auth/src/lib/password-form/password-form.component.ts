@@ -15,6 +15,7 @@ import { Password } from 'primeng/password';
         <label for="password">Hasło</label>
 
         <p-password
+          placeholder="Hasło"
           inputId="password"
           formControlName="password"
           promptLabel="Wpisz hasło"
@@ -28,6 +29,7 @@ import { Password } from 'primeng/password';
         <label for="confirmPassword">Powtórz hasło</label>
 
         <p-password
+          placeholder="Powtórz hasło"
           formControlName="confirmPassword"
           inputId="confirmPassword"
         />

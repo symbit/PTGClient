@@ -1,8 +1,14 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
@@ -16,6 +22,7 @@ import {
   setAllEntities,
   withEntities,
 } from '@ngrx/signals/entities';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
 interface UserState {
   user: User | null;
@@ -41,6 +48,7 @@ export const UserStore = signalStore(
     const service = inject(UserService);
     const router = inject(Router);
     const toastrService = inject(ToastrService);
+    const loadingService = inject(LoadingService);
 
     return {
       loadUsers: rxMethod<SearchCriteria>(
@@ -100,117 +108,84 @@ export const UserStore = signalStore(
       ),
       deleteUser: rxMethod<number>(
         switchMap((id: number) => {
-          patchState(store, {
-            userStateCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.deleteUser(id).pipe(
             tapResponse({
               next: () => {
-                patchState(
-                  store,
-                  {
-                    userStateCallState: LoadingState.LOADED,
-                  },
-                  removeEntity(id),
-                );
+                patchState(store, removeEntity(id));
+                loadingService.setLoading(false);
               },
-              error: (error) =>
-                patchState(store, {
-                  userStateCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
       createUser: rxMethod<User>(
         switchMap((user: User) => {
-          patchState(store, {
-            userStateCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.createUser(user).pipe(
             tapResponse({
               next: () => {
                 router.navigate(['/users']);
                 toastrService.success('Użytkownik utworzony pomyślnie!');
-                patchState(store, {
-                  userStateCallState: LoadingState.LOADED,
-                });
+                loadingService.setLoading(false);
               },
-              error: (error) =>
-                patchState(store, {
-                  userStateCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
       editUser: rxMethod<User>(
         switchMap((user: User) => {
-          patchState(store, {
-            userStateCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.editUser(user).pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, {
                   user: result,
-                  userStateCallState: LoadingState.LOADED,
                 });
+                loadingService.setLoading(false);
               },
-              error: (error) =>
-                patchState(store, {
-                  userStateCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
       updatePassword: rxMethod<{ email: string; newPassword: string }>(
         switchMap(({ email, newPassword }) => {
-          patchState(store, {
-            userStateCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.updatePassword(email, newPassword).pipe(
             tapResponse({
               next: () => {
-                patchState(store, {
-                  userStateCallState: LoadingState.LOADED,
-                });
+                loadingService.setLoading(false);
               },
-              error: (error) =>
-                patchState(store, {
-                  userStateCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
       inviteUser: rxMethod<number>(
         switchMap((id: number) => {
-          patchState(store, {
-            userStateCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.inviteUser(id).pipe(
             tapResponse({
               next: () => {
                 toastrService.success('Użytkownik zaproszony');
-                patchState(store, {
-                  userStateCallState: LoadingState.LOADED,
-                });
+                loadingService.setLoading(false);
               },
-              error: (error) =>
-                patchState(store, {
-                  userStateCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
     };
   }),
+  withComputed((store) => ({
+    isLoading: computed(() => store.isUserStateLoading()),
+  })),
 );

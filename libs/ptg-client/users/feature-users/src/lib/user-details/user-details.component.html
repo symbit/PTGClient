@@ -1,81 +1,100 @@
-@let user = state.user();
-<p-card>
-  <ng-template #title>
-    <div class="flex justify-between items-center">
-      <div class="flex items-center">
-        <ptg-back-button routerLink="/users" label="Szczegóły użytkownika" />
-        @if (user) {
-          <p-tag
-            severity="secondary"
-            class="mr-2"
-            [value]="user | userStatus"
-          />
+@if (!state.isLoading()) {
+  @let user = state.user();
+  <p-card>
+    <ng-template #title>
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <ptg-back-button routerLink="/users" label="Szczegóły użytkownika" />
+          @if (user) {
+            <p-tag
+              severity="secondary"
+              class="mr-2"
+              [value]="user | userStatus"
+            />
+          }
+        </div>
+        @if (isSuperadmin()) {
+          <div>
+            <p-button
+              label="Usuń"
+              severity="secondary"
+              (click)="onDelete($event)"
+            />
+            <p-confirm-dialog />
+          </div>
         }
       </div>
-      @if (isSuperadmin()) {
-        <div>
-          <p-button
-            label="Usuń"
-            severity="secondary"
-            (click)="onDelete($event)"
+    </ng-template>
+
+    <form [formGroup]="form" class="w-[400px] flex flex-col gap-2">
+      <div class="flex gap-2">
+        <div class="flex flex-col gap-2">
+          <label for="name">Imię</label>
+          <input
+            placeholder="Imię"
+            pInputText
+            id="name"
+            formControlName="name"
           />
-          <p-confirm-dialog />
         </div>
-      }
-    </div>
-  </ng-template>
 
-  <form [formGroup]="form" class="w-[400px] flex flex-col gap-2">
-    <div class="flex gap-2">
-      <div class="flex flex-col gap-2">
-        <label for="name">Imię</label>
-        <input pInputText id="name" formControlName="name" />
+        <div class="flex flex-col gap-2">
+          <label for="surname">Nazwisko</label>
+          <input
+            placeholder="nazwisko"
+            pInputText
+            id="surname"
+            formControlName="surname"
+          />
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="surname">Nazwisko</label>
-        <input pInputText id="surname" formControlName="surname" />
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label for="email">Email</label>
-      <input pInputText id="email" formControlName="email" />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label for="role">Rola</label>
-      <p-dropdown
-        formControlName="role"
-        id="role"
-        [options]="roles"
-        placeholder="Rola"
-      >
-        <ng-template pTemplate="selectedItem" let-role>
-          {{ role | userRole }}
-        </ng-template>
-
-        <ng-template pTemplate="item" let-role>
-          {{ role | userRole }}
-        </ng-template>
-      </p-dropdown>
-    </div>
-
-    <div class="flex gap-2">
-      @if (isSuperadmin()) {
-        <p-button
-          [disabled]="form.invalid || !form.dirty"
-          label="Zapisz zmiany"
-          severity="secondary"
-          (click)="onSave()"
+        <label for="email">Email</label>
+        <input
+          placeholder="Email"
+          pInputText
+          id="email"
+          formControlName="email"
         />
-      }
-      <p-button
-        label="Anuluj"
-        variant="outlined"
-        severity="contrast"
-        routerLink="/users"
-      />
-    </div>
-  </form>
-</p-card>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="role">Rola</label>
+        <p-dropdown
+          formControlName="role"
+          id="role"
+          [options]="roles"
+          placeholder="Rola"
+        >
+          <ng-template pTemplate="selectedItem" let-role>
+            {{ role | userRole }}
+          </ng-template>
+
+          <ng-template pTemplate="item" let-role>
+            {{ role | userRole }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="flex gap-2">
+        @if (isSuperadmin()) {
+          <p-button
+            [disabled]="form.invalid || !form.dirty"
+            label="Zapisz zmiany"
+            severity="secondary"
+            (click)="onSave()"
+          />
+        }
+        <p-button
+          label="Anuluj"
+          variant="outlined"
+          severity="contrast"
+          routerLink="/users"
+        />
+      </div>
+    </form>
+  </p-card>
+} @else {
+  <ptg-user-details-loading />
+}

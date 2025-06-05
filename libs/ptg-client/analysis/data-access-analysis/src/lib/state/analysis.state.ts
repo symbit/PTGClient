@@ -12,7 +12,6 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { AnalysisService } from '../service/analysis.service';
-import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 
 import {
   Analysis,
@@ -23,6 +22,7 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { round, uniq } from 'lodash-es';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
 interface AnalysisState {
   analysis: Analysis | null;
@@ -36,18 +36,16 @@ export const AnalysisStore = signalStore(
   { providedIn: 'root' },
   withDevtools('analysis'),
   withState(initialState),
-  withCallState('analysis'),
   withMethods((store) => {
     const service = inject(AnalysisService);
     const toastrService = inject(ToastrService);
     const router = inject(Router);
+    const loadingService = inject(LoadingService);
 
     return {
       createAnalysis: rxMethod<CreateAnalysis>(
         switchMap((payload: CreateAnalysis) => {
-          patchState(store, {
-            analysisCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.createAnalysis(payload).pipe(
             tapResponse({
@@ -55,14 +53,12 @@ export const AnalysisStore = signalStore(
                 router.navigate(['/analysis/results']);
                 patchState(store, {
                   analysis: result,
-                  analysisCallState: LoadingState.LOADED,
                 });
+                loadingService.setLoading(false);
               },
-              error: (error) => {
+              error: () => {
                 toastrService.error('Bład podczas tworzenia analizy.', 'Error');
-                patchState(store, {
-                  analysisCallState: { error },
-                });
+                loadingService.setLoading(false);
               },
             }),
           );
@@ -70,23 +66,19 @@ export const AnalysisStore = signalStore(
       ),
       updateAnalysis: rxMethod<CreateAnalysis>(
         switchMap((payload: CreateAnalysis) => {
-          patchState(store, {
-            analysisCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.createAnalysis(payload).pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, {
                   analysis: result,
-                  analysisCallState: LoadingState.LOADED,
                 });
+                loadingService.setLoading(false);
               },
-              error: (error) => {
+              error: () => {
                 toastrService.error('Bład podczas tworzenia analizy.', 'Error');
-                patchState(store, {
-                  analysisCallState: { error },
-                });
+                loadingService.setLoading(false);
               },
             }),
           );

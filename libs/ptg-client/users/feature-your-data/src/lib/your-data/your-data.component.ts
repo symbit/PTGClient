@@ -24,6 +24,7 @@ import {
   mustBeSame,
   PasswordFormComponent,
 } from '@ptg/auth-feature-auth';
+import { YourDataLoadingComponent } from './your-data-loading.component';
 
 @Component({
   selector: 'ptg-your-data',
@@ -41,6 +42,7 @@ import {
     UserStatusPipe,
     RouterLink,
     PasswordFormComponent,
+    YourDataLoadingComponent,
   ],
 })
 export class YourDataComponent {

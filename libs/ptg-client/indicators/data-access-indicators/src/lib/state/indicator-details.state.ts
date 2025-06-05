@@ -12,7 +12,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { IndicatorsService } from '../service/indicators.service';
-import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
+import { LoadingState } from '@ptg/shared-utils-signal-store';
 import {
   addEntities,
   addEntity,
@@ -25,38 +25,44 @@ import { Indicator, RealizationData } from '@ptg/indicators-types';
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { IndicatorRealizationDataService } from '../service/indicator-realization-data.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
-interface IndicatorsState {
+interface IndicatorDetailsState {
   indicator: Indicator | null;
   criteria: SearchCriteria;
   total: number;
   maxPage: number;
+  indicatorDetailsCallState: LoadingState;
+  indicatorDataCallState: LoadingState;
 }
 
-const initialState: IndicatorsState = {
+const initialState: IndicatorDetailsState = {
   indicator: null,
   criteria: DefaultSearchCriteria,
   total: 0,
   maxPage: 0,
+  indicatorDetailsCallState: LoadingState.INIT,
+  indicatorDataCallState: LoadingState.INIT,
 };
 
 export const IndicatorDetailsStore = signalStore(
   withDevtools('indicator details'),
   withState(initialState),
   withEntities<RealizationData>(),
-  withCallState('indicator details'),
   withMethods((store) => {
     const service = inject(IndicatorsService);
     const indicatorRealizationDataService = inject(
       IndicatorRealizationDataService,
     );
     const toastrService = inject(ToastrService);
+    const loadingService = inject(LoadingService);
 
     return {
       loadIndicator: rxMethod<number>(
         switchMap((id: number) => {
           patchState(store, {
             indicatorDetailsCallState: LoadingState.LOADING,
+            indicatorDataCallState: LoadingState.LOADING,
           });
 
           return service.getIndicator(id).pipe(
@@ -67,9 +73,9 @@ export const IndicatorDetailsStore = signalStore(
                   indicatorDetailsCallState: LoadingState.LOADED,
                 });
               },
-              error: (error) =>
+              error: () =>
                 patchState(store, {
-                  indicatorDetailsCallState: { error },
+                  indicatorDetailsCallState: LoadingState.LOADED,
                 }),
             }),
           );
@@ -89,10 +95,10 @@ export const IndicatorDetailsStore = signalStore(
                   indicatorDetailsCallState: LoadingState.LOADED,
                 });
               },
-              error: (error) => {
+              error: () => {
                 toastrService.error('Błąd edycji wskaźnika', 'Error');
                 patchState(store, {
-                  indicatorDetailsCallState: { error },
+                  indicatorDetailsCallState: LoadingState.LOADED,
                 });
               },
             }),
@@ -105,7 +111,7 @@ export const IndicatorDetailsStore = signalStore(
       }>(
         switchMap(({ searchCriteria, id }) => {
           patchState(store, {
-            indicatorDetailsCallState: LoadingState.LOADING,
+            indicatorDataCallState: LoadingState.LOADING,
             criteria: searchCriteria,
           });
 
@@ -119,15 +125,15 @@ export const IndicatorDetailsStore = signalStore(
                     {
                       total: result.total,
                       maxPage: result.maxPage,
-                      indicatorDetailsCallState: LoadingState.LOADED,
+                      indicatorDataCallState: LoadingState.LOADED,
                     },
                     setAllEntities(result.results),
                   );
                 },
-                error: (error) => {
+                error: () => {
                   toastrService.error('Błąd ładowania danych', 'Error');
                   patchState(store, {
-                    indicatorDetailsCallState: { error },
+                    indicatorDataCallState: LoadingState.LOADED,
                   });
                 },
               }),
@@ -136,28 +142,15 @@ export const IndicatorDetailsStore = signalStore(
       ),
       importDataPoints: rxMethod<{ file: File; id: number }>(
         switchMap(({ file, id }) => {
-          patchState(store, {
-            indicatorDetailsCallState: LoadingState.LOADING,
-          });
-
           return indicatorRealizationDataService
             .importDataPoints(file, id)
             .pipe(
               tapResponse({
                 next: (result) => {
-                  patchState(
-                    store,
-                    {
-                      indicatorDetailsCallState: LoadingState.LOADED,
-                    },
-                    addEntities(result),
-                  );
+                  patchState(store, addEntities(result));
                 },
-                error: (error) => {
+                error: () => {
                   toastrService.error('Import danych nie powiódł się', 'Error');
-                  patchState(store, {
-                    indicatorDetailsCallState: { error },
-                  });
                 },
               }),
             );
@@ -165,31 +158,22 @@ export const IndicatorDetailsStore = signalStore(
       ),
       addRealizationDataPoint: rxMethod<{ data: RealizationData; id: number }>(
         switchMap(({ data, id }) => {
-          patchState(store, {
-            indicatorDetailsCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return indicatorRealizationDataService
             .addRealizationDataPoint(data, id)
             .pipe(
               tapResponse({
                 next: (result) => {
-                  patchState(
-                    store,
-                    {
-                      indicatorDetailsCallState: LoadingState.LOADED,
-                    },
-                    addEntity(result),
-                  );
+                  patchState(store, addEntity(result));
+                  loadingService.setLoading(false);
                 },
-                error: (error) => {
+                error: () => {
                   toastrService.error(
                     'Dodawanie punktu danych nie powiodło się',
                     'Error',
                   );
-                  patchState(store, {
-                    indicatorDetailsCallState: { error },
-                  });
+                  loadingService.setLoading(false);
                 },
               }),
             );
@@ -197,9 +181,7 @@ export const IndicatorDetailsStore = signalStore(
       ),
       editRealizationDataPoint: rxMethod<RealizationData>(
         switchMap((data: RealizationData) => {
-          patchState(store, {
-            indicatorDetailsCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return indicatorRealizationDataService
             .editRealizationDataPoint(data)
@@ -208,20 +190,16 @@ export const IndicatorDetailsStore = signalStore(
                 next: (result) => {
                   patchState(
                     store,
-                    {
-                      indicatorDetailsCallState: LoadingState.LOADED,
-                    },
                     updateEntity({ id: result.id, changes: result }),
                   );
+                  loadingService.setLoading(false);
                 },
-                error: (error) => {
+                error: () => {
                   toastrService.error(
                     'Edycja punktu danych nie powiodła się',
                     'Error',
                   );
-                  patchState(store, {
-                    indicatorDetailsCallState: { error },
-                  });
+                  loadingService.setLoading(false);
                 },
               }),
             );
@@ -229,31 +207,22 @@ export const IndicatorDetailsStore = signalStore(
       ),
       removeRealizationDataPoint: rxMethod<number>(
         switchMap((id: number) => {
-          patchState(store, {
-            indicatorDetailsCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return indicatorRealizationDataService
             .removeRealizationDataPoint(id)
             .pipe(
               tapResponse({
                 next: () => {
-                  patchState(
-                    store,
-                    {
-                      indicatorDetailsCallState: LoadingState.LOADED,
-                    },
-                    removeEntity(id),
-                  );
+                  patchState(store, removeEntity(id));
+                  loadingService.setLoading(false);
                 },
-                error: (error) => {
+                error: () => {
                   toastrService.error(
                     'Usunięcie punktu danych nie powiodło się',
                     'Error',
                   );
-                  patchState(store, {
-                    indicatorDetailsCallState: { error },
-                  });
+                  loadingService.setLoading(false);
                 },
               }),
             );
@@ -263,5 +232,11 @@ export const IndicatorDetailsStore = signalStore(
   }),
   withComputed((store) => ({
     realizations: computed(() => store.indicator()?.realizations || []),
+    isIndicatorDetailsLoading: computed(
+      () => store.indicatorDetailsCallState() === LoadingState.LOADING,
+    ),
+    isIndicatorDataLoading: computed(
+      () => store.indicatorDataCallState() === LoadingState.LOADING,
+    ),
   })),
 );

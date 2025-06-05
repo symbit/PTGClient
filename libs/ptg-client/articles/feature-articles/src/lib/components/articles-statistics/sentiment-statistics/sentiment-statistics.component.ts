@@ -4,22 +4,21 @@ import {
   computed,
   inject,
   input,
-  ViewEncapsulation,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Card } from 'primeng/card';
 import { NumberOfArticlesBySentiment } from '@ptg/articles-types';
 import { ChartOptions, LegendItem } from 'chart.js';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 @Component({
   selector: 'ptg-sentiment-statistics',
-  imports: [BaseChartDirective, Card],
+  imports: [BaseChartDirective, Card, EmptyStateComponent],
   templateUrl: './sentiment-statistics.component.html',
   styleUrl: './sentiment-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DecimalPipe],
-  encapsulation: ViewEncapsulation.None,
 })
 export class SentimentStatisticsComponent {
   readonly totalNumberOfArticles = input.required<number>();

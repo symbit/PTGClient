@@ -10,13 +10,19 @@ import { IndicatorDataComponent } from '../indicator-data/indicator-data.compone
 import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { RouterLink } from '@angular/router';
 import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
+import { IndicatorDetailsLoadingComponent } from './indicator-details-loading.component';
+import { IndicatorDataLoadingComponent } from '../indicator-data/indicator-data-loading.component';
 
 @Component({
   selector: 'ptg-indicator-details',
   template: `
     <ptg-back-button routerLink="/indicators" label="Powrót do wskaźników" />
 
-    <ptg-indicator-information />
+    @if (!state.isIndicatorDetailsLoading()) {
+      <ptg-indicator-information />
+    } @else {
+      <ptg-indicator-details-loading />
+    }
 
     <ptg-indicator-data />
   `,
@@ -33,15 +39,17 @@ import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
     IndicatorDataComponent,
     BackButtonComponent,
     RouterLink,
+    IndicatorDetailsLoadingComponent,
+    IndicatorDataLoadingComponent,
   ],
   providers: [IndicatorDetailsStore],
 })
 export class IndicatorDetailsComponent implements AfterViewInit {
   readonly indicatorId = input<number>(0);
 
-  private readonly _state = inject(IndicatorDetailsStore);
+  readonly state = inject(IndicatorDetailsStore);
 
   ngAfterViewInit() {
-    this._state.loadIndicator(this.indicatorId());
+    this.state.loadIndicator(this.indicatorId());
   }
 }

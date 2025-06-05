@@ -4,7 +4,6 @@ import {
   computed,
   inject,
   input,
-  ViewEncapsulation,
 } from '@angular/core';
 import { Card } from 'primeng/card';
 import { BaseChartDirective } from 'ng2-charts';
@@ -19,7 +18,6 @@ import { DecimalPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Card, BaseChartDirective],
   providers: [DecimalPipe],
-  encapsulation: ViewEncapsulation.None,
 })
 export class GeneralStatisticsComponent {
   readonly totalNumberOfArticles = input.required<number>();

@@ -18,6 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 import { IndicatorRealizationImportComponent } from '../indicator-realization-import/indicator-realization-import.component';
 import { Tooltip } from 'primeng/tooltip';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 const ROWS_PER_PAGE = 10;
 
@@ -26,7 +27,15 @@ const ROWS_PER_PAGE = 10;
   templateUrl: './indicator-realization-data.component.html',
   styleUrl: './indicator-realization-data.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Card, Button, TableModule, DatePipe, ConfirmDialog, Tooltip],
+  imports: [
+    Card,
+    Button,
+    TableModule,
+    DatePipe,
+    ConfirmDialog,
+    Tooltip,
+    EmptyStateComponent,
+  ],
   providers: [DialogService, ConfirmationService],
 })
 export class IndicatorRealizationDataComponent {

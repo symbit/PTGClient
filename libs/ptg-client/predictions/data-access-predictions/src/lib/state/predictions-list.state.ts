@@ -1,7 +1,13 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import {
   removeAllEntities,
   removeEntity,
@@ -20,6 +26,7 @@ import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ForceNewPredictionComponent } from '@ptg/predictions-ui-force-new-prediction-dialog';
 import { ToastrService } from 'ngx-toastr';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
 interface PredictionsListState {
   criteria: SearchCriteria;
@@ -43,6 +50,7 @@ export const PredictionsListStore = signalStore(
     const router = inject(Router);
     const dialogService = inject(DialogService);
     const toastrService = inject(ToastrService);
+    const loadingService = inject(LoadingService);
 
     return {
       loadPredictions: rxMethod<SearchCriteria>(
@@ -64,6 +72,7 @@ export const PredictionsListStore = signalStore(
                   {
                     total: result.total,
                     maxPage: result.maxPage,
+                    predictionsListCallState: LoadingState.LOADED,
                   },
                   setAllEntities(result.results),
                 );
@@ -78,11 +87,14 @@ export const PredictionsListStore = signalStore(
       ),
       createPrediction: rxMethod<CreatePrediction>(
         switchMap((payload: CreatePrediction) => {
+          loadingService.setLoading(true);
+
           return service.createPrediction(payload).pipe(
             tapResponse({
               next: async (result) => {
                 if (result.created) {
                   router.navigate(['predictions']);
+                  loadingService.setLoading(false);
                 } else {
                   const force = await firstValueFrom(
                     dialogService.open(ForceNewPredictionComponent, {
@@ -106,6 +118,7 @@ export const PredictionsListStore = signalStore(
                   } else {
                     router.navigate(['predictions', result.prediction.id]);
                   }
+                  loadingService.setLoading(false);
                 }
               },
               error: (error: string) =>
@@ -118,19 +131,21 @@ export const PredictionsListStore = signalStore(
       ),
       deletePrediction: rxMethod<number>(
         switchMap((id: number) => {
+          loadingService.setLoading(true);
           return service.deletePrediction(id).pipe(
             tapResponse({
               next: () => {
                 patchState(store, removeEntity(id));
+                loadingService.setLoading(false);
               },
-              error: (error: string) =>
-                patchState(store, {
-                  predictionsListCallState: { error },
-                }),
+              error: () => loadingService.setLoading(false),
             }),
           );
         }),
       ),
     };
   }),
+  withComputed((store) => ({
+    isLoading: computed(() => store.isPredictionsListLoading()),
+  })),
 );

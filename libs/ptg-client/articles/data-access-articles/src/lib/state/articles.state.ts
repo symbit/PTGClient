@@ -30,6 +30,7 @@ import {
 } from '@ptg/articles-types';
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
 interface ArticlesState {
   criteria: SearchCriteria;
@@ -52,6 +53,7 @@ export const ArticlesStore = signalStore(
   withCallState('articles'),
   withMethods((store) => {
     const service = inject(ArticlesService);
+    const loadingService = inject(LoadingService);
 
     return {
       loadArticles: rxMethod<SearchCriteria>(
@@ -73,6 +75,7 @@ export const ArticlesStore = signalStore(
                   {
                     total: result.total,
                     maxPage: result.maxPage,
+                    articlesCallState: LoadingState.LOADED,
                   },
                   setAllEntities(result.results),
                 );
@@ -87,29 +90,23 @@ export const ArticlesStore = signalStore(
       ),
       setRelevancy: rxMethod<{ id: number; relevancy: boolean }>(
         switchMap(({ id, relevancy }) => {
-          patchState(store, {
-            articlesCallState: LoadingState.LOADING,
-          });
+          loadingService.setLoading(true);
 
           return service.setRelevancy(id, relevancy).pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, removeEntity(result.id));
+                loadingService.setLoading(false);
               },
-              error: (error: string) =>
-                patchState(store, {
-                  articlesCallState: { error },
-                }),
+              error: () => {
+                loadingService.setLoading(false);
+              },
             }),
           );
         }),
       ),
       setSentiment: rxMethod<{ id: number; sentiment: Sentiment }>(
         switchMap(({ id, sentiment }) => {
-          patchState(store, {
-            articlesCallState: LoadingState.LOADING,
-          });
-
           return service.setSentiment(id, sentiment).pipe(
             tapResponse({
               next: (result) => {
@@ -131,10 +128,6 @@ export const ArticlesStore = signalStore(
       ),
       setSectors: rxMethod<{ id: number; sectors: string[] }>(
         switchMap(({ id, sectors }) => {
-          patchState(store, {
-            articlesCallState: LoadingState.LOADING,
-          });
-
           return service.setSectors(id, sectors).pipe(
             tapResponse({
               next: (result) => {
@@ -163,7 +156,10 @@ export const ArticlesStore = signalStore(
           return service.getNewsDashboard().pipe(
             tapResponse({
               next: (result) => {
-                patchState(store, { statistics: result });
+                patchState(store, {
+                  statistics: result,
+                  articlesCallState: LoadingState.LOADED,
+                });
               },
               error: (error: string) =>
                 patchState(store, {
@@ -191,5 +187,6 @@ export const ArticlesStore = signalStore(
     articleInsights: computed<ArticleInsights | null>(
       () => store.statistics()?.articleInsights || null,
     ),
+    isLoading: computed(() => store.isArticlesLoading()),
   })),
 );

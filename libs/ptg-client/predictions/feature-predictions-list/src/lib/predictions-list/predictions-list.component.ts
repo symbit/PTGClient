@@ -11,6 +11,8 @@ import { PredictionPeriodPipe } from '@ptg/predictions-utils';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
+import { PredictionsListLoadingComponent } from './predictions-list-loading.component';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 const ROWS_PER_PAGE = 10;
 
@@ -29,6 +31,8 @@ const ROWS_PER_PAGE = 10;
     ConfirmDialog,
     PredictionPeriodPipe,
     PredictionStatusPillComponent,
+    PredictionsListLoadingComponent,
+    EmptyStateComponent,
   ],
   providers: [ConfirmationService],
 })

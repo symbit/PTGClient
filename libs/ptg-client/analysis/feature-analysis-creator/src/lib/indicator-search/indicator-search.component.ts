@@ -15,11 +15,11 @@ import { IndicatorSourceMapper } from '@ptg/shared-utils';
 import { InputText } from 'primeng/inputtext';
 import { RadioButton } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
-import { ConstantsStore } from '@ptg/shared-data-access-constants';
-import { map } from 'rxjs';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
-import { IndicatorsService } from '@ptg/indicators-data-access-indicators';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Indicator } from '@ptg/indicators-types';
+import { IndicatorSearchLocalState } from './indicator-search.local-state';
+import { IndicatorSearchLoadingComponent } from './indicator-search-loading.component';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 @Component({
   selector: 'ptg-indicator-search',
@@ -30,36 +30,18 @@ import { Indicator } from '@ptg/indicators-types';
     RadioButton,
     ReactiveFormsModule,
     Select,
+    IndicatorSearchLoadingComponent,
+    EmptyStateComponent,
   ],
   templateUrl: './indicator-search.component.html',
   styleUrl: './indicator-search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [IndicatorSearchLocalState],
 })
 export class IndicatorSearchComponent {
   private readonly _fb = inject(UntypedFormBuilder);
-  readonly constantsStore = inject(ConstantsStore);
   readonly selectedIndicatorChanged = output<Indicator>();
-
-  readonly indicators = rxResource({
-    request: () => this._formChanged(),
-    loader: () => {
-      return this._indicatorsService
-        .getIndicators({
-          page: 0,
-          pageSize: 0,
-          term: this.searchForm.get('term')?.value,
-          filters: [
-            {
-              name: 'source',
-              value: this.searchForm.get('source')?.value,
-              behaviour: 'AND',
-              operator: '==',
-            },
-          ],
-        })
-        .pipe(map((response) => response.results));
-    },
-  });
+  readonly state = inject(IndicatorSearchLocalState);
 
   readonly searchForm = this._fb.group({
     source: '',
@@ -68,9 +50,18 @@ export class IndicatorSearchComponent {
   readonly selectedIndicator = model<Indicator | null>(null);
 
   private readonly _formChanged = toSignal(this.searchForm.valueChanges);
-  private readonly _indicatorsService = inject(IndicatorsService);
 
   constructor() {
+    effect(() => {
+      const formValue = this._formChanged();
+      if (!formValue) return;
+
+      this.state.form.set({
+        source: formValue.source,
+        term: formValue.term,
+      });
+    });
+
     effect(() => {
       const selectedIndicator = this.selectedIndicator();
       if (!selectedIndicator) return;

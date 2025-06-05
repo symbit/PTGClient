@@ -11,6 +11,7 @@ import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { IndicatorRealizationComponent } from '@ptg/shared-feature-indicator-relization';
 import { Card } from 'primeng/card';
 import { Realization } from '@ptg/indicators-types';
+import { IndicatorDataLoadingComponent } from './indicator-data-loading.component';
 
 @Component({
   selector: 'ptg-indicator-data',
@@ -18,22 +19,27 @@ import { Realization } from '@ptg/indicators-types';
     IndicatorRealizationComponent,
     IndicatorRealizationDataComponent,
     Card,
+    IndicatorDataLoadingComponent,
   ],
   template: `
-    <p-card>
-      <ptg-indicator-realization
-        [realizations]="state.realizations()"
-        [initialRealization]="selectedRealization()"
-        (changeSelectedRealization)="selectedRealization.set($event)"
-      />
-    </p-card>
+    @if (!state.isIndicatorDataLoading()) {
+      <p-card>
+        <ptg-indicator-realization
+          [realizations]="state.realizations()"
+          [initialRealization]="selectedRealization()"
+          (changeSelectedRealization)="selectedRealization.set($event)"
+        />
+      </p-card>
 
-    <ptg-indicator-realization-data
-      [data]="state.entities()"
-      [total]="state.total()"
-      [realizationId]="selectedRealization()?.id || 0"
-      (loadRealizationData)="loadRealizationData($event)"
-    />
+      <ptg-indicator-realization-data
+        [data]="state.entities()"
+        [total]="state.total()"
+        [realizationId]="selectedRealization()?.id || 0"
+        (loadRealizationData)="loadRealizationData($event)"
+      />
+    } @else {
+      <ptg-indicator-data-loading />
+    }
   `,
   styles: `
     :host {

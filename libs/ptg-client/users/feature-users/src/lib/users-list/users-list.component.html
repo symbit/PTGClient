@@ -1,87 +1,92 @@
-<p-card>
-  <ng-template #title>
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="header-style-22">Lista Użytkowników</h2>
-      <p-button
-        label="Dodaj Użytkownika"
-        icon="pi pi-plus"
-        severity="secondary"
-        routerLink="/users/add"
-        size="small"
-      />
-    </div>
-  </ng-template>
-
-  <p-table
-    [value]="state.entities()"
-    [paginator]="true"
-    [rows]="ROWS_PER_PAGE"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    [totalRecords]="state.total()"
-  >
-    <ng-template #header>
-      <tr>
-        <th style="flex: 1">Użytkownik</th>
-        <th>Rola</th>
-        <th>Status</th>
-        <th class="w-40">Akcje</th>
-      </tr>
+@if (!state.isLoading()) {
+  <p-card>
+    <ng-template #title>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="header-style-22">Lista Użytkowników</h2>
+        <p-button
+          label="Dodaj Użytkownika"
+          icon="pi pi-plus"
+          severity="secondary"
+          routerLink="/users/add"
+          size="small"
+        />
+      </div>
     </ng-template>
-    <ng-template #body let-user>
-      <tr>
-        <td>
-          <div class="flex items-center">
-            <p-avatar icon="pi pi-user" class="mr-2" shape="circle" />
 
-            <div>
-              <p class="text-primary-100">{{ user.name }} {{ user.surname }}</p>
-              <p class="text-dark-200">{{ user.email }}</p>
+    <p-table
+      [value]="state.entities()"
+      [paginator]="true"
+      [rows]="ROWS_PER_PAGE"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [totalRecords]="state.total()"
+    >
+      <ng-template #header>
+        <tr>
+          <th style="flex: 1">Użytkownik</th>
+          <th>Rola</th>
+          <th>Status</th>
+          <th class="w-40">Akcje</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-user>
+        <tr>
+          <td>
+            <div class="flex items-center">
+              <p-avatar icon="pi pi-user" class="mr-2" shape="circle" />
+
+              <div>
+                <p class="text-primary-100">
+                  {{ user.name }} {{ user.surname }}
+                </p>
+                <p class="text-dark-200">{{ user.email }}</p>
+              </div>
             </div>
-          </div>
-        </td>
+          </td>
 
-        <td>
-          <p-tag
-            severity="secondary"
-            class="mr-2"
-            [value]="user.role | userRole"
-          />
-        </td>
-        <td>
-          <p-tag
-            severity="secondary"
-            class="mr-2"
-            [value]="user | userStatus"
-          />
-        </td>
-        <td>
-          <p-button
-            icon="pi pi-pen-to-square"
-            pTooltip="Edytuj użytkownika"
-            [rounded]="true"
-            [text]="true"
-            [routerLink]="[user.id]"
-          />
+          <td>
+            <p-tag
+              severity="secondary"
+              class="mr-2"
+              [value]="user.role | userRole"
+            />
+          </td>
+          <td>
+            <p-tag
+              severity="secondary"
+              class="mr-2"
+              [value]="user | userStatus"
+            />
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-pen-to-square"
+              pTooltip="Edytuj użytkownika"
+              [rounded]="true"
+              [text]="true"
+              [routerLink]="[user.id]"
+            />
 
-          <p-button
-            icon="pi pi-send"
-            pTooltip="Zaproś użytkownika"
-            [disabled]="user.isInvited"
-            [rounded]="true"
-            [text]="true"
-            (click)="onInvite($event, user)"
-          />
+            <p-button
+              icon="pi pi-send"
+              pTooltip="Zaproś użytkownika"
+              [rounded]="true"
+              [text]="true"
+              (click)="onInvite($event, user)"
+            />
 
-          <p-button
-            icon="pi pi-trash"
-            pTooltip="Usuń użytkownika"
-            [rounded]="true"
-            [text]="true"
-            (click)="onDelete($event, user)"
-          />
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-card>
-<p-confirm-dialog />
+            <p-button
+              icon="pi pi-trash"
+              pTooltip="Usuń użytkownika"
+              [rounded]="true"
+              [text]="true"
+              (click)="onDelete($event, user)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  <p-confirm-dialog />
+} @else {
+  <ptg-users-list-loading />
+}

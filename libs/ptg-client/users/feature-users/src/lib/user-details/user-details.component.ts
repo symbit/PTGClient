@@ -22,6 +22,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { UserRolePipe, UserStatusPipe } from '@ptg/users-utils';
+import { UserDetailsLoadingComponent } from './user-details-loading.component';
 
 @Component({
   selector: 'ptg-user-details',
@@ -40,6 +41,7 @@ import { UserRolePipe, UserStatusPipe } from '@ptg/users-utils';
     UserStatusPipe,
     ReactiveFormsModule,
     UserRolePipe,
+    UserDetailsLoadingComponent,
   ],
   providers: [ConfirmationService],
 })

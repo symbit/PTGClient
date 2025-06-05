@@ -17,6 +17,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, filter } from 'rxjs';
 import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { DefaultSearchCriteria } from '@ptg/shared-types';
+import { IndicatorsListLoadingComponent } from './indicators-list-loading.component';
+import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
 
 const ROWS_PER_PAGE = 20;
 
@@ -32,6 +34,8 @@ const ROWS_PER_PAGE = 20;
     IndicatorCardComponent,
     Paginator,
     ReactiveFormsModule,
+    IndicatorsListLoadingComponent,
+    EmptyStateComponent,
   ],
   encapsulation: ViewEncapsulation.None,
 })

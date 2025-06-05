@@ -8,11 +8,12 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  viewChild,
   ViewChild,
 } from '@angular/core';
 import { ArticlesStore } from '@ptg/articles-data-access-articles';
 import { DatePipe } from '@angular/common';
-import { TableModule, TablePageEvent } from 'primeng/table';
+import { Table, TableModule, TablePageEvent } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { MenuItem } from 'primeng/api';
@@ -31,6 +32,7 @@ import { ArticleEditDialogComponent } from '../article-edit-dialog/article-edit-
 import { Sort } from '@ptg/shared-types';
 import { ArticlesFiltersComponent } from '../articles-filters/articles-filters.component';
 import { DomPortal } from '@angular/cdk/portal';
+import { ArticlesListLoadingComponent } from './articles-list-loading.component';
 
 const ROWS_PER_PAGE = 10;
 
@@ -49,10 +51,12 @@ const ROWS_PER_PAGE = 10;
     Menu,
     SentimentMapper,
     ArticlesFiltersComponent,
+    ArticlesListLoadingComponent,
   ],
   providers: [ArticlesStore, DialogService],
 })
 export class ArticlesListComponent implements OnInit, OnDestroy {
+  readonly table = viewChild<Table>('table');
   readonly type = input<'rejected' | 'accepted'>();
   readonly state = inject(ArticlesStore);
 
@@ -203,6 +207,10 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
       pageSize: ROWS_PER_PAGE,
       filters: this._articlesStore.criteria().filters,
     });
+  }
+
+  onFiltersChanged(): void {
+    this.table()!.first = 0;
   }
 
   ngOnDestroy(): void {
