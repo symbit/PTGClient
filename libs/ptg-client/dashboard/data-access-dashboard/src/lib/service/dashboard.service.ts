@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { ConfigService } from '@ptg/shared-config';
 import { Article } from '@ptg/articles-types';
 import { Prediction } from '@ptg/predictions-types';
-import { Indicator } from '@ptg/indicators-types';
+import { CurrentJobOffers } from '../types/current-job-offers';
+import { DashboardChartData } from '../types/dashboard-chart-data';
+import { LastYearJobOffers } from '../types/last-year-job-offers';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +27,29 @@ export class DashboardService {
     );
   }
 
-  getRecentlyUpdatedIndicators(): Observable<Indicator[]> {
-    return this._httpClient.get<Indicator[]>(
-      `${this._apiUrl}/dashboard/recently-updated-indicators`,
+  getCurrentJobOffers(): Observable<CurrentJobOffers> {
+    return this._httpClient.get<CurrentJobOffers>(
+      `${this._apiUrl}/dashboard/current-job-offers`,
+    );
+  }
+
+  getLastYearJobOffers(): Observable<LastYearJobOffers> {
+    return combineLatest({
+      gowork: this._httpClient.get<DashboardChartData[]>(
+        `${this._apiUrl}/dashboard/gowork-job-offers-data`,
+      ),
+      pracujpl: this._httpClient.get<DashboardChartData[]>(
+        `${this._apiUrl}/dashboard/pracujpl-job-offers-data`,
+      ),
+      cbop: this._httpClient.get<DashboardChartData[]>(
+        `${this._apiUrl}/dashboard/cbop-job-offers-data`,
+      ),
+    });
+  }
+
+  getUnemploymentRateData(): Observable<DashboardChartData[]> {
+    return this._httpClient.get<DashboardChartData[]>(
+      `${this._apiUrl}/dashboard/unemployment-rate-data`,
     );
   }
 }

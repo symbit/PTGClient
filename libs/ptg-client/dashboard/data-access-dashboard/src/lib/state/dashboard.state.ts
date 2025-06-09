@@ -1,49 +1,81 @@
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { DashboardService } from '../service/dashboard.service';
 import { Article } from '@ptg/articles-types';
-import { withCallState } from '@ptg/shared-utils-signal-store';
 import { Prediction } from '@ptg/predictions-types';
-import { Indicator } from '@ptg/indicators-types';
+import { CurrentJobOffers } from '../types/current-job-offers';
+import { LastYearJobOffers } from '../types/last-year-job-offers';
+import { DashboardChartData } from '../types/dashboard-chart-data';
 
 interface DashboardState {
   predictions: Prediction[] | null;
   articles: Article[] | null;
-  indicators: Indicator[] | null;
+  currentJobOffers: CurrentJobOffers | null;
+  lastYearJobOffers: LastYearJobOffers | null;
+  unemploymentRateData: DashboardChartData[] | null;
+  loading: Record<string, boolean>;
 }
 
 const initialState: DashboardState = {
   predictions: null,
   articles: null,
-  indicators: null,
+  currentJobOffers: null,
+  lastYearJobOffers: null,
+  unemploymentRateData: null,
+  loading: {
+    predictions: false,
+    articles: false,
+    currentJobOffers: false,
+    lastYearJobOffers: false,
+    unemploymentRateData: false,
+  },
 };
 
 export const DashboardStore = signalStore(
   withDevtools('dashboard'),
   withState(initialState),
-  withCallState('dashboard'),
   withMethods((store) => {
     const service = inject(DashboardService);
 
     return {
       loadRecentPredictions: rxMethod<void>(
         switchMap(() => {
+          patchState(store, {
+            loading: {
+              ...store.loading(),
+              predictions: true,
+            },
+          });
+
           return service.getRecentPredictions().pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, {
                   predictions: result,
+                  loading: {
+                    ...store.loading(),
+                    predictions: false,
+                  },
                 });
               },
-              error: (error: string) =>
+              error: () =>
                 patchState(store, {
-                  dashboardCallState: { error },
+                  loading: {
+                    ...store.loading(),
+                    predictions: false,
+                  },
                 }),
             }),
           );
@@ -51,33 +83,123 @@ export const DashboardStore = signalStore(
       ),
       loadRecentArticles: rxMethod<void>(
         switchMap(() => {
+          patchState(store, {
+            loading: {
+              ...store.loading(),
+              articles: true,
+            },
+          });
+
           return service.getRecentArticles().pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, {
                   articles: result,
+                  loading: {
+                    ...store.loading(),
+                    articles: false,
+                  },
                 });
               },
-              error: (error: string) =>
+              error: () =>
                 patchState(store, {
-                  dashboardCallState: { error },
+                  loading: {
+                    ...store.loading(),
+                    articles: false,
+                  },
                 }),
             }),
           );
         }),
       ),
-      loadRecentlyUpdatedIndicators: rxMethod<void>(
+      loadCurrentJobOffers: rxMethod<void>(
         switchMap(() => {
-          return service.getRecentlyUpdatedIndicators().pipe(
+          patchState(store, {
+            loading: {
+              ...store.loading(),
+              currentJobOffers: true,
+            },
+          });
+
+          return service.getCurrentJobOffers().pipe(
             tapResponse({
               next: (result) => {
                 patchState(store, {
-                  indicators: result,
+                  currentJobOffers: result,
+                  loading: {
+                    ...store.loading(),
+                    currentJobOffers: false,
+                  },
                 });
               },
-              error: (error: string) =>
+              error: () =>
                 patchState(store, {
-                  dashboardCallState: { error },
+                  loading: {
+                    ...store.loading(),
+                    currentJobOffers: false,
+                  },
+                }),
+            }),
+          );
+        }),
+      ),
+      loadLastYearJobOffers: rxMethod<void>(
+        switchMap(() => {
+          patchState(store, {
+            loading: {
+              ...store.loading(),
+              lastYearJobOffers: true,
+            },
+          });
+
+          return service.getLastYearJobOffers().pipe(
+            tapResponse({
+              next: (result) => {
+                patchState(store, {
+                  lastYearJobOffers: result,
+                  loading: {
+                    ...store.loading(),
+                    lastYearJobOffers: false,
+                  },
+                });
+              },
+              error: () =>
+                patchState(store, {
+                  loading: {
+                    ...store.loading(),
+                    lastYearJobOffers: false,
+                  },
+                }),
+            }),
+          );
+        }),
+      ),
+      loadUnemploymentRateData: rxMethod<void>(
+        switchMap(() => {
+          patchState(store, {
+            loading: {
+              ...store.loading(),
+              unemploymentRateData: true,
+            },
+          });
+
+          return service.getUnemploymentRateData().pipe(
+            tapResponse({
+              next: (result) => {
+                patchState(store, {
+                  unemploymentRateData: result,
+                  loading: {
+                    ...store.loading(),
+                    unemploymentRateData: false,
+                  },
+                });
+              },
+              error: () =>
+                patchState(store, {
+                  loading: {
+                    ...store.loading(),
+                    unemploymentRateData: false,
+                  },
                 }),
             }),
           );
@@ -85,4 +207,9 @@ export const DashboardStore = signalStore(
       ),
     };
   }),
+  withComputed((store) => ({
+    isLoading: computed(() =>
+      Object.values(store.loading()).some((loading) => loading),
+    ),
+  })),
 );

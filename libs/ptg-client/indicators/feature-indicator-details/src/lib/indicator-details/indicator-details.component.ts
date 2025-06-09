@@ -11,7 +11,6 @@ import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { RouterLink } from '@angular/router';
 import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 import { IndicatorDetailsLoadingComponent } from './indicator-details-loading.component';
-import { IndicatorDataLoadingComponent } from '../indicator-data/indicator-data-loading.component';
 
 @Component({
   selector: 'ptg-indicator-details',
@@ -40,7 +39,6 @@ import { IndicatorDataLoadingComponent } from '../indicator-data/indicator-data-
     BackButtonComponent,
     RouterLink,
     IndicatorDetailsLoadingComponent,
-    IndicatorDataLoadingComponent,
   ],
   providers: [IndicatorDetailsStore],
 })

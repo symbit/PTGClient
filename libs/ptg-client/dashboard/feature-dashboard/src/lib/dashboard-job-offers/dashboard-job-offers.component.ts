@@ -2,42 +2,50 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  input,
+  inject,
 } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { Card } from 'primeng/card';
 import { Chart, ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { NumberOfArticlesBySource } from '@ptg/articles-types';
-import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
+import { DashboardStore } from '@ptg/dashboard-data-access-dashboard';
+import { Card } from 'primeng/card';
 
 Chart.register(ChartDataLabels);
 
 @Component({
-  selector: 'ptg-source-statistics',
-  templateUrl: './source-statistics.component.html',
-  styleUrl: './source-statistics.component.scss',
+  selector: 'ptg-dashboard-job-offers',
+  template: `
+    <p-card header="Liczba ofert pracy" styleClass="h-full">
+      <canvas
+        class="mt-4"
+        baseChart
+        [data]="chartData()"
+        [options]="options"
+        height="50"
+      >
+      </canvas>
+    </p-card>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Card, EmptyStateComponent],
+  imports: [BaseChartDirective, Card],
 })
-export class SourceStatisticsComponent {
-  readonly numberOfArticlesBySource =
-    input.required<NumberOfArticlesBySource | null>();
-
+export class DashboardJobOffersComponent {
+  readonly state = inject(DashboardStore);
   readonly chartData = computed(() => {
-    const numberOfArticlesBySource = this.numberOfArticlesBySource();
+    const currentJobOffers = this.state.currentJobOffers();
 
-    if (!numberOfArticlesBySource) return;
+    if (!currentJobOffers) return;
 
     return {
-      labels: ['Business Insider', 'PAP'],
+      labels: ['Pracuj.pl', 'GoWork', 'CBOP'],
       datasets: [
         {
           data: [
-            numberOfArticlesBySource.BusinessInsider,
-            numberOfArticlesBySource.PAP,
+            currentJobOffers.pracujPlActiveOffers,
+            currentJobOffers.goworkActiveOffers,
+            currentJobOffers.cbopActiveOffers,
           ],
-          backgroundColor: '#cce5ff',
+          backgroundColor: ['#D0332E', '#18366C', '#878D96'],
           borderRadius: 10,
           barThickness: 12,
         },

@@ -23,7 +23,9 @@ export const routes: Routes = [
 
             store.loadRecentPredictions();
             store.loadRecentArticles();
-            store.loadRecentlyUpdatedIndicators();
+            store.loadCurrentJobOffers();
+            store.loadLastYearJobOffers();
+            store.loadUnemploymentRateData();
           },
         ],
         loadComponent: () =>
