@@ -20,33 +20,33 @@ export const PredictionPeriods = {
   quarterly: [
     {
       label: '3 miesiące',
-      value: 1,
+      value: 3,
     },
     {
       label: '6 miesięcy',
-      value: 2,
+      value: 6,
     },
     {
       label: '12 miesięcy',
-      value: 4,
+      value: 12,
     },
   ],
   yearly: [
     {
       label: '1 rok',
-      value: 1,
+      value: 12,
     },
     {
       label: '2 lata',
-      value: 2,
+      value: 24,
     },
     {
       label: '3 lata',
-      value: 3,
+      value: 36,
     },
     {
       label: '5 lat',
-      value: 5,
+      value: 60,
     },
   ],
 };
