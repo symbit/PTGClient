@@ -57,6 +57,7 @@ export class IndicatorsListComponent {
     this.state.loadIndicators({
       ...DefaultSearchCriteria,
       page: this.currentPage(),
+      sort: 'id-asc',
       term: this.term() || '',
     });
 

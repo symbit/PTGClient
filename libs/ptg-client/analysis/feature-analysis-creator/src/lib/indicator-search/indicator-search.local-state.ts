@@ -22,14 +22,16 @@ export class IndicatorSearchLocalState {
           page: 0,
           pageSize: 0,
           term: this.form().term,
-          filters: [
-            {
-              name: 'source',
-              value: this.form().source,
-              behaviour: 'AND',
-              operator: '==',
-            },
-          ],
+          filters: this.form().source
+            ? [
+                {
+                  name: 'source',
+                  value: this.form().source,
+                  behaviour: 'AND',
+                  operator: '==',
+                },
+              ]
+            : [],
         })
         .pipe(map((response) => response.results));
     },
