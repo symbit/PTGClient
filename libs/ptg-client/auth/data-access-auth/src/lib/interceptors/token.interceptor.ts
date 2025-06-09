@@ -1,6 +1,6 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, of, throwError } from 'rxjs';
 
 import { AuthStore } from '../state/auth.state';
 
@@ -15,15 +15,14 @@ export const tokenInterceptor: HttpInterceptorFn = (request, next) => {
   });
 
   return next(request).pipe(
-    catchError((err) => {
+    catchError((err: HttpErrorResponse) => {
       if ([401, 403].includes(err.status)) {
-        // auto logout if 401 or 403 response returned from api
+        // Handle auth errors globally
         state.logout();
       }
 
-      const error = err.error?.message || err.statusText;
-      console.error(err);
-      return throwError(() => error);
+      // Re-throw the original error to preserve full error details
+      return throwError(() => err);
     }),
   );
 };
