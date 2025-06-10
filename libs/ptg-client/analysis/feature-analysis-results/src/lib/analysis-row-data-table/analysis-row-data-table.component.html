@@ -12,7 +12,12 @@
       <th>Data</th>
       @if (multipleAnalysis) {
         @for (value of data()[0].value; track value; let i = $index) {
-          <th>Wartość {{ i + 1 }}</th>
+          <th
+            [class.!text-primary-100]="i === 0"
+            [class.!text-secondary-100]="i === 1"
+          >
+            Wartość {{ i + 1 }}
+          </th>
         }
       } @else {
         <th>Wartość</th>
@@ -25,8 +30,11 @@
   <ng-template #body let-raw>
     <tr>
       <td>{{ raw.date | date: 'MM.yyyy' }}</td>
-      @for (value of raw.value; track value) {
-        <td>
+      @for (value of raw.value; track value; let i = $index) {
+        <td
+          [class.text-primary-100]="i === 0"
+          [class.text-secondary-100]="i === 1"
+        >
           {{ value }}
         </td>
       }

@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { round, uniq } from 'lodash-es';
 import { LoadingService } from '@ptg/shared/feature-loading';
-import { HttpErrorResponse } from '@angular/common/module.d-CnjH8Dlt';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface AnalysisState {
   analysis: Analysis | null;
@@ -58,7 +58,6 @@ export const AnalysisStore = signalStore(
                 loadingService.setLoading(false);
               },
               error: (error: HttpErrorResponse) => {
-                console.log(error);
                 toastrService.error(error.error.detail, 'Błąd');
                 loadingService.setLoading(false);
               },
