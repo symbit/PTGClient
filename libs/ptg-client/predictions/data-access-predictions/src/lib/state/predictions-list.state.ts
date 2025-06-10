@@ -12,6 +12,7 @@ import {
   removeAllEntities,
   removeEntity,
   setAllEntities,
+  updateEntity,
   withEntities,
 } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
@@ -27,6 +28,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ForceNewPredictionComponent } from '@ptg/predictions-ui-force-new-prediction-dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '@ptg/shared/feature-loading';
+import { update } from 'lodash-es';
 
 interface PredictionsListState {
   criteria: SearchCriteria;
@@ -136,6 +138,26 @@ export const PredictionsListStore = signalStore(
             tapResponse({
               next: () => {
                 patchState(store, removeEntity(id));
+                loadingService.setLoading(false);
+              },
+              error: () => loadingService.setLoading(false),
+            }),
+          );
+        }),
+      ),
+      retryPrediction: rxMethod<number>(
+        switchMap((id: number) => {
+          loadingService.setLoading(true);
+          return service.retryPrediction(id).pipe(
+            tapResponse({
+              next: (result) => {
+                patchState(
+                  store,
+                  updateEntity({
+                    id,
+                    changes: result,
+                  }),
+                );
                 loadingService.setLoading(false);
               },
               error: () => loadingService.setLoading(false),

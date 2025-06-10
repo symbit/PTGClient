@@ -10,6 +10,7 @@ export class PredictionStatusPillPipe implements PipeTransform {
     const label = predictionStatusMapper(status);
     switch (status) {
       case 'inprogress':
+      case 'retrying':
         return { label, class: 'in-progress' };
       case 'success':
         return { label, class: 'success' };
@@ -24,6 +25,7 @@ export class PredictionStatusPillPipe implements PipeTransform {
 export function predictionStatusMapper(status: PredictionStatus) {
   switch (status) {
     case 'inprogress':
+    case 'retrying':
       return 'W trakcie';
     case 'success':
       return 'Wygenerowana';

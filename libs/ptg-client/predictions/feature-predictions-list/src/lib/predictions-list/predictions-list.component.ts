@@ -1,18 +1,28 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TableModule, TablePageEvent } from 'primeng/table';
-import { Tooltip } from 'primeng/tooltip';
 import { PredictionsListStore } from '@ptg/predictions-data-access-predictions';
 import { DefaultSearchCriteria, Sort } from '@ptg/shared-types';
 import { PredictionPeriodPipe } from '@ptg/predictions-utils';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
 import { PredictionsListLoadingComponent } from './predictions-list-loading.component';
 import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
+import { Prediction } from '@ptg/predictions-types';
+import { Menu } from 'primeng/menu';
+import { firstValueFrom } from 'rxjs';
+import { ConfirmDeleteDialogComponent } from '@ptg/shared-ui-confirm-delete-dialog';
+import { DialogService } from 'primeng/dynamicdialog';
 
 const ROWS_PER_PAGE = 10;
 
@@ -27,20 +37,40 @@ const ROWS_PER_PAGE = 10;
     RouterLink,
     DatePipe,
     TableModule,
-    Tooltip,
     ConfirmDialog,
     PredictionPeriodPipe,
     PredictionStatusPillComponent,
     PredictionsListLoadingComponent,
     EmptyStateComponent,
+    Menu,
   ],
-  providers: [ConfirmationService],
+  providers: [DialogService],
 })
 export class PredictionsListComponent {
   readonly state = inject(PredictionsListStore);
   readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
+  readonly menuSelectedItem = signal<Prediction | null>(null);
+  readonly items = computed<MenuItem[]>(() => [
+    {
+      label: 'Szczegóły prognozy',
+      icon: 'pi pi-eye',
+      routerLink: [this.menuSelectedItem()?.id],
+    },
+    {
+      label: 'Wygeneruj ponownie',
+      icon: 'pi pi-reply',
+      visible: this.menuSelectedItem()?.status === 'failure',
+      command: () => this.retryPrediction(this.menuSelectedItem()?.id || 0),
+    },
+    {
+      label: 'Usuń prognozę',
+      icon: 'pi pi-trash',
+      command: () => this.onDelete(this.menuSelectedItem()?.id || 0),
+      iconClass: '!text-secondary-100',
+    },
+  ]);
 
-  private readonly _confirmationService = inject(ConfirmationService);
+  private readonly _dialogService = inject(DialogService);
 
   constructor() {
     this.state.loadPredictions({
@@ -68,25 +98,26 @@ export class PredictionsListComponent {
     });
   }
 
-  onDelete(event: Event, id: number): void {
-    this._confirmationService.confirm({
-      target: event.target as EventTarget,
-      header: 'Uwaga!',
-      message: 'Jesteś pewny, że chcesz usunąć wybraną prognozę?',
-      rejectLabel: 'Anuluj',
-      rejectButtonProps: {
-        label: 'Anuluj',
-        severity: 'contrast',
-        outlined: true,
-      },
-      acceptButtonProps: {
-        label: 'Usuń',
-        severity: 'secondary',
-      },
+  retryPrediction(id: number): void {
+    this.state.retryPrediction(id);
+  }
 
-      accept: () => {
-        this.state.deletePrediction(id);
-      },
-    });
+  async onDelete(id: number): Promise<void> {
+    const dialog = await firstValueFrom(
+      this._dialogService.open(ConfirmDeleteDialogComponent, {
+        header: 'Jesteś pewny, że chcesz usunąć wybraną prognozę?',
+        modal: true,
+        closable: false,
+        width: '500px',
+        data: {
+          confirmLabel: 'Usuń',
+          cancelLabel: 'Anuluj',
+        },
+      }).onClose,
+    );
+
+    if (dialog) {
+      this.state.deletePrediction(id);
+    }
   }
 }

@@ -63,7 +63,7 @@ export class ResetPasswordComponent {
 
     this.state.resetPassword({
       password: this.form.get('password')?.value,
-      token: this.activatedRoute.snapshot.paramMap.get('token') || '',
+      token: this.activatedRoute.snapshot.queryParamMap.get('token') || '',
     });
   }
 }

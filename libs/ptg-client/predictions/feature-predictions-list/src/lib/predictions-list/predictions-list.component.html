@@ -54,23 +54,11 @@
           </td>
           <td>{{ data.user.name }} {{ data.user.surname }}</td>
 
-          <td class="w-40">
+          <td>
             <p-button
-              icon="pi pi-eye"
-              pTooltip="Szczegóły prognozy"
-              [disabled]="data.status !== 'success'"
-              [rounded]="true"
+              icon="pi pi-ellipsis-v"
               [text]="true"
-              [routerLink]="[data.id]"
-            />
-
-            <p-button
-              icon="pi pi-trash"
-              severity="secondary"
-              pTooltip="Usuń prognozę"
-              [rounded]="true"
-              [text]="true"
-              (click)="onDelete($event, data.id)"
+              (click)="menu.toggle($event); menuSelectedItem.set(data)"
             />
           </td>
         </tr>
@@ -82,6 +70,7 @@
       </ng-template>
     </p-table>
   </p-card>
+  <p-menu #menu [model]="items()" [popup]="true" />
   <p-confirm-dialog />
 } @else {
   <ptg-predictions-list-loading />

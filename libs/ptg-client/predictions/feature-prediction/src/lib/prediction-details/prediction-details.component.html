@@ -43,4 +43,10 @@
   <p-card class="block mt-4" header="Analiza Ekonomiczna">
     <p class="body-style-16" [innerHTML]="prediction.generatedComment"></p>
   </p-card>
+
+  <ptg-prediction-used-data
+    class="block mt-4"
+    [explanatoryRealizations]="prediction.explanatoryRealizations"
+    [usedNewsArticles]="prediction.usedNewsArticles"
+  />
 }

@@ -47,6 +47,13 @@ export class PredictionsService {
     );
   }
 
+  retryPrediction(id: number): Observable<Prediction> {
+    return this._httpClient.post<Prediction>(
+      `${this._apiUrl}/predictions/${id}/retry`,
+      null,
+    );
+  }
+
   getPredictionsDefinitions(): Observable<PredictionDefinition[]> {
     return this._httpClient.get<PredictionDefinition[]>(
       `${this._apiUrl}/prediction-definitions`,

@@ -1,0 +1,40 @@
+<p-card header="Użyte dane">
+  <p-card>
+    <ng-template #title>
+      <p class="header-style-16">Wskaźniki</p>
+    </ng-template>
+
+    @for (realization of explanatoryRealizations(); track realization) {
+      <p>{{ realization.indicatorName }}</p>
+    }
+  </p-card>
+
+  @if (usedNewsArticles().length) {
+    <p-card class="block mt-4">
+      <ng-template #title>
+        <p class="header-style-16">Artykuły</p>
+      </ng-template>
+
+      @for (realization of explanatoryRealizations(); track realization) {
+        <p>{{ realization.indicatorName }}</p>
+      }
+
+      <p-carousel
+        [value]="usedNewsArticles()"
+        [numVisible]="3"
+        [numScroll]="3"
+        [circular]="false"
+      >
+        <ng-template let-source #item>
+          <a
+            class="block border rounded-md border-neutral-300 m-2 p-4 bg-neutral-400 max-w-1/3"
+            [href]="source.url"
+            target="_blank"
+          >
+            <p>{{ source.title }}</p>
+          </a>
+        </ng-template>
+      </p-carousel>
+    </p-card>
+  }
+</p-card>

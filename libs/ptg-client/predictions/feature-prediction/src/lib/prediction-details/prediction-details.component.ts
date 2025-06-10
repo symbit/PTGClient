@@ -18,6 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { PredictionForecastDataTableComponent } from '../prediction-forecast-data-table/prediction-forecast-data-table.component';
 import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
+import { PredictionUsedDataComponent } from '../prediction-used-data/prediction-used-data.component';
 
 @Component({
   selector: 'ptg-prediction-details',
@@ -36,6 +37,7 @@ import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-st
     PredictionPeriodPipe,
     PredictionForecastDataTableComponent,
     PredictionStatusPillComponent,
+    PredictionUsedDataComponent,
   ],
   providers: [PredictionDetailsStore, ConfirmationService],
 })

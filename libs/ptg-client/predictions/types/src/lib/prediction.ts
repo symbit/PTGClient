@@ -1,4 +1,5 @@
 import { RawTimeSeries, User } from '@ptg/shared-types';
+import { Article } from '@ptg/articles-types';
 
 export interface PredictionDefinition {
   id: number;
@@ -9,7 +10,11 @@ export interface PredictionDefinition {
   frequency: 'monthly' | 'quarterly' | 'yearly';
 }
 
-export type PredictionStatus = 'inprogress' | 'success' | 'failure';
+export type PredictionStatus =
+  | 'inprogress'
+  | 'success'
+  | 'failure'
+  | 'retrying';
 
 export interface PredictionAnalysisResults {
   forecast: PredictionForecast;
@@ -19,6 +24,12 @@ export interface PredictionAnalysisResults {
 export interface PredictionForecast extends RawTimeSeries {
   predictionLowerCi: number[];
   predictionUpperCi: number[];
+}
+
+export interface ExplanatoryRealization {
+  indicatorName: string;
+  region: string;
+  sector: string;
 }
 
 export interface Prediction {
@@ -33,4 +44,6 @@ export interface Prediction {
   status: PredictionStatus;
   dataImpliedEndDateTime: string;
   generatedComment: string;
+  explanatoryRealizations: ExplanatoryRealization[];
+  usedNewsArticles: Article[];
 }
