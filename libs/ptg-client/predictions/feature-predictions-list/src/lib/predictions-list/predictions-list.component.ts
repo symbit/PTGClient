@@ -37,7 +37,6 @@ const ROWS_PER_PAGE = 10;
     RouterLink,
     DatePipe,
     TableModule,
-    ConfirmDialog,
     PredictionPeriodPipe,
     PredictionStatusPillComponent,
     PredictionsListLoadingComponent,
