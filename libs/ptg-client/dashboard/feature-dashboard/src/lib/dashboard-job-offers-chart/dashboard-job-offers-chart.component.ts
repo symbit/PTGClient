@@ -6,35 +6,29 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DashboardStore } from '@ptg/dashboard-data-access-dashboard';
-import { BaseChartDirective } from 'ng2-charts';
 import { Card } from 'primeng/card';
-import { chartOptions } from '@ptg/shared-utils';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
+import { ChartData } from 'chart.js';
 
 @Component({
   selector: 'ptg-dashboard-job-offers-chart',
   template: `
     <p-card header="Liczba ofert pracy" styleClass="h-full">
-      <canvas
-        baseChart
-        [type]="'line'"
-        [data]="chartData()"
-        [options]="options"
-      >
-      </canvas>
+      <ptg-line-chart [data]="chartData()" [showZoomControls]="false" />
     </p-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
-  imports: [BaseChartDirective, Card],
+  imports: [Card, LineChartComponent],
 })
 export class DashboardJobOffersChartComponent {
   readonly state = inject(DashboardStore);
   readonly _datePipe = inject(DatePipe);
 
-  readonly chartData = computed(() => {
+  readonly chartData = computed<ChartData | null>(() => {
     const lastYearJobOffers = this.state.lastYearJobOffers();
 
-    if (!lastYearJobOffers) return;
+    if (!lastYearJobOffers) return null;
 
     return {
       labels: lastYearJobOffers.pracujpl.map(({ date }) =>
@@ -62,5 +56,4 @@ export class DashboardJobOffersChartComponent {
       ],
     };
   });
-  readonly options = chartOptions;
 }

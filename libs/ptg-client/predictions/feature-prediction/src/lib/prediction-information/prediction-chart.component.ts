@@ -5,23 +5,17 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { chartOptions } from '@ptg/shared-utils';
 import { DatePipe } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
 import { PredictionAnalysisResults } from '@ptg/predictions-types';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
 import { Card } from 'primeng/card';
+import { ChartData } from 'chart.js';
 
 @Component({
   selector: 'ptg-prediction-chart',
   template: `
     <p-card>
-      <canvas
-        baseChart
-        [type]="'line'"
-        [data]="chartData()"
-        [options]="options"
-      >
-      </canvas>
+      <ptg-line-chart [data]="chartData()" />
     </p-card>
   `,
   styles: `
@@ -30,7 +24,7 @@ import { Card } from 'primeng/card';
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Card],
+  imports: [Card, LineChartComponent],
   providers: [DatePipe],
 })
 export class PredictionChartComponent {
@@ -38,9 +32,7 @@ export class PredictionChartComponent {
 
   readonly analysisResults = input.required<PredictionAnalysisResults>();
 
-  readonly options = chartOptions;
-
-  readonly chartData = computed(() => {
+  readonly chartData = computed<ChartData>(() => {
     const analysisResults = this.analysisResults();
 
     return {

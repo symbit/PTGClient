@@ -3,16 +3,11 @@
     <h3 class="header-style-16">Sentyment</h3>
 
     @if (totalNumberOfArticles()) {
-      <div class="w-11/12">
-        <canvas
-          class="mt-4"
-          baseChart
-          type="doughnut"
-          [data]="chartData()"
-          [options]="options"
-        >
-        </canvas>
-      </div>
+      <ptg-doughnut-chart
+        class="block w-11/12"
+        [data]="chartData()"
+        [options]="options"
+      />
     } @else {
       <ptg-empty-state />
     }

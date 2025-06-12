@@ -5,36 +5,30 @@ import {
   inject,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
 import { Card } from 'primeng/card';
 import { DashboardStore } from '@ptg/dashboard-data-access-dashboard';
-import { chartOptions } from '@ptg/shared-utils';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
+import { ChartData } from 'chart.js';
 
 @Component({
   selector: 'ptg-dashboard-unemployment-rate-chart',
   template: `
     <p-card header="Stopa bezrobocia rejestrowanego" styleClass="h-full">
-      <canvas
-        baseChart
-        [type]="'line'"
-        [data]="chartData()"
-        [options]="options"
-      >
-      </canvas>
+      <ptg-line-chart [data]="chartData()" [showZoomControls]="false" />
     </p-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Card],
+  imports: [Card, LineChartComponent],
   providers: [DatePipe],
 })
 export class DashboardUnemploymentRateChartComponent {
   readonly state = inject(DashboardStore);
   readonly _datePipe = inject(DatePipe);
 
-  readonly chartData = computed(() => {
+  readonly chartData = computed<ChartData | null>(() => {
     const unemploymentRateData = this.state.unemploymentRateData();
 
-    if (!unemploymentRateData) return;
+    if (!unemploymentRateData) return null;
 
     return {
       labels: unemploymentRateData.map(({ date }) =>
@@ -49,5 +43,4 @@ export class DashboardUnemploymentRateChartComponent {
       ],
     };
   });
-  readonly options = chartOptions;
 }

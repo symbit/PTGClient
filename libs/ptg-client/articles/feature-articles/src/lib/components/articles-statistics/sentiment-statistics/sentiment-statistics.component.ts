@@ -6,15 +6,15 @@ import {
   input,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
 import { Card } from 'primeng/card';
 import { NumberOfArticlesBySentiment } from '@ptg/articles-types';
-import { ChartOptions, LegendItem } from 'chart.js';
+import { ChartData, ChartOptions, LegendItem } from 'chart.js';
 import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
+import { DoughnutChartComponent } from '@ptg/shared-ui-chart';
 
 @Component({
   selector: 'ptg-sentiment-statistics',
-  imports: [BaseChartDirective, Card, EmptyStateComponent],
+  imports: [Card, EmptyStateComponent, DoughnutChartComponent],
   templateUrl: './sentiment-statistics.component.html',
   styleUrl: './sentiment-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,10 +102,10 @@ export class SentimentStatisticsComponent {
     },
   };
 
-  readonly chartData = computed(() => {
+  readonly chartData = computed<ChartData | null>(() => {
     const numberOfArticlesBySentiment = this.numberOfArticlesBySentiment();
 
-    if (!numberOfArticlesBySentiment) return;
+    if (!numberOfArticlesBySentiment) return null;
 
     return {
       labels: ['Pozytywny', 'Neutralny', 'Negatywny'],

@@ -18,21 +18,19 @@ import {
   Forecast,
   InSamplePrediction,
 } from '@ptg/analysis-types';
-import { chartOptions } from '@ptg/shared-utils';
 import { RawTimeSeries } from '@ptg/shared-types';
 
-import { BaseChartDirective } from 'ng2-charts';
-
 import { AnalysisChartConfigComponent } from '../analysis-chart-config/analysis-chart-config.component';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
 
 @Component({
   selector: 'ptg-analysis-chart',
   imports: [
-    BaseChartDirective,
     AnalysisChartConfigComponent,
     Card,
     ToggleSwitch,
     FormsModule,
+    LineChartComponent,
   ],
   templateUrl: './analysis-chart.component.html',
   styleUrl: './analysis-chart.component.scss',
@@ -51,7 +49,6 @@ export class AnalysisChartComponent {
 
   readonly showArima = signal<boolean>(false);
   readonly showEma = signal<boolean>(true);
-  readonly options = chartOptions;
 
   readonly chartData = computed(() => {
     const rawTimeSeries = this.rawTimeSeries();

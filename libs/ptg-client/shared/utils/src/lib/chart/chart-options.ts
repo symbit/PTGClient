@@ -1,30 +1,53 @@
 import { ChartOptions, LegendItem } from 'chart.js';
-import zoomPlugin from 'chartjs-plugin-zoom';
 import { Chart } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import 'chartjs-adapter-date-fns';
 
 Chart.register(zoomPlugin);
 
-const zoomOptions = {
-  pan: {
-    enabled: true,
-    mode: 'xy',
-  },
-  zoom: {
-    wheel: {
-      enabled: true,
-    },
-    pinch: {
-      enabled: true,
-    },
-    mode: 'xy',
-  },
-} as any;
+export function mergeChartOptions(target: any, source: any): any {
+  if (typeof source !== 'object' || source === null) return source;
+
+  const result = { ...target };
+
+  for (const key of Object.keys(source)) {
+    const sourceValue = source[key];
+    const targetValue = result[key];
+
+    if (Array.isArray(sourceValue)) {
+      result[key] = sourceValue.slice(); // Shallow copy array
+    } else if (
+      typeof sourceValue === 'object' &&
+      sourceValue !== null &&
+      typeof targetValue === 'object' &&
+      targetValue !== null
+    ) {
+      result[key] = mergeChartOptions(targetValue, sourceValue);
+    } else {
+      result[key] = sourceValue;
+    }
+  }
+
+  return result;
+}
 
 export const chartOptions: ChartOptions = {
   responsive: true,
+  animation: false,
   aspectRatio: 3,
   scales: {
     x: {
+      type: 'time',
+      time: {
+        unit: 'month',
+        displayFormats: {
+          month: 'MM.yyyy', // Display format
+        },
+        parser: 'MM.yyyy', // Input format
+      },
+      ticks: {
+        source: 'auto',
+      },
       grid: {
         display: false,
       },
@@ -46,9 +69,23 @@ export const chartOptions: ChartOptions = {
         boxHeight: 10,
       },
     },
-    zoom: zoomOptions,
+    zoom: {
+      pan: {
+        enabled: true,
+        mode: 'xy',
+      },
+      zoom: {
+        wheel: {
+          enabled: true,
+        },
+        pinch: {
+          enabled: true,
+        },
+        mode: 'xy',
+      },
+    },
     datalabels: {
       display: false,
-    } as any,
+    },
   },
 };

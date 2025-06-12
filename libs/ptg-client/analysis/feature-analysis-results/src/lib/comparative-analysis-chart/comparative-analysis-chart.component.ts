@@ -5,18 +5,18 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
-import { ChartOptions, LegendItem } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { Card } from 'primeng/card';
 import { ComparativeAnalysisChart } from '@ptg/analysis-types';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
 
 @Component({
   selector: 'ptg-comparative-analysis-chart',
   templateUrl: './comparative-analysis-chart.component.html',
   styleUrl: './comparative-analysis-chart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Card],
+  imports: [Card, LineChartComponent],
   providers: [DatePipe],
 })
 export class ComparativeAnalysisChartComponent {
@@ -26,8 +26,6 @@ export class ComparativeAnalysisChartComponent {
     input.required<ComparativeAnalysisChart>();
 
   readonly options: ChartOptions = {
-    responsive: true,
-    aspectRatio: 3,
     scales: {
       x: {
         grid: {
@@ -45,23 +43,6 @@ export class ComparativeAnalysisChartComponent {
         position: 'right',
         grid: {
           drawOnChartArea: false,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: true,
-        position: 'right',
-        align: 'start',
-        onClick: () => null,
-        labels: {
-          filter: (legendItem: LegendItem) => {
-            return !!legendItem.text;
-          },
-          useBorderRadius: true,
-          borderRadius: 5,
-          boxWidth: 10,
-          boxHeight: 10,
         },
       },
     },

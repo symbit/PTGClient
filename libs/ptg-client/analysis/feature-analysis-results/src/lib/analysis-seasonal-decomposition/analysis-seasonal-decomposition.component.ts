@@ -6,36 +6,29 @@ import {
   input,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
-import { chartOptions } from '@ptg/shared-utils';
 import { SeasonalDecomposition } from '@ptg/analysis-types';
+import { LineChartComponent } from '@ptg/shared-ui-chart';
 
 @Component({
   selector: 'ptg-analysis-seasonal-decomposition',
-  imports: [BaseChartDirective],
+  imports: [LineChartComponent],
   template: `
     <div>
       <h2 class="header-style-18">Trend</h2>
-      <canvas
-        class="mt-4"
-        baseChart
-        type="line"
-        [options]="trendChartOptions"
+      <ptg-line-chart
+        class="block mt-4"
         [data]="trendChartData()"
-      >
-      </canvas>
+        [overrideOptions]="trendChartOptions"
+      />
     </div>
 
     <div class="mt-12">
       <h2 class="header-style-18">Składowa sezonowa</h2>
-      <canvas
-        class="mt-4"
-        baseChart
-        type="line"
-        [options]="seasonalChartOptions"
+      <ptg-line-chart
+        class="block mt-4"
         [data]="seasonalChartData()"
-      >
-      </canvas>
+        [overrideOptions]="seasonalChartOptions"
+      />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,11 +38,8 @@ export class AnalysisSeasonalDecompositionComponent {
   private readonly _datePipe = inject(DatePipe);
 
   readonly seasonalDecomposition = input.required<SeasonalDecomposition>();
-
   readonly trendChartOptions = {
-    ...chartOptions,
     scales: {
-      ...chartOptions.scales,
       y: {
         title: {
           display: true,
@@ -60,9 +50,7 @@ export class AnalysisSeasonalDecompositionComponent {
   };
 
   readonly seasonalChartOptions = {
-    ...chartOptions,
     scales: {
-      ...chartOptions.scales,
       y: {
         title: {
           display: true,

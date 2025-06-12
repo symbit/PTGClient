@@ -40,6 +40,9 @@ export class AnalysisAutocorrelationChartComponent {
       legend: {
         display: false,
       },
+      datalabels: {
+        display: false,
+      },
     },
   };
 
@@ -69,6 +72,9 @@ export class AnalysisAutocorrelationChartComponent {
           tooltip: {
             enabled: false,
           },
+          datalabels: {
+            display: false,
+          },
         },
         {
           type: 'line',
@@ -80,6 +86,9 @@ export class AnalysisAutocorrelationChartComponent {
           tension: 0,
           tooltip: {
             enabled: false,
+          },
+          datalabels: {
+            display: false,
           },
         },
       ],

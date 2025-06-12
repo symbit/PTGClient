@@ -11,15 +11,11 @@
   </ng-template>
 
   <div class="flex gap-4">
-    <div class="flex flex-1">
-      <canvas
-        baseChart
-        [type]="'line'"
-        [data]="chartData()"
-        [options]="options"
-      >
-      </canvas>
-    </div>
+    <ptg-line-chart
+      class="flex flex-1"
+      [data]="chartData()"
+      zoomPosition="top-left"
+    />
     <div class="flex flex-col gap-4 w-[200px]">
       <div class="flex gap-2">
         <p-toggleswitch

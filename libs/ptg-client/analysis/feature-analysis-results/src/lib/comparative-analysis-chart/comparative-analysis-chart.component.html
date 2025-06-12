@@ -4,6 +4,10 @@
       <h2 class="header-style-18">Wykres</h2>
     </div>
   </ng-template>
-  <canvas baseChart [type]="'line'" [data]="chartData()" [options]="options">
-  </canvas>
+
+  <ptg-line-chart
+    [data]="chartData()"
+    zoomPosition="right-bottom"
+    [overrideOptions]="options"
+  />
 </p-card>

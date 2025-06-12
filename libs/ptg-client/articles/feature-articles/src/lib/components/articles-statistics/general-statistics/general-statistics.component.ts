@@ -6,17 +6,17 @@ import {
   input,
 } from '@angular/core';
 import { Card } from 'primeng/card';
-import { BaseChartDirective } from 'ng2-charts';
 import { NumberOfArticlesByRelevancy } from '@ptg/articles-types';
-import { ChartOptions, LegendItem } from 'chart.js';
+import { ChartData, ChartOptions, LegendItem } from 'chart.js';
 import { DecimalPipe } from '@angular/common';
+import { DoughnutChartComponent } from '@ptg/shared-ui-chart';
 
 @Component({
   selector: 'ptg-general-statistics',
   templateUrl: './general-statistics.component.html',
   styleUrl: './general-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Card, BaseChartDirective],
+  imports: [Card, DoughnutChartComponent],
   providers: [DecimalPipe],
 })
 export class GeneralStatisticsComponent {
@@ -79,10 +79,10 @@ export class GeneralStatisticsComponent {
     },
   };
 
-  readonly chartData = computed(() => {
+  readonly chartData = computed<ChartData | null>(() => {
     const numberOfArticlesByRelevancy = this.numberOfArticlesByRelevancy();
 
-    if (!numberOfArticlesByRelevancy) return;
+    if (!numberOfArticlesByRelevancy) return null;
 
     return {
       labels: ['Relevant', 'Irrelevant'],
