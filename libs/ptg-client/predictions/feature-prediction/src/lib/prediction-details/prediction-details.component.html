@@ -41,6 +41,19 @@
   </p-card>
 
   <p-card class="block mt-4" header="Analiza Ekonomiczna">
+    <ng-template #title>
+      <div class="flex justify-between items-center">
+        <h2 class="header-style-20">Analiza Ekonomiczna</h2>
+
+        <p-button
+          icon="pi pi-copy"
+          [rounded]="true"
+          [text]="true"
+          (click)="copyPredictionComment()"
+        />
+      </div>
+    </ng-template>
+
     <p class="body-style-16" [innerHTML]="prediction.generatedComment"></p>
   </p-card>
 

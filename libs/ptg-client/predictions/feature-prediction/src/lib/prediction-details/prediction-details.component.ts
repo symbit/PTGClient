@@ -5,19 +5,23 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { PredictionDetailsStore } from '@ptg/predictions-data-access-predictions';
-import { Card } from 'primeng/card';
-import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Clipboard } from '@angular/cdk/clipboard';
+
+import { PredictionDetailsStore } from '@ptg/predictions-data-access-predictions';
+import { BackButtonComponent } from '@ptg/shared-ui-back-button';
 import { PredictionPeriodPipe } from '@ptg/predictions-utils';
+import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
+
+import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
-import { PredictionChartComponent } from '../prediction-information/prediction-chart.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+
+import { PredictionChartComponent } from '../prediction-information/prediction-chart.component';
 import { PredictionForecastDataTableComponent } from '../prediction-forecast-data-table/prediction-forecast-data-table.component';
-import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
 import { PredictionUsedDataComponent } from '../prediction-used-data/prediction-used-data.component';
 
 @Component({
@@ -46,6 +50,7 @@ export class PredictionDetailsComponent implements AfterViewInit {
   readonly state = inject(PredictionDetailsStore);
 
   private readonly _confirmationService = inject(ConfirmationService);
+  private readonly _clipboard = inject(Clipboard);
 
   ngAfterViewInit(): void {
     this.state.loadPrediction(this.id() || 0);
@@ -71,5 +76,11 @@ export class PredictionDetailsComponent implements AfterViewInit {
         this.state.deletePrediction(id);
       },
     });
+  }
+
+  copyPredictionComment() {
+    const comment = document.createElement('div');
+    comment.innerHTML = this.state.prediction()?.generatedComment || '';
+    this._clipboard.copy(comment?.textContent || '');
   }
 }
