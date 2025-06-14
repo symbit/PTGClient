@@ -14,7 +14,11 @@ import { ChartData } from 'chart.js';
   selector: 'ptg-dashboard-job-offers-chart',
   template: `
     <p-card header="Liczba ofert pracy" styleClass="h-full">
-      <ptg-line-chart [data]="chartData()" [showZoomControls]="false" />
+      <ptg-line-chart
+        [data]="chartData()"
+        [showZoomControls]="false"
+        [overrideOptions]="options"
+      />
     </p-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +28,24 @@ import { ChartData } from 'chart.js';
 export class DashboardJobOffersChartComponent {
   readonly state = inject(DashboardStore);
   readonly _datePipe = inject(DatePipe);
+
+  readonly options = {
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: false,
+        },
+        zoom: {
+          wheel: {
+            enabled: false,
+          },
+          pinch: {
+            enabled: false,
+          },
+        },
+      },
+    },
+  };
 
   readonly chartData = computed<ChartData | null>(() => {
     const lastYearJobOffers = this.state.lastYearJobOffers();

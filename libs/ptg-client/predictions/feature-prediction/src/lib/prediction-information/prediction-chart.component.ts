@@ -49,14 +49,6 @@ export class PredictionChartComponent {
           ],
           pointRadius: 2,
           borderColor: '#D0332E',
-          segment: {
-            borderDash: (ctx: any) => {
-              return ctx.p0DataIndex >=
-                analysisResults.rawTimeSeries.values.length
-                ? [6, 6]
-                : undefined;
-            },
-          },
         },
         // przedziały ufności
         {
