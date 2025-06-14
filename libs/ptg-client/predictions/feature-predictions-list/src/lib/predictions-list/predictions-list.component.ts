@@ -13,7 +13,6 @@ import { TableModule, TablePageEvent } from 'primeng/table';
 import { PredictionsListStore } from '@ptg/predictions-data-access-predictions';
 import { DefaultSearchCriteria, Sort } from '@ptg/shared-types';
 import { PredictionPeriodPipe } from '@ptg/predictions-utils';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MenuItem } from 'primeng/api';
 import { PredictionStatusPillComponent } from '@ptg/predictions-ui-prediction-status-pill';
 import { PredictionsListLoadingComponent } from './predictions-list-loading.component';

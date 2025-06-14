@@ -1,76 +1,82 @@
-@if (!state.isLoading()) {
-  <p-card>
-    <ng-template #title>
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="header-style-22">Wygenerowane prognozy</h2>
-        <p-button
-          label="Nowa prognoza"
-          icon="pi pi-chart-line"
-          severity="secondary"
-          routerLink="/predictions/creator"
-          size="small"
-        />
-      </div>
+<p-card>
+  <ng-template #title>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="header-style-22">Wygenerowane prognozy</h2>
+      <p-button
+        label="Nowa prognoza"
+        icon="pi pi-chart-line"
+        severity="secondary"
+        routerLink="/predictions/creator"
+        size="small"
+      />
+    </div>
+  </ng-template>
+
+  <p-table
+    [value]="state.entities() || []"
+    [lazy]="true"
+    [paginator]="true"
+    [totalRecords]="state.total()"
+    [rows]="ROWS_PER_PAGE"
+    [loading]="state.isLoading()"
+    loadingIcon="null"
+    (onSort)="onSort($event)"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="name">
+          Nazwa prognozy <p-sortIcon field="name" />
+        </th>
+        <th pSortableColumn="generationDate">
+          Data wygenerowania <p-sortIcon field="generationDate" />
+        </th>
+        <th>Okres</th>
+        <th pSortableColumn="status">
+          Status generowania <p-sortIcon field="status" />
+        </th>
+        <th pSortableColumn="user">Autor <p-sortIcon field="user" /></th>
+        <th>Akcje</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-data>
+      <tr>
+        <td>{{ data.predictionDefinition.name }}</td>
+        <td>{{ data.generationDate | date: 'dd.MM.yyy' }}</td>
+        <td>
+          {{
+            data.nForecast
+              | predictionPeriod: data.predictionDefinition.frequency
+          }}
+        </td>
+        <td>
+          <ptg-prediction-status-pill [status]="data.status" />
+        </td>
+        <td>{{ data.user.name }} {{ data.user.surname }}</td>
+
+        <td>
+          <p-button
+            icon="pi pi-ellipsis-v"
+            [text]="true"
+            (click)="menu.toggle($event); menuSelectedItem.set(data)"
+          />
+        </td>
+      </tr>
     </ng-template>
 
-    <p-table
-      [value]="state.entities() || []"
-      [lazy]="true"
-      [paginator]="true"
-      [customSort]="true"
-      [totalRecords]="state.total()"
-      [rows]="ROWS_PER_PAGE"
-      (onSort)="onSort($event)"
-      (onPage)="onPageChange($event)"
-    >
-      <ng-template #header>
-        <tr>
-          <th pSortableColumn="name">
-            Nazwa prognozy <p-sortIcon field="name" />
-          </th>
-          <th pSortableColumn="generationDate">
-            Data wygenerowania <p-sortIcon field="generationDate" />
-          </th>
-          <th>Okres</th>
-          <th pSortableColumn="status">
-            Status generowania <p-sortIcon field="status" />
-          </th>
-          <th pSortableColumn="user">Autor <p-sortIcon field="user" /></th>
-          <th>Akcje</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-data>
-        <tr>
-          <td>{{ data.predictionDefinition.name }}</td>
-          <td>{{ data.generationDate | date: 'dd.MM.yyy' }}</td>
-          <td>
-            {{
-              data.nForecast
-                | predictionPeriod: data.predictionDefinition.frequency
-            }}
-          </td>
-          <td>
-            <ptg-prediction-status-pill [status]="data.status" />
-          </td>
-          <td>{{ data.user.name }} {{ data.user.surname }}</td>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="6" class="!text-center"><ptg-empty-state /></td>
+      </tr>
+    </ng-template>
 
-          <td>
-            <p-button
-              icon="pi pi-ellipsis-v"
-              [text]="true"
-              (click)="menu.toggle($event); menuSelectedItem.set(data)"
-            />
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template #emptymessage>
-        <tr>
-          <td colspan="6" class="!text-center"><ptg-empty-state /></td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
-  <p-menu #menu [model]="items()" [popup]="true" />
-} @else {
-  <ptg-predictions-list-loading />
-}
+    <ng-template #loadingbody>
+      <tr>
+        <td colspan="6" class="!text-center">
+          <ptg-predictions-list-loading />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+<p-menu #menu [model]="items()" [popup]="true" />

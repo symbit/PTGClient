@@ -6,34 +6,6 @@ import { TableModule } from 'primeng/table';
 @Component({
   selector: 'ptg-articles-list-loading',
   template: ` <p-table [value]="skeletonRows">
-    <ng-template pTemplate="header">
-      <tr class="h-16">
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-        <th>
-          <p-skeleton width="5rem" height="1rem" />
-        </th>
-      </tr>
-    </ng-template>
     <ng-template pTemplate="body" let-row>
       <tr class="h-16">
         <td>

@@ -15,10 +15,6 @@
         <p class="header-style-16">Artykuły</p>
       </ng-template>
 
-      @for (realization of explanatoryRealizations(); track realization) {
-        <p>{{ realization.indicatorName }}</p>
-      }
-
       <p-carousel
         [value]="usedNewsArticles()"
         [numVisible]="3"
