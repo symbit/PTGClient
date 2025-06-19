@@ -80,6 +80,9 @@
       "@ptg/predictions-feature-prediction": [
         "libs/ptg-client/predictions/feature-prediction/src/index.ts"
       ],
+      "@ptg/predictions-feature-prediction-pdf": [
+        "libs/ptg-client/predictions/feature-prediction-pdf/src/index.ts"
+      ],
       "@ptg/predictions-feature-predictions-list": [
         "libs/ptg-client/predictions/feature-predictions-list/src/index.ts"
       ],

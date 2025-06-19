@@ -59,4 +59,13 @@ export class PredictionsService {
       `${this._apiUrl}/prediction-definitions`,
     );
   }
+
+  getPredictionPdf(id: number) {
+    return this._httpClient.get(
+      `${this._apiUrl}/predictions/${id}/export-prediction`,
+      {
+        responseType: 'blob',
+      },
+    );
+  }
 }

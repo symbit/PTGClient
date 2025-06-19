@@ -19,6 +19,7 @@ import { pipe, switchMap, tap } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 import { User } from '@ptg/shared-types';
+import { Login } from '@ptg/auth-types';
 
 interface AuthState {
   user: User | null;
@@ -76,6 +77,13 @@ export const AuthStore = signalStore(
           ),
         ),
       ),
+      loginWithToken: (res: Login) => {
+        patchState(store, {
+          user: res.user,
+          accessToken: res.token,
+          refreshToken: res.refreshToken,
+        });
+      },
       confirmInvitation: rxMethod<{ token: string; password: string }>(
         pipe(
           tap(() =>
@@ -157,6 +165,7 @@ export const AuthStore = signalStore(
   withComputed((store) => {
     return {
       isLoggedIn: computed(() => store.accessToken()),
+      accessToken: computed(() => store.accessToken()),
     };
   }),
 );
