@@ -9,7 +9,7 @@ export const environment: EnvironmentConfig = {
   providers: [
     provideConfig({
       apiUrl: `https://backend.prognozy.iptg.pl/api`,
-      wsUrl: `wss://backend.prognozy.iptg.pl/api/predictions/status-updates`,
+      wsUrl: `wss://backend.prognozy.iptg.pl/api`,
     }),
   ],
 };
