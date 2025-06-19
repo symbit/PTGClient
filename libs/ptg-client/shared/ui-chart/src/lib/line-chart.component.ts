@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -9,6 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { chartOptions, mergeChartOptions } from '@ptg/shared-utils';
 import { Button } from 'primeng/button';
+import { NgStyle } from '@angular/common';
 
 type ZoomPosition = 'top-left' | 'top-right' | 'right-top' | 'right-bottom';
 
@@ -45,8 +47,25 @@ type ZoomPosition = 'top-left' | 'top-right' | 'right-top' | 'right-bottom';
     }
 
     @if (data(); as data) {
-      <canvas baseChart type="line" [data]="data" [options]="options()">
-      </canvas>
+      <div class="flex w-full">
+        <div
+          [ngStyle]="{
+            width: options().plugins.htmlLegend?.containerID
+              ? 'calc(100% - 9rem)'
+              : '100%',
+          }"
+        >
+          <canvas baseChart type="line" [data]="data" [options]="options()">
+          </canvas>
+        </div>
+
+        @if (options().plugins.htmlLegend?.containerID) {
+          <div
+            class="w-32"
+            [id]="options().plugins.htmlLegend?.containerID"
+          ></div>
+        }
+      </div>
     }
   `,
   styles: `
@@ -77,9 +96,9 @@ type ZoomPosition = 'top-left' | 'top-right' | 'right-top' | 'right-bottom';
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseChartDirective, Button],
+  imports: [BaseChartDirective, Button, NgStyle],
 })
-export class LineChartComponent {
+export class LineChartComponent implements AfterContentChecked {
   readonly chart = viewChild(BaseChartDirective);
 
   readonly data = input.required<ChartData | null>();
@@ -94,6 +113,10 @@ export class LineChartComponent {
       ? mergeChartOptions(chartOptions, overrideOptions)
       : chartOptions;
   });
+
+  ngAfterContentChecked(): void {
+    this.chart()?.update();
+  }
 
   zoomIn(): void {
     this.chart()?.chart?.zoom(1.2);

@@ -2,8 +2,10 @@ import { ChartOptions, LegendItem } from 'chart.js';
 import { Chart } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import 'chartjs-adapter-date-fns';
+import { htmlLegendPlugin } from './html-legend-plugin';
 
 Chart.register(zoomPlugin);
+Chart.register(htmlLegendPlugin);
 
 export function mergeChartOptions(target: any, source: any): any {
   if (typeof source !== 'object' || source === null) return source;
@@ -54,6 +56,9 @@ export const chartOptions: ChartOptions = {
     },
   },
   plugins: {
+    htmlLegend: {
+      display: true,
+    },
     legend: {
       display: true,
       position: 'right',
@@ -87,5 +92,5 @@ export const chartOptions: ChartOptions = {
     datalabels: {
       display: false,
     },
-  },
+  } as any,
 };

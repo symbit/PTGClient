@@ -26,6 +26,15 @@ export class ComparativeAnalysisChartComponent {
     input.required<ComparativeAnalysisChart>();
 
   readonly options: ChartOptions = {
+    plugins: {
+      htmlLegend: {
+        display: true,
+        containerID: 'legend-analysis-chart',
+      },
+      legend: {
+        display: false,
+      },
+    },
     scales: {
       x: {
         grid: {
@@ -46,7 +55,7 @@ export class ComparativeAnalysisChartComponent {
         },
       },
     },
-  };
+  } as any;
 
   readonly chartData = computed(() => {
     const comparativeAnalysisChart = this.comparativeAnalysisChart();

@@ -13,10 +13,11 @@
   <div class="flex gap-4">
     <ptg-line-chart
       class="flex flex-1"
-      [data]="chartData()"
       zoomPosition="top-left"
+      [data]="chartData()"
+      [overrideOptions]="options"
     />
-    <div class="flex flex-col gap-4 w-[200px]">
+    <div class="flex flex-col gap-4 w-[250px]">
       <div class="flex gap-2">
         <p-toggleswitch
           id="arima"

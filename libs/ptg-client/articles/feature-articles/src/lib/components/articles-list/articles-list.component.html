@@ -39,7 +39,11 @@
     <tr>
       <td>{{ element.id }}</td>
       <td>{{ element.provider }}</td>
-      <td>{{ element.title }}</td>
+      <td>
+        <a [href]="element.url" target="_blank" class="hover:underline">
+          {{ element.title }}
+        </a>
+      </td>
       <td>
         <div class="flex flex-wrap gap-2">
           @for (sector of element.sectors; track sector) {

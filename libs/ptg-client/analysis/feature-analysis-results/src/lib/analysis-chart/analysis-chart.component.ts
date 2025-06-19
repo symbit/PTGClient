@@ -22,6 +22,7 @@ import { RawTimeSeries } from '@ptg/shared-types';
 
 import { AnalysisChartConfigComponent } from '../analysis-chart-config/analysis-chart-config.component';
 import { LineChartComponent } from '@ptg/shared-ui-chart';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'ptg-analysis-chart',
@@ -49,6 +50,18 @@ export class AnalysisChartComponent {
 
   readonly showArima = signal<boolean>(false);
   readonly showEma = signal<boolean>(true);
+
+  readonly options: ChartOptions = {
+    plugins: {
+      htmlLegend: {
+        display: true,
+        containerID: 'legend-analysis-chart',
+      },
+      legend: {
+        display: false,
+      },
+    },
+  } as any;
 
   readonly chartData = computed(() => {
     const rawTimeSeries = this.rawTimeSeries();
