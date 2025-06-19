@@ -1,39 +1,38 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
   input,
 } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { PredictionAnalysisResults } from '@ptg/predictions-types';
 import { LineChartComponent } from '@ptg/shared-ui-chart';
-import { Card } from 'primeng/card';
 import { ChartData } from 'chart.js';
+import { DatePipe, DecimalPipe } from '@angular/common';
+
+import { TableModule } from 'primeng/table';
+import { PredictionDetailsStore } from '@ptg/predictions-data-access-predictions';
+import { AuthStore } from '@ptg/auth-data-access-auth';
 
 @Component({
-  selector: 'ptg-prediction-chart',
-  template: `
-    <p-card>
-      <ptg-line-chart [data]="chartData()" />
-    </p-card>
-  `,
-  styles: `
-    :host {
-      --p-card-background: var(--neutral-light-200);
-    }
-  `,
+  selector: 'ptg-prediction-pdf',
+  imports: [LineChartComponent, DatePipe, DecimalPipe, TableModule],
+  templateUrl: './prediction-pdf.component.html',
+  styleUrl: './prediction-pdf.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Card, LineChartComponent],
-  providers: [DatePipe],
+  providers: [DatePipe, PredictionDetailsStore],
 })
-export class PredictionChartComponent {
+export class PredictionPdfComponent implements AfterViewInit {
   private readonly _datePipe = inject(DatePipe);
 
-  readonly analysisResults = input.required<PredictionAnalysisResults>();
+  readonly id = input<number>();
+  readonly state = inject(PredictionDetailsStore);
+  readonly authStore = inject(AuthStore);
 
-  readonly chartData = computed<ChartData>(() => {
-    const analysisResults = this.analysisResults();
+  readonly chartData = computed<ChartData | null>(() => {
+    const analysisResults = this.state.prediction()?.analysisResults;
+
+    if (!analysisResults) return null;
 
     return {
       labels: [
@@ -76,4 +75,8 @@ export class PredictionChartComponent {
       ],
     };
   });
+
+  ngAfterViewInit(): void {
+    this.state.loadPrediction(this.id() || 0);
+  }
 }

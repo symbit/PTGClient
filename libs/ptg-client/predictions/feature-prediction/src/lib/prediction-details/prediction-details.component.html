@@ -1,5 +1,6 @@
 @let prediction = state.prediction();
-<div class="flex justify-between items-center">
+
+<div class="print:hidden flex justify-between items-center">
   <ptg-back-button routerLink="/predictions" label="Powrót do listy prognoz" />
 
   @if (prediction) {
@@ -24,42 +25,55 @@
 </div>
 
 @if (prediction) {
-  <p-card
-    class="block mt-4"
-    [header]="prediction.predictionDefinition.name"
-    [subheader]="
-      prediction.nForecast
-        | predictionPeriod: prediction.predictionDefinition.frequency
-    "
-  >
-    <ptg-prediction-chart [analysisResults]="prediction.analysisResults" />
-
-    <ptg-prediction-forecast-data-table
+  <div class="print:hidden">
+    <p-card
       class="block mt-4"
-      [forecastData]="state.forecastTableData()"
+      [header]="prediction.predictionDefinition.name"
+      [subheader]="
+        prediction.nForecast
+          | predictionPeriod: prediction.predictionDefinition.frequency
+      "
+    >
+      <ptg-prediction-chart [analysisResults]="prediction.analysisResults" />
+
+      <ptg-prediction-forecast-data-table
+        class="block mt-4"
+        [forecastData]="state.forecastTableData()"
+      />
+    </p-card>
+
+    <p-card class="block mt-4" header="Analiza Ekonomiczna">
+      <ng-template #title>
+        <div class="flex justify-between items-center">
+          <h2 class="header-style-20">Analiza Ekonomiczna</h2>
+
+          <p-button
+            icon="pi pi-copy"
+            [rounded]="true"
+            [text]="true"
+            (click)="copyPredictionComment()"
+          />
+        </div>
+      </ng-template>
+
+      <p class="body-style-16" [innerHTML]="prediction.generatedComment"></p>
+    </p-card>
+
+    <ptg-prediction-used-data
+      class="block mt-4"
+      [explanatoryRealizations]="prediction.explanatoryRealizations"
+      [usedNewsArticles]="prediction.usedNewsArticles"
     />
-  </p-card>
 
-  <p-card class="block mt-4" header="Analiza Ekonomiczna">
-    <ng-template #title>
-      <div class="flex justify-between items-center">
-        <h2 class="header-style-20">Analiza Ekonomiczna</h2>
-
-        <p-button
-          icon="pi pi-copy"
-          [rounded]="true"
-          [text]="true"
-          (click)="copyPredictionComment()"
-        />
-      </div>
-    </ng-template>
-
-    <p class="body-style-16" [innerHTML]="prediction.generatedComment"></p>
-  </p-card>
-
-  <ptg-prediction-used-data
-    class="block mt-4"
-    [explanatoryRealizations]="prediction.explanatoryRealizations"
-    [usedNewsArticles]="prediction.usedNewsArticles"
-  />
+    <div class="flex justify-end">
+      <p-button
+        class="mt-4"
+        label="Eksportuj PDF"
+        severity="contrast"
+        icon="pi pi-download"
+        [outlined]="true"
+        (click)="exportPdf()"
+      />
+    </div>
+  </div>
 }

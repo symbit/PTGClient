@@ -1,0 +1,78 @@
+//@media print {
+//  body, html {
+//    margin: 0;
+//    padding: 0;
+//    height: 100%;
+//    font-family: Arial, sans-serif;
+//  }
+
+.print {
+  width: 210mm;
+  min-height: 297mm;
+  //padding: 20mm;
+  //margin: 20px 0;
+
+  padding: 20px;
+  //box-sizing: border-box;
+  //page-break-after: always;
+}
+
+header {
+  //page-break-inside: avoid;
+}
+
+//h1, h2 {
+//  page-break-after: avoid;
+//  page-break-inside: avoid;
+//}
+//
+//.mt-8 {
+//  margin-top: 2rem;
+//}
+//
+//.block {
+//  display: block;
+//}
+//
+///* Page break logic for large elements */
+//ptg-line-chart, p-table {
+//  page-break-inside: avoid;
+//  break-inside: avoid;
+//}
+//
+//tr, td, th {
+//  page-break-inside: avoid;
+//  break-inside: avoid;
+//}
+//
+///* Force a page break before certain sections if needed */
+//.page-break {
+//  page-break-before: always;
+//  break-before: page;
+//}
+//
+///* Optional: control table appearance */
+//p-table table {
+//  width: 100%;
+//  border-collapse: collapse;
+//}
+//
+//p-table th, p-table td {
+//  border: 1px solid #ccc;
+//  padding: 6px 8px;
+//  font-size: 12px;
+//}
+
+/* Hide unnecessary UI components */
+.no-print {
+  display: none !important;
+}
+//}
+
+/* Optional: style for screen preview */
+@media screen {
+  .print {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+  }
+}

@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 
 import { AuthStore } from '../state/auth.state';
 
@@ -8,11 +8,13 @@ export const tokenInterceptor: HttpInterceptorFn = (request, next) => {
   const state = inject(AuthStore);
   const accessToken = state.accessToken() || '';
 
-  request = request.clone({
-    setHeaders: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  request = request.url.includes('/auth')
+    ? request
+    : request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
   return next(request).pipe(
     catchError((err: HttpErrorResponse) => {

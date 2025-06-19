@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigService } from '@ptg/shared-config';
@@ -17,6 +17,14 @@ export class AuthService {
       password,
       otp: '',
     });
+  }
+
+  loginWithToken(token: string): Observable<Login> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this._httpClient.get<Login>(`${this._apiUrl}/auth/me`, { headers });
   }
 
   confirmInvitation(token: string, password: string): Observable<void> {

@@ -20,7 +20,7 @@ import { Tooltip } from 'primeng/tooltip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 
-import { PredictionChartComponent } from '../prediction-information/prediction-chart.component';
+import { PredictionChartComponent } from '../prediction-chart/prediction-chart.component';
 import { PredictionForecastDataTableComponent } from '../prediction-forecast-data-table/prediction-forecast-data-table.component';
 import { PredictionUsedDataComponent } from '../prediction-used-data/prediction-used-data.component';
 
@@ -82,5 +82,12 @@ export class PredictionDetailsComponent implements AfterViewInit {
     const comment = document.createElement('div');
     comment.innerHTML = this.state.prediction()?.generatedComment || '';
     this._clipboard.copy(comment?.textContent || '');
+  }
+
+  exportPdf() {
+    const id = this.id();
+    if (!id) return;
+
+    this.state.generatePdf(id);
   }
 }
