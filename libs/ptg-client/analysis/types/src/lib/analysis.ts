@@ -1,7 +1,7 @@
 import { RawTimeSeries } from '@ptg/shared-types';
 
 export interface RealizationDetails {
-  indicatorNames: string[];
+  indicators: AnalysisResultsRealizationDetails[];
   indicatorSectors: string[];
   indicatorRegions: string[];
   indicatorFrequencies: string[];
@@ -37,16 +37,18 @@ export interface PacfAnalysis {
   pacfUpperCi: number[];
 }
 
+export interface AnalysisResultsRealizationDetails {
+  realizationId: number;
+  indicatorName: string;
+  indicatorSector: string;
+  indicatorRegion: string;
+  indicatorFrequency: string;
+}
+
 export interface AnalysisResults {
   startDate: string;
   endDate: string;
-  realizationDetails: {
-    realizationId: number;
-    indicatorName: string;
-    indicatorSector: string;
-    indicatorRegion: string;
-    indicatorFrequency: string;
-  };
+  realizationDetails: AnalysisResultsRealizationDetails;
   rawTimeSeries: RawTimeSeries;
   inSamplePrediction: InSamplePrediction;
   indicatorEma: RawTimeSeries;

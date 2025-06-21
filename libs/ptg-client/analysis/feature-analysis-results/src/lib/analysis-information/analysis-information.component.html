@@ -9,9 +9,11 @@
     </ptg-data-box>
 
     <ptg-data-box label="Wybrane wskaźniki">
-      @for (indicator of details.indicatorNames; track indicator) {
+      @for (indicator of details.indicators; track indicator) {
         <p class="body-style-14">
-          {{ indicator }}
+          {{ indicator.indicatorName }}
+          ({{ indicator.indicatorRegion | region }},
+          {{ indicator.indicatorSector | sector }})
         </p>
       }
     </ptg-data-box>

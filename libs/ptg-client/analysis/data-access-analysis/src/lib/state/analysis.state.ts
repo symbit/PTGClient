@@ -24,6 +24,7 @@ import { ToastrService } from 'ngx-toastr';
 import { round, uniq } from 'lodash-es';
 import { LoadingService } from '@ptg/shared/feature-loading';
 import { HttpErrorResponse } from '@angular/common/http';
+import { regionMapper, sectorMapper } from '@ptg/shared-utils';
 
 interface AnalysisState {
   analysis: Analysis | null;
@@ -96,8 +97,8 @@ export const AnalysisStore = signalStore(
       return {
         startDate: analysis.analysisResults[0].startDate,
         endDate: analysis.analysisResults[0].endDate,
-        indicatorNames: analysis.analysisResults.map(
-          (result) => result.realizationDetails.indicatorName,
+        indicators: analysis.analysisResults.map(
+          (result) => result.realizationDetails,
         ),
         indicatorSectors: uniq(
           analysis.analysisResults.map(
@@ -138,7 +139,7 @@ export const AnalysisStore = signalStore(
         datasets:
           analysis?.analysisResults.map((result) => {
             return {
-              label: result.realizationDetails.indicatorName,
+              label: `${result.realizationDetails.indicatorName} (${regionMapper(result.realizationDetails.indicatorRegion)}, ${sectorMapper(result.realizationDetails.indicatorSector)})`,
               data: result.rawTimeSeries.values,
             };
           }) || [],
