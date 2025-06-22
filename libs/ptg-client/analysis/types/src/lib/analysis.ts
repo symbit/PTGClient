@@ -39,6 +39,7 @@ export interface PacfAnalysis {
 
 export interface AnalysisResultsRealizationDetails {
   realizationId: number;
+  indicatorId: number;
   indicatorName: string;
   indicatorSector: string;
   indicatorRegion: string;
@@ -73,6 +74,7 @@ export interface RawData {
 export interface ComparativeAnalysisChart {
   labels: string[];
   datasets: {
+    indicatorId: number;
     label: string;
     data: number[];
   }[];

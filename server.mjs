@@ -13,7 +13,7 @@ const frontendUrl = process.env.FRONTEND_URL;
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' }));
-console.log(frontendUrl);
+
 app.post('/generate-prediction-pdf/:predictionId', async (req, res) => {
   const { authToken } = req.body;
   const predictionId = req.params.predictionId;

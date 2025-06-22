@@ -8,7 +8,7 @@ export const tokenInterceptor: HttpInterceptorFn = (request, next) => {
   const state = inject(AuthStore);
   const accessToken = state.accessToken() || '';
 
-  request = request.url.includes('/auth')
+  request = request.url.includes('/auth/me')
     ? request
     : request.clone({
         setHeaders: {

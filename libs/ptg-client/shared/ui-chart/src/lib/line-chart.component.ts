@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked,
+  afterRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -58,7 +58,6 @@ type ZoomPosition = 'top-left' | 'top-right' | 'right-top' | 'right-bottom';
           <canvas baseChart type="line" [data]="data" [options]="options()">
           </canvas>
         </div>
-
         @if (options().plugins.htmlLegend?.containerID) {
           <div
             class="w-32"
@@ -98,7 +97,7 @@ type ZoomPosition = 'top-left' | 'top-right' | 'right-top' | 'right-bottom';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BaseChartDirective, Button, NgStyle],
 })
-export class LineChartComponent implements AfterContentChecked {
+export class LineChartComponent {
   readonly chart = viewChild(BaseChartDirective);
 
   readonly data = input.required<ChartData | null>();
@@ -114,8 +113,10 @@ export class LineChartComponent implements AfterContentChecked {
       : chartOptions;
   });
 
-  ngAfterContentChecked(): void {
-    this.chart()?.update();
+  constructor() {
+    afterRender(() => {
+      this.chart()?.update();
+    });
   }
 
   zoomIn(): void {

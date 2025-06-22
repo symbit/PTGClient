@@ -17,6 +17,7 @@ import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
 import { ForecastTableData, Prediction } from '@ptg/predictions-types';
 import { Router } from '@angular/router';
 import { fileDownload } from '@ptg/shared-utils';
+import { LoadingService } from '@ptg/shared/feature-loading';
 
 interface PredictionDetailsState {
   prediction: Prediction | null;
@@ -33,6 +34,7 @@ export const PredictionDetailsStore = signalStore(
   withMethods((store) => {
     const service = inject(PredictionsService);
     const router = inject(Router);
+    const loadingService = inject(LoadingService);
 
     return {
       loadPrediction: rxMethod<number>(
@@ -77,6 +79,7 @@ export const PredictionDetailsStore = signalStore(
       ),
       generatePdf: rxMethod<number>(
         switchMap((id: number) => {
+          loadingService.setLoading(true);
           patchState(store, {
             predictionDetailsCallState: LoadingState.LOADING,
           });
@@ -84,16 +87,19 @@ export const PredictionDetailsStore = signalStore(
           return service.getPredictionPdf(id).pipe(
             tapResponse({
               next: (pdfBlob) => {
-                console.log(pdfBlob);
                 fileDownload(
                   pdfBlob,
                   `${store.prediction()?.predictionDefinition.name}.pdf`,
                 );
+                loadingService.setLoading(false);
               },
-              error: (error: string) =>
+              error: (error: string) => {
+                loadingService.setLoading(false);
+
                 patchState(store, {
                   predictionDetailsCallState: { error },
-                }),
+                });
+              },
             }),
           );
         }),

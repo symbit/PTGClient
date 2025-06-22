@@ -5,9 +5,11 @@
     </div>
   </ng-template>
 
-  <ptg-line-chart
-    zoomPosition="right-bottom"
-    [data]="chartData()"
-    [overrideOptions]="options"
-  />
+  @if (chartData()) {
+    <ptg-line-chart
+      zoomPosition="right-bottom"
+      [data]="chartData()"
+      [overrideOptions]="options()"
+    />
+  }
 </p-card>

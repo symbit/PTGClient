@@ -25,37 +25,46 @@ export class ComparativeAnalysisChartComponent {
   readonly comparativeAnalysisChart =
     input.required<ComparativeAnalysisChart>();
 
-  readonly options: ChartOptions = {
-    plugins: {
-      htmlLegend: {
-        display: true,
-        containerID: 'legend-analysis-chart',
-      },
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
+  readonly options = computed<ChartOptions>(() => {
+    return {
+      plugins: {
+        htmlLegend: {
+          display: true,
+          containerID: 'legend-analysis-chart',
+        },
+        legend: {
           display: false,
         },
       },
-      y: {
-        type: 'linear',
-        display: true,
-        position: 'left',
-      },
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+        },
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+        },
+        y1: {
+          type: 'linear',
+          display: !this.isTheSameIndicator(),
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
         },
       },
-    },
-  } as any;
+    } as ChartOptions;
+  });
+
+  readonly isTheSameIndicator = computed(() => {
+    return (
+      this.comparativeAnalysisChart().datasets[0].indicatorId ===
+      this.comparativeAnalysisChart().datasets[1].indicatorId
+    );
+  });
 
   readonly chartData = computed(() => {
     const comparativeAnalysisChart = this.comparativeAnalysisChart();
@@ -73,7 +82,7 @@ export class ComparativeAnalysisChartComponent {
         },
         {
           ...comparativeAnalysisChart.datasets[1],
-          yAxisID: 'y1',
+          yAxisID: this.isTheSameIndicator() ? 'y' : 'y1',
           pointRadius: 2,
           borderColor: '#18366C',
         },

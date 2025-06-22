@@ -139,6 +139,7 @@ export const AnalysisStore = signalStore(
         datasets:
           analysis?.analysisResults.map((result) => {
             return {
+              indicatorId: result.realizationDetails.indicatorId,
               label: `${result.realizationDetails.indicatorName} (${regionMapper(result.realizationDetails.indicatorRegion)}, ${sectorMapper(result.realizationDetails.indicatorSector)})`,
               data: result.rawTimeSeries.values,
             };
