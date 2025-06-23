@@ -18,6 +18,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideToastr } from 'ngx-toastr';
 import { tokenInterceptor } from '@ptg/auth-data-access-auth';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { DialogService } from 'primeng/dynamicdialog';
 
 if (environment.production) {
   enableProdMode();
@@ -47,5 +48,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideCharts(withDefaultRegisterables()),
     environment.providers || [],
+    DialogService,
   ],
 };

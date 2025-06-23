@@ -1,26 +1,20 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { PredictionsListComponent } from '@ptg/predictions-feature-predictions-list';
-import {
-  PredictionDetailsStore,
-  PredictionsListStore,
-} from '@ptg/predictions-data-access-predictions';
+import { PredictionDetailsStore } from '@ptg/predictions-data-access-predictions';
 import {
   PredictionCreatorStepperComponent,
   PredictionDetailsComponent,
 } from '@ptg/predictions-feature-prediction';
-import { DialogService } from 'primeng/dynamicdialog';
 import { PredictionPdfComponent } from '@ptg/predictions-feature-prediction-pdf';
 
 export const routes: Routes = [
   {
     path: '',
     component: PredictionsListComponent,
-    providers: [PredictionsListStore, DialogService],
   },
   {
     path: 'creator',
     component: PredictionCreatorStepperComponent,
-    providers: [PredictionsListStore, DialogService],
   },
   {
     path: ':id',

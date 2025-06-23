@@ -22,13 +22,16 @@ import { PredictionsService } from '../service/predictions.service';
 
 import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { LoadingState, withCallState } from '@ptg/shared-utils-signal-store';
-import { CreatePrediction, Prediction } from '@ptg/predictions-types';
+import {
+  CreatePrediction,
+  Prediction,
+  PredictionStatus,
+} from '@ptg/predictions-types';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ForceNewPredictionComponent } from '@ptg/predictions-ui-force-new-prediction-dialog';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '@ptg/shared/feature-loading';
-import { update } from 'lodash-es';
 
 interface PredictionsListState {
   criteria: SearchCriteria;
@@ -43,6 +46,7 @@ const initialState: PredictionsListState = {
 };
 
 export const PredictionsListStore = signalStore(
+  { providedIn: 'root' },
   withDevtools('predictionsList'),
   withState(initialState),
   withEntities<Prediction>(),
@@ -165,6 +169,21 @@ export const PredictionsListStore = signalStore(
           );
         }),
       ),
+      updatePredictionStatus: (
+        predictionId: number,
+        status: PredictionStatus,
+      ) => {
+        patchState(
+          store,
+          updateEntity({
+            id: predictionId,
+            changes: {
+              ...store.entityMap()[predictionId],
+              status,
+            },
+          }),
+        );
+      },
     };
   }),
   withComputed((store) => ({

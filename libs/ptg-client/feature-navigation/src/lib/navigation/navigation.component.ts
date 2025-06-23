@@ -17,6 +17,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { Tooltip } from 'primeng/tooltip';
+import { PredictionsListStore } from '@ptg/predictions-data-access-predictions';
 
 @Component({
   selector: 'ptg-navigation',
@@ -36,6 +37,7 @@ import { Tooltip } from 'primeng/tooltip';
 export class NavigationComponent {
   readonly authState = inject(AuthStore);
   readonly notificationsService = inject(NotificationsService);
+  readonly predictionsListStore = inject(PredictionsListStore);
   readonly items = [
     {
       link: '/dashboard',
@@ -89,6 +91,11 @@ export class NavigationComponent {
       if (!notification) return;
 
       untracked(() => {
+        this.predictionsListStore.updatePredictionStatus(
+          notification.predictionId,
+          notification.newStatus,
+        );
+
         this.notifications.set([
           ...this.notifications(),
           {
