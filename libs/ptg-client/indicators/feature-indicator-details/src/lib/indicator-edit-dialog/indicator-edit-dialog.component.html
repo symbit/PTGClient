@@ -16,6 +16,17 @@
     ></textarea>
   </div>
 
+  <div class="flex flex-col gap-2">
+    <label for="source">Grupa wskaźnika</label>
+    <p-select
+      id="source"
+      [options]="indicatorGroups"
+      placeholder="Grupa wskaźnika"
+      formControlName="group"
+    >
+    </p-select>
+  </div>
+
   <div class="flex gap-2">
     <div class="flex flex-col gap-2 w-full">
       <label for="symbol">Kod</label>

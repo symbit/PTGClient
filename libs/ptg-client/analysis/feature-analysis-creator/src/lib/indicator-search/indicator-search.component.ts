@@ -16,7 +16,7 @@ import { InputText } from 'primeng/inputtext';
 import { RadioButton } from 'primeng/radiobutton';
 import { Select } from 'primeng/select';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Indicator } from '@ptg/indicators-types';
+import { Indicator, indicatorGroups } from '@ptg/indicators-types';
 import { IndicatorSearchLocalState } from './indicator-search.local-state';
 import { IndicatorSearchLoadingComponent } from './indicator-search-loading.component';
 import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
@@ -44,9 +44,11 @@ export class IndicatorSearchComponent {
   readonly state = inject(IndicatorSearchLocalState);
 
   readonly searchForm = this._fb.group({
+    group: '',
     source: '',
     term: '',
   });
+  readonly indicatorGroups = indicatorGroups;
   readonly selectedIndicator = model<Indicator | null>(null);
 
   private readonly _formChanged = toSignal(this.searchForm.valueChanges);
@@ -57,6 +59,7 @@ export class IndicatorSearchComponent {
       if (!formValue) return;
 
       this.state.form.set({
+        group: formValue.group,
         source: formValue.source,
         term: formValue.term,
       });

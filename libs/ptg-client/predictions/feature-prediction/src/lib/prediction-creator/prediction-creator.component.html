@@ -1,8 +1,19 @@
 <p-card [formGroup]="form">
   <div class="flex flex-col gap-2 w-full">
+    <label for="source">Grupa wskaźnika</label>
+    <p-select
+      id="source"
+      [options]="indicatorGroups"
+      placeholder="Grupa wskaźnika"
+      formControlName="group"
+      [showClear]="true"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2 w-full mt-4">
     <label for="region">Prognoza</label>
     <p-select
-      [options]="state.predictionsDefinitions.value() || []"
+      [options]="predictionDefinitions()"
       [showClear]="true"
       placeholder="Prognoza"
       optionLabel="name"

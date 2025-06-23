@@ -1,6 +1,16 @@
 <div class="mt-4 p-4 bg-neutral-200 rounded-lg border border-neutral-300">
   <div class="flex gap-2" [formGroup]="searchForm">
     <div class="flex flex-col gap-2">
+      <label for="source">Grupa wskaźnika</label>
+      <p-select
+        id="source"
+        [options]="indicatorGroups"
+        placeholder="Grupa wskaźnika"
+        formControlName="group"
+      />
+    </div>
+
+    <div class="flex flex-col gap-2">
       <label for="source">Źródło wskaźnika</label>
       <p-select
         id="source"

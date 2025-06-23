@@ -22,7 +22,10 @@
         />
       }
 
-      <ptg-analysis-row-data-table [data]="state.rawDataTable()" />
+      <ptg-analysis-row-data-table
+        [data]="state.rawDataTable()"
+        [indicators]="state.analysisDetails()?.indicators || []"
+      />
 
       @if (!multipleIndicators) {
         <p-accordion value="-1" [multiple]="true">
