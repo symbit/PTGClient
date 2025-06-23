@@ -9,6 +9,7 @@ import {
   Prediction,
   PredictionDefinition,
 } from '@ptg/predictions-types';
+import { IndicatorGroup } from '@ptg/indicators-types';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,19 @@ export class PredictionsService {
   getPredictionsDefinitions(): Observable<PredictionDefinition[]> {
     return this._httpClient.get<PredictionDefinition[]>(
       `${this._apiUrl}/prediction-definitions`,
+    );
+  }
+
+  getPredictionsDefinitionsByGroup(
+    group: IndicatorGroup,
+  ): Observable<PredictionDefinition[]> {
+    return this._httpClient.get<PredictionDefinition[]>(
+      `${this._apiUrl}/prediction-definitions/get-prediction-definitions-from-group`,
+      {
+        params: {
+          group,
+        },
+      },
     );
   }
 

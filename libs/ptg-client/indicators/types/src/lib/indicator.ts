@@ -1,4 +1,5 @@
 import { Realization } from './realization';
+import { IndicatorGroup } from './indicator-groups';
 
 export type IndicatorSources =
   | 'gus'
@@ -17,6 +18,7 @@ export interface Indicator {
   name: string;
   description: string;
   nextExecutionDate: string;
+  group: IndicatorGroup;
   source: IndicatorSources;
   realizations: Realization[];
 }

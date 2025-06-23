@@ -25,6 +25,8 @@ import {
 import { Chip } from 'primeng/chip';
 import { uniqBy } from 'lodash-es';
 import dayjs from 'dayjs';
+import { Select } from 'primeng/select';
+import { indicatorGroups } from '@ptg/indicators-types';
 
 @Component({
   selector: 'ptg-indicator-edit-dialog',
@@ -43,6 +45,7 @@ import dayjs from 'dayjs';
     SectorPipe,
     RegionPipe,
     IndicatorSourceMapper,
+    Select,
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -53,11 +56,13 @@ export class IndicatorEditDialogComponent {
     symbol: '',
     name: '',
     description: '',
+    group: '',
     nextExecutionDate: '',
     source: '',
     isAutomaticallyDownloaded: '',
     downloadScheduleInterval: '',
   });
+  readonly indicatorGroups = indicatorGroups;
 
   readonly frequencies = computed(() => {
     return uniqBy(this.state.realizations(), 'frequency').map(
