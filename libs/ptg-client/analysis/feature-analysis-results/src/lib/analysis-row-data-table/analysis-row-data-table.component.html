@@ -13,10 +13,14 @@
       @if (multipleAnalysis) {
         @for (value of data()[0].value; track value; let i = $index) {
           <th
-            [class.!text-primary-100]="i === 0"
-            [class.!text-secondary-100]="i === 1"
+            [class.!text-secondary-100]="i === 0"
+            [class.!text-primary-100]="i === 1"
           >
-            Wartość {{ i + 1 }}
+            @let indicator = indicators()[i];
+
+            {{ indicator.indicatorName }} ({{
+              indicator.indicatorRegion | region
+            }}, {{ indicator.indicatorSector | sector }})
           </th>
         }
       } @else {
@@ -32,8 +36,8 @@
       <td>{{ raw.date | date: 'MM.yyyy' }}</td>
       @for (value of raw.value; track value; let i = $index) {
         <td
-          [class.text-primary-100]="i === 0"
-          [class.text-secondary-100]="i === 1"
+          [class.text-secondary-100]="i === 0"
+          [class.text-primary-100]="i === 1"
         >
           {{ value }}
         </td>
