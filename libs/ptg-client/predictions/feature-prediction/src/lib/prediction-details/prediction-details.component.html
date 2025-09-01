@@ -34,7 +34,10 @@
           | predictionPeriod: prediction.predictionDefinition.frequency
       "
     >
-      <ptg-prediction-chart [analysisResults]="prediction.analysisResults" />
+      <ptg-prediction-chart
+        [analysisResults]="prediction.analysisResults"
+        [frequency]="prediction.predictionDefinition.frequency"
+      />
 
       <ptg-prediction-forecast-data-table
         class="block mt-4"

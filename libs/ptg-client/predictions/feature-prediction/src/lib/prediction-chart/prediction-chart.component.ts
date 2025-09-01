@@ -34,21 +34,28 @@ export class PredictionChartComponent {
   private readonly _datePipe = inject(DatePipe);
 
   readonly analysisResults = input.required<PredictionAnalysisResults>();
+  readonly frequency = input.required<'monthly' | 'quarterly' | 'yearly'>();
   readonly showZoomControls = input(true);
 
   readonly chartData = computed<ChartData>(() => {
     const analysisResults = this.analysisResults();
+    // always take last 2 years of data to show on chart
+    const numberOfPreviousValuesToShow = this._getLastTwoYearsDataPoints();
 
     return {
       labels: [
-        // display only the 3 latest elements from the raw data
-        ...analysisResults.rawTimeSeries.dates.slice(-3),
+        // display only the latest 2 years elements from the raw data
+        ...analysisResults.rawTimeSeries.dates.slice(
+          -numberOfPreviousValuesToShow,
+        ),
         ...analysisResults.forecast.dates,
       ].map((date) => this._datePipe.transform(date, 'MM.yyyy')),
       datasets: [
         {
           data: [
-            ...analysisResults.rawTimeSeries.values.slice(-3),
+            ...analysisResults.rawTimeSeries.values.slice(
+              -numberOfPreviousValuesToShow,
+            ),
             ...analysisResults.forecast.values,
           ],
           pointRadius: 2,
@@ -57,7 +64,9 @@ export class PredictionChartComponent {
         // przedziały ufności
         {
           data: [
-            ...analysisResults.rawTimeSeries.values.slice(-3).map(() => null),
+            ...analysisResults.rawTimeSeries.values
+              .slice(-numberOfPreviousValuesToShow)
+              .map(() => null),
             ...analysisResults.forecast.predictionLowerCi,
           ],
           backgroundColor: 'rgb(24, 54, 108, 0.1)',
@@ -68,7 +77,9 @@ export class PredictionChartComponent {
         },
         {
           data: [
-            ...analysisResults.rawTimeSeries.values.slice(-3).map(() => null),
+            ...analysisResults.rawTimeSeries.values
+              .slice(-numberOfPreviousValuesToShow)
+              .map(() => null),
             ...analysisResults.forecast.predictionUpperCi,
           ],
           backgroundColor: 'rgb(24, 54, 108, 0.1)',
@@ -80,4 +91,17 @@ export class PredictionChartComponent {
       ],
     };
   });
+
+  private _getLastTwoYearsDataPoints() {
+    switch (this.frequency()) {
+      case 'monthly':
+        return 24;
+      case 'quarterly':
+        return 8;
+      case 'yearly':
+        return 2;
+      default:
+        return 24;
+    }
+  }
 }
