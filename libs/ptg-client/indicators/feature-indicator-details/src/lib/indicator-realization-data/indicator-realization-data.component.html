@@ -5,9 +5,17 @@
 
       <div class="flex items-center gap-2">
         <p-button
+          label="Eksportuj do Excel"
+          severity="contrast"
+          icon="pi pi-file-excel"
+          [outlined]="true"
+          (click)="exportRealizationData.emit()"
+        />
+        <p-button
           label="Import z pliku"
-          severity="secondary"
+          severity="contrast"
           icon="pi pi-upload"
+          [outlined]="true"
           (click)="import()"
         />
         <p-button

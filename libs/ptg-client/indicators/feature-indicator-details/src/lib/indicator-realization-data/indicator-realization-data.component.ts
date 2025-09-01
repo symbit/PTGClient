@@ -44,6 +44,7 @@ export class IndicatorRealizationDataComponent {
   readonly realizationId = input.required<number>();
 
   readonly loadRealizationData = output<SearchCriteria>();
+  readonly exportRealizationData = output<void>();
   readonly ROWS_PER_PAGE = ROWS_PER_PAGE;
 
   private readonly _state = inject(IndicatorDetailsStore);

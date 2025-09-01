@@ -78,16 +78,23 @@ export class PredictionDetailsComponent implements AfterViewInit {
     });
   }
 
-  copyPredictionComment() {
+  copyPredictionComment(): void {
     const comment = document.createElement('div');
     comment.innerHTML = this.state.prediction()?.generatedComment || '';
     this._clipboard.copy(comment?.textContent || '');
   }
 
-  exportPdf() {
+  exportPdf(): void {
     const id = this.id();
     if (!id) return;
 
     this.state.generatePdf(id);
+  }
+
+  exportExcel(): void {
+    const id = this.id();
+    if (!id) return;
+
+    this.state.generateExcel(id);
   }
 }

@@ -36,6 +36,7 @@ import { IndicatorDataLoadingComponent } from './indicator-data-loading.componen
         [total]="state.total()"
         [realizationId]="selectedRealization()?.id || 0"
         (loadRealizationData)="loadRealizationData($event)"
+        (exportRealizationData)="exportRealizationData()"
       />
     } @else {
       <ptg-indicator-data-loading />
@@ -82,5 +83,11 @@ export class IndicatorDataComponent {
       searchCriteria,
       id: this.selectedRealization()?.id || 0,
     });
+  }
+
+  exportRealizationData(): void {
+    this.state.exportRealizationDataPointsToExcel(
+      this.selectedRealization()?.id || 0,
+    );
   }
 }

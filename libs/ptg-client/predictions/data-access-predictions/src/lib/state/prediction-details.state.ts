@@ -104,6 +104,33 @@ export const PredictionDetailsStore = signalStore(
           );
         }),
       ),
+      generateExcel: rxMethod<number>(
+        switchMap((id: number) => {
+          loadingService.setLoading(true);
+          patchState(store, {
+            predictionDetailsCallState: LoadingState.LOADING,
+          });
+
+          return service.getPredictionExcel(id).pipe(
+            tapResponse({
+              next: (pdfBlob) => {
+                fileDownload(
+                  pdfBlob,
+                  `${store.prediction()?.predictionDefinition.name}.xlsx`,
+                );
+                loadingService.setLoading(false);
+              },
+              error: (error: string) => {
+                loadingService.setLoading(false);
+
+                patchState(store, {
+                  predictionDetailsCallState: { error },
+                });
+              },
+            }),
+          );
+        }),
+      ),
     };
   }),
   withComputed((store) => ({

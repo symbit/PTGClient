@@ -49,7 +49,7 @@ export class AnalysisChartComponent {
   readonly configChanged = output<AnalysisConfig>();
 
   readonly showArima = signal<boolean>(false);
-  readonly showEma = signal<boolean>(true);
+  readonly showEma = signal<boolean>(false);
 
   readonly options: ChartOptions = {
     plugins: {

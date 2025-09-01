@@ -26,6 +26,7 @@ import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { IndicatorRealizationDataService } from '../service/indicator-realization-data.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '@ptg/shared/feature-loading';
+import { fileDownload } from '@ptg/shared-utils';
 
 interface IndicatorDetailsState {
   indicator: Indicator | null;
@@ -226,6 +227,27 @@ export const IndicatorDetailsStore = signalStore(
                 },
               }),
             );
+        }),
+      ),
+      exportRealizationDataPointsToExcel: rxMethod<number>(
+        switchMap((id: number) => {
+          loadingService.setLoading(true);
+
+          return indicatorRealizationDataService.exportExcel(id).pipe(
+            tapResponse({
+              next: (pdfBlob) => {
+                fileDownload(pdfBlob, `${store.indicator()?.name}.xlsx`);
+                loadingService.setLoading(false);
+              },
+              error: () => {
+                toastrService.error(
+                  'Usunięcie punktu danych nie powiodło się',
+                  'Error',
+                );
+                loadingService.setLoading(false);
+              },
+            }),
+          );
         }),
       ),
     };

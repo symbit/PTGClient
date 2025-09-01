@@ -54,4 +54,13 @@ export class IndicatorRealizationDataService {
       `${this._apiUrl}/indicator-realization-data/${id}`,
     );
   }
+
+  exportExcel(id: number): Observable<Blob> {
+    return this._httpClient.get(
+      `${this._apiUrl}/indicator-realizations/${id}/export-excel`,
+      {
+        responseType: 'blob',
+      },
+    );
+  }
 }

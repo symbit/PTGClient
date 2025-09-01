@@ -74,9 +74,18 @@ export class PredictionsService {
     );
   }
 
-  getPredictionPdf(id: number) {
+  getPredictionPdf(id: number): Observable<Blob> {
     return this._httpClient.get(
       `${this._apiUrl}/predictions/${id}/export-prediction`,
+      {
+        responseType: 'blob',
+      },
+    );
+  }
+
+  getPredictionExcel(id: number): Observable<Blob> {
+    return this._httpClient.get(
+      `${this._apiUrl}/predictions/${id}/export-prediction-excel`,
       {
         responseType: 'blob',
       },

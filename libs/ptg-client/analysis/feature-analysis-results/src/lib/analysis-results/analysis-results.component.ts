@@ -3,6 +3,7 @@ import {
   Component,
   HostListener,
   inject,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -27,6 +28,9 @@ import { AnalysisAutocorrelationChartComponent } from '../analysis-partial-autoc
 import { ComparativeAnalysisChartComponent } from '../comparative-analysis-chart/comparative-analysis-chart.component';
 import { ResultsAnalysisComponent } from '../results-analysis/results-analysis.component';
 import { AnalysisConfig } from '@ptg/analysis-types';
+import { Button } from 'primeng/button';
+import { Menu } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'ptg-analysis-results',
@@ -49,10 +53,20 @@ import { AnalysisConfig } from '@ptg/analysis-types';
     AnalysisAutocorrelationChartComponent,
     ComparativeAnalysisChartComponent,
     ResultsAnalysisComponent,
+    Button,
+    Menu,
   ],
 })
 export class AnalysisResultsComponent implements ComponentCanDeactivate {
   readonly state = inject(AnalysisStore);
+  readonly analysisConfig = signal<AnalysisConfig | null>(null);
+  readonly items: MenuItem[] = [
+    {
+      label: 'Exportuj do Excela',
+      icon: 'pi pi-file-excel',
+      command: () => this.exportExcel(),
+    },
+  ];
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): boolean {
@@ -65,13 +79,31 @@ export class AnalysisResultsComponent implements ComponentCanDeactivate {
     if (!analysis) return;
 
     const { startDate, endDate } = analysis.analysisResults[0];
-
+    this.analysisConfig.set(config);
     this.state.updateAnalysis({
       ...config,
       realizationIds: this.state.realizationsIds(),
       trendType: 'first_difference',
       startDate,
       endDate,
+    });
+  }
+
+  exportExcel(): void {
+    const analysis = this.state.analysis();
+
+    if (!analysis) return;
+
+    this.state.exportAnalysis({
+      nForecasts: this.analysisConfig()?.nForecasts || 1,
+      emaHalflife: this.analysisConfig()?.emaHalflife || 3,
+      trendType: 'first_difference',
+      ar: this.analysisConfig()?.ar || 1,
+      i: this.analysisConfig()?.i || 1,
+      ma: this.analysisConfig()?.ma || 3,
+      realizationIds: this.state.realizationsIds(),
+      startDate: this.state.analysis()?.analysisResults[0].startDate || '',
+      endDate: this.state.analysis()?.analysisResults[0].endDate || '',
     });
   }
 }

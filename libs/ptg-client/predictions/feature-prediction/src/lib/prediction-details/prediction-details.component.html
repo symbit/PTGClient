@@ -65,7 +65,16 @@
       [usedNewsArticles]="prediction.usedNewsArticles"
     />
 
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-2">
+      <p-button
+        class="mt-4"
+        label="Eksportuj do Excel"
+        severity="contrast"
+        icon="pi pi-file-excel"
+        [outlined]="true"
+        (click)="exportExcel()"
+      />
+
       <p-button
         class="mt-4"
         label="Eksportuj PDF"

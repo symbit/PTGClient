@@ -17,6 +17,7 @@ import {
   Analysis,
   ComparativeAnalysisChart,
   CreateAnalysis,
+  ExportAnalysis,
   RealizationDetails,
 } from '@ptg/analysis-types';
 import { Router } from '@angular/router';
@@ -24,7 +25,7 @@ import { ToastrService } from 'ngx-toastr';
 import { round, uniq } from 'lodash-es';
 import { LoadingService } from '@ptg/shared/feature-loading';
 import { HttpErrorResponse } from '@angular/common/http';
-import { regionMapper, sectorMapper } from '@ptg/shared-utils';
+import { fileDownload, regionMapper, sectorMapper } from '@ptg/shared-utils';
 
 interface AnalysisState {
   analysis: Analysis | null;
@@ -80,6 +81,23 @@ export const AnalysisStore = signalStore(
               },
               error: () => {
                 toastrService.error('Bład podczas tworzenia analizy.', 'Błąd');
+                loadingService.setLoading(false);
+              },
+            }),
+          );
+        }),
+      ),
+      exportAnalysis: rxMethod<ExportAnalysis>(
+        switchMap((payload: ExportAnalysis) => {
+          loadingService.setLoading(true);
+
+          return service.exportAnalysis(payload).pipe(
+            tapResponse({
+              next: (pdfBlob) => {
+                fileDownload(pdfBlob, `analiza.xlsx`);
+                loadingService.setLoading(false);
+              },
+              error: () => {
                 loadingService.setLoading(false);
               },
             }),
