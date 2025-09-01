@@ -19,6 +19,7 @@ import { IndicatorDetailsStore } from '@ptg/indicators-data-access-indicators';
 import { IndicatorRealizationImportComponent } from '../indicator-realization-import/indicator-realization-import.component';
 import { Tooltip } from 'primeng/tooltip';
 import { EmptyStateComponent } from '@ptg/shared-ui-empty-state';
+import { IndicatorRealizationDataLoadingComponent } from './indicator-realization-data-loading.component';
 
 const ROWS_PER_PAGE = 10;
 
@@ -35,6 +36,7 @@ const ROWS_PER_PAGE = 10;
     ConfirmDialog,
     Tooltip,
     EmptyStateComponent,
+    IndicatorRealizationDataLoadingComponent,
   ],
   providers: [DialogService, ConfirmationService],
 })
@@ -42,6 +44,7 @@ export class IndicatorRealizationDataComponent {
   readonly data = input.required<RealizationData[]>();
   readonly total = input.required<number>();
   readonly realizationId = input.required<number>();
+  readonly loading = input.required<boolean>();
 
   readonly loadRealizationData = output<SearchCriteria>();
   readonly exportRealizationData = output<void>();

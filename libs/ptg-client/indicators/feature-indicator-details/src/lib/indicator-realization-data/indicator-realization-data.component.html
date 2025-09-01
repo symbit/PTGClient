@@ -34,6 +34,8 @@
     [customSort]="true"
     [totalRecords]="total()"
     [rows]="ROWS_PER_PAGE"
+    [loading]="loading()"
+    loadingIcon="null"
     (onSort)="onSort($event)"
     (onPage)="onPageChange($event)"
   >
@@ -80,6 +82,13 @@
       <tr>
         <td colspan="4" class="!text-center">
           <ptg-empty-state />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #loadingbody>
+      <tr>
+        <td colspan="6" class="!text-center">
+          <ptg-indicator-realization-data-loading />
         </td>
       </tr>
     </ng-template>

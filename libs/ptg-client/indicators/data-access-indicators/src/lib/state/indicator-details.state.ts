@@ -16,6 +16,7 @@ import { LoadingState } from '@ptg/shared-utils-signal-store';
 import {
   addEntities,
   addEntity,
+  removeAllEntities,
   removeEntity,
   setAllEntities,
   updateEntity,
@@ -111,10 +112,14 @@ export const IndicatorDetailsStore = signalStore(
         id: number;
       }>(
         switchMap(({ searchCriteria, id }) => {
-          patchState(store, {
-            indicatorDataCallState: LoadingState.LOADING,
-            criteria: searchCriteria,
-          });
+          patchState(
+            store,
+            {
+              indicatorDataCallState: LoadingState.LOADING,
+              criteria: searchCriteria,
+            },
+            removeAllEntities(),
+          );
 
           return indicatorRealizationDataService
             .getRealizationData(searchCriteria, id)
