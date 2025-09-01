@@ -11,6 +11,8 @@ import { DefaultSearchCriteria, SearchCriteria } from '@ptg/shared-types';
 import { IndicatorRealizationComponent } from '@ptg/shared-feature-indicator-relization';
 import { Card } from 'primeng/card';
 import { Realization } from '@ptg/indicators-types';
+import { IndicatorRealizationDataChartComponent } from '../indicator-realization-data-chart/indicator-realization-data-chart.component';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'ptg-indicator-data',
@@ -18,6 +20,8 @@ import { Realization } from '@ptg/indicators-types';
     IndicatorRealizationComponent,
     IndicatorRealizationDataComponent,
     Card,
+    IndicatorRealizationDataChartComponent,
+    Skeleton,
   ],
   template: `
     <p-card>
@@ -27,6 +31,16 @@ import { Realization } from '@ptg/indicators-types';
         (changeSelectedRealization)="selectedRealization.set($event)"
       />
     </p-card>
+
+    @if (!state.isIndicatorDataLoading()) {
+      <ptg-indicator-realization-data-chart
+        [realizationData]="state.entities()"
+      />
+    } @else {
+      <p-card>
+        <p-skeleton height="500px" />
+      </p-card>
+    }
 
     <ptg-indicator-realization-data
       [data]="state.entities()"
