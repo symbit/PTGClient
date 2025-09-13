@@ -15,6 +15,7 @@
     <p-select
       [options]="predictionDefinitions()"
       [showClear]="true"
+      [loading]="state.predictionsDefinitionsByGroup.isLoading()"
       placeholder="Prognoza"
       optionLabel="name"
       formControlName="predictionDefinition"
