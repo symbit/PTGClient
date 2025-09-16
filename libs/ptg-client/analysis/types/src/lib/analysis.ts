@@ -44,6 +44,7 @@ export interface AnalysisResultsRealizationDetails {
   indicatorSector: string;
   indicatorRegion: string;
   indicatorFrequency: string;
+  indicatorUnit: string;
 }
 
 export interface AnalysisResults {
@@ -77,5 +78,6 @@ export interface ComparativeAnalysisChart {
     indicatorId: number;
     label: string;
     data: number[];
+    indicatorUnit: string;
   }[];
 }

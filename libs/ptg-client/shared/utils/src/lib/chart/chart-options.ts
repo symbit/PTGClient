@@ -48,7 +48,7 @@ export const chartOptions: ChartOptions = {
         parser: 'MM.yyyy', // Input format
       },
       ticks: {
-        source: 'auto',
+        source: 'data',
       },
       grid: {
         display: false,

@@ -45,6 +45,7 @@ export class IndicatorRealizationDataComponent {
   readonly total = input.required<number>();
   readonly realizationId = input.required<number>();
   readonly loading = input.required<boolean>();
+  readonly unit = input.required<string>();
 
   readonly loadRealizationData = output<SearchCriteria>();
   readonly exportRealizationData = output<void>();

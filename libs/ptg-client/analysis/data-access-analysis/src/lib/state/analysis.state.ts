@@ -160,6 +160,7 @@ export const AnalysisStore = signalStore(
               indicatorId: result.realizationDetails.indicatorId,
               label: `${result.realizationDetails.indicatorName} (${regionMapper(result.realizationDetails.indicatorRegion)}, ${sectorMapper(result.realizationDetails.indicatorSector)})`,
               data: result.rawTimeSeries.values,
+              indicatorUnit: result.realizationDetails.indicatorUnit,
             };
           }) || [],
       };

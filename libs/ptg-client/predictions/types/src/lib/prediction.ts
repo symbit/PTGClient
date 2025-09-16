@@ -32,6 +32,13 @@ export interface ExplanatoryRealization {
   sector: string;
 }
 
+export interface TargetRealization {
+  indicatorName: string;
+  region: string;
+  sector: string;
+  unit: string;
+}
+
 export interface Prediction {
   id: number;
   generationDate: string;
@@ -41,6 +48,7 @@ export interface Prediction {
   predictionDefinition: PredictionDefinition;
   nForecast: number;
   analysisResults: PredictionAnalysisResults;
+  targetRealization: TargetRealization;
   status: PredictionStatus;
   dataImpliedEndDateTime: string;
   generatedComment: string;

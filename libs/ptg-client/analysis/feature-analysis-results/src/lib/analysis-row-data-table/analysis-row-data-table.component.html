@@ -39,7 +39,9 @@
           [class.text-secondary-100]="i === 0"
           [class.text-primary-100]="i === 1"
         >
-          {{ value }}
+          @let indicator = indicators()[i];
+
+          {{ value }}{{ indicator.indicatorUnit }}
         </td>
       }
       @if (!multipleAnalysis) {

@@ -24,6 +24,7 @@ export class ComparativeAnalysisChartComponent {
 
   readonly comparativeAnalysisChart =
     input.required<ComparativeAnalysisChart>();
+  readonly unit = input.required<string>();
 
   readonly options = computed<ChartOptions>(() => {
     return {
@@ -46,11 +47,19 @@ export class ComparativeAnalysisChartComponent {
           type: 'linear',
           display: true,
           position: 'left',
+          title: {
+            display: true,
+            text: this.comparativeAnalysisChart().datasets[0].indicatorUnit,
+          },
         },
         y1: {
           type: 'linear',
           display: !this.isTheSameIndicator(),
           position: 'right',
+          title: {
+            display: true,
+            text: this.comparativeAnalysisChart().datasets[1].indicatorUnit,
+          },
           grid: {
             drawOnChartArea: false,
           },

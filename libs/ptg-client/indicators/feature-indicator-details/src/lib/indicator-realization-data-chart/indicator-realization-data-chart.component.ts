@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Card } from 'primeng/card';
 import { LineChartComponent } from '@ptg/shared-ui-chart';
-import { ChartData } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { RealizationData } from '@ptg/indicators-types';
 import { DatePipe } from '@angular/common';
 
@@ -18,7 +18,11 @@ import { DatePipe } from '@angular/common';
       <ng-template #title>
         <h2 class="header-style-22">Wykres danych wskaźnika</h2>
       </ng-template>
-      <ptg-line-chart [data]="chartData()" [showZoomControls]="false" />
+      <ptg-line-chart
+        [data]="chartData()"
+        [showZoomControls]="false"
+        [overrideOptions]="options()"
+      />
     </p-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +33,20 @@ export class IndicatorRealizationDataChartComponent {
   private readonly _datePipe = inject(DatePipe);
 
   readonly realizationData = input.required<RealizationData[]>();
+  readonly unit = input.required<string>();
+
+  readonly options = computed<ChartOptions>(() => {
+    return {
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: this.unit(),
+          },
+        },
+      },
+    };
+  });
 
   readonly chartData = computed<ChartData>(() => {
     const data = this.realizationData();

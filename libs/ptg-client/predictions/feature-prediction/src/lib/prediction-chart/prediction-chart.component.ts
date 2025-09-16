@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
 import { PredictionAnalysisResults } from '@ptg/predictions-types';
 import { LineChartComponent } from '@ptg/shared-ui-chart';
 import { Card } from 'primeng/card';
-import { ChartData } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'ptg-prediction-chart',
@@ -18,6 +18,7 @@ import { ChartData } from 'chart.js';
       <ptg-line-chart
         [data]="chartData()"
         [showZoomControls]="showZoomControls()"
+        [overrideOptions]="options()"
       />
     </p-card>
   `,
@@ -35,7 +36,21 @@ export class PredictionChartComponent {
 
   readonly analysisResults = input.required<PredictionAnalysisResults>();
   readonly frequency = input.required<'monthly' | 'quarterly' | 'yearly'>();
+  readonly unit = input.required<string>();
   readonly showZoomControls = input(true);
+
+  readonly options = computed<ChartOptions>(() => {
+    return {
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: this.unit(),
+          },
+        },
+      },
+    };
+  });
 
   readonly chartData = computed<ChartData>(() => {
     const analysisResults = this.analysisResults();

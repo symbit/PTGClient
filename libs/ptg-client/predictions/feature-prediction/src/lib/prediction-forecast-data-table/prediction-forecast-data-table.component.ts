@@ -24,9 +24,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
       <ng-template #body let-raw>
         <tr>
           <td>{{ raw.date | date: 'MM.yyyy' }}</td>
-          <td>
-            {{ raw.value | number: '1.2-2' }}
-          </td>
+          <td>{{ raw.value | number: '1.2-2' }}{{ unit() }}</td>
           <td>
             {{ raw.predictionLowerCi | number: '1.2-2' }}
           </td>
@@ -42,4 +40,5 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 })
 export class PredictionForecastDataTableComponent {
   readonly forecastData = input.required<ForecastTableData[]>();
+  readonly unit = input.required<string>();
 }

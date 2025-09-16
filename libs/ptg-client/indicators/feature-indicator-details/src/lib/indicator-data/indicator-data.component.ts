@@ -35,6 +35,7 @@ import { Skeleton } from 'primeng/skeleton';
     @if (!state.isIndicatorDataLoading()) {
       <ptg-indicator-realization-data-chart
         [realizationData]="state.entities()"
+        [unit]="selectedRealization()?.unit || ''"
       />
     } @else {
       <p-card>
@@ -47,6 +48,7 @@ import { Skeleton } from 'primeng/skeleton';
       [total]="state.total()"
       [realizationId]="selectedRealization()?.id || 0"
       [loading]="state.isIndicatorDataLoading()"
+      [unit]="selectedRealization()?.unit || ''"
       (loadRealizationData)="loadRealizationData($event)"
       (exportRealizationData)="exportRealizationData()"
     />

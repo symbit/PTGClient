@@ -26,6 +26,8 @@
 
 @if (prediction) {
   <div class="print:hidden">
+    @let unit = state.prediction()?.targetRealization?.unit || '';
+
     <p-card
       class="block mt-4"
       [header]="prediction.predictionDefinition.name"
@@ -37,11 +39,13 @@
       <ptg-prediction-chart
         [analysisResults]="prediction.analysisResults"
         [frequency]="prediction.predictionDefinition.frequency"
+        [unit]="unit"
       />
 
       <ptg-prediction-forecast-data-table
         class="block mt-4"
         [forecastData]="state.forecastTableData()"
+        [unit]="unit"
       />
     </p-card>
 

@@ -22,6 +22,7 @@
       @if (multipleIndicators) {
         <ptg-comparative-analysis-chart
           [comparativeAnalysisChart]="state.comparativeAnalysisChart()"
+          [unit]="analysisResults.realizationDetails.indicatorUnit"
         />
       } @else {
         <ptg-analysis-chart
@@ -29,6 +30,7 @@
           [inSamplePrediction]="analysisResults.inSamplePrediction"
           [indicatorEma]="analysisResults.indicatorEma"
           [forecast]="analysisResults.forecast"
+          [unit]="analysisResults.realizationDetails.indicatorUnit"
           (configChanged)="onConfigChanged($event)"
         />
       }

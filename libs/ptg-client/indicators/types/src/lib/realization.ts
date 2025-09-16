@@ -3,6 +3,7 @@ export interface Realization {
   region: string;
   sector: string;
   frequency: string;
+  unit: string;
 }
 
 export interface RealizationData {

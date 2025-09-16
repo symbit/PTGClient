@@ -45,23 +45,34 @@ export class AnalysisChartComponent {
   readonly inSamplePrediction = input.required<InSamplePrediction>();
   readonly indicatorEma = input.required<RawTimeSeries>();
   readonly forecast = input.required<Forecast>();
+  readonly unit = input.required<string>();
 
   readonly configChanged = output<AnalysisConfig>();
 
   readonly showArima = signal<boolean>(false);
   readonly showEma = signal<boolean>(false);
 
-  readonly options: ChartOptions = {
-    plugins: {
-      htmlLegend: {
-        display: true,
-        containerID: 'legend-analysis-chart',
+  readonly options = computed<ChartOptions>(() => {
+    return {
+      plugins: {
+        htmlLegend: {
+          display: true,
+          containerID: 'legend-analysis-chart',
+        },
+        legend: {
+          display: false,
+        },
       },
-      legend: {
-        display: false,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: this.unit(),
+          },
+        },
       },
-    },
-  } as any;
+    };
+  });
 
   readonly chartData = computed(() => {
     const rawTimeSeries = this.rawTimeSeries();
