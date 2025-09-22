@@ -12,6 +12,8 @@ export interface NumberOfArticlesBySentiment {
 export interface NumberOfArticlesBySource {
   BusinessInsider: number;
   PAP: number;
+  'Bankier.pl': number;
+  'Money.pl': number;
 }
 
 export interface InsightSource {

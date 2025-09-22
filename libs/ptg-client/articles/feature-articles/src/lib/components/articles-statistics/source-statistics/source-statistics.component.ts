@@ -30,12 +30,14 @@ export class SourceStatisticsComponent {
     if (!numberOfArticlesBySource) return;
 
     return {
-      labels: ['Business Insider', 'PAP'],
+      labels: ['Business Insider', 'PAP', 'Bankier.pl', 'Money.pl'],
       datasets: [
         {
           data: [
             numberOfArticlesBySource.BusinessInsider,
             numberOfArticlesBySource.PAP,
+            numberOfArticlesBySource['Bankier.pl'],
+            numberOfArticlesBySource['Money.pl'],
           ],
           backgroundColor: '#cce5ff',
           borderRadius: 10,
