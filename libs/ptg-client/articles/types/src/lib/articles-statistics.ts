@@ -14,6 +14,8 @@ export interface NumberOfArticlesBySource {
   PAP: number;
   'Bankier.pl': number;
   'Money.pl': number;
+  '300Gospodarka.pl': number;
+  'wGospodarce.pl': number;
 }
 
 export interface InsightSource {
