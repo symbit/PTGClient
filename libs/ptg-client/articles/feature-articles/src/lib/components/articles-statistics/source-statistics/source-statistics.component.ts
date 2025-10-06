@@ -37,6 +37,7 @@ export class SourceStatisticsComponent {
         'Money.pl',
         '300Gospodarka.pl',
         'wGospodarce.pl',
+        'Mam biznes',
       ],
       datasets: [
         {
@@ -47,6 +48,7 @@ export class SourceStatisticsComponent {
             numberOfArticlesBySource['Money.pl'],
             numberOfArticlesBySource['300Gospodarka.pl'],
             numberOfArticlesBySource['wGospodarce.pl'],
+            numberOfArticlesBySource['Mambiznes'],
           ],
           backgroundColor: '#cce5ff',
           borderRadius: 10,

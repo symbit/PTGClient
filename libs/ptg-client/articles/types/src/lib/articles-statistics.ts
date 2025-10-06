@@ -16,6 +16,7 @@ export interface NumberOfArticlesBySource {
   'Money.pl': number;
   '300Gospodarka.pl': number;
   'wGospodarce.pl': number;
+  Mambiznes: number;
 }
 
 export interface InsightSource {
