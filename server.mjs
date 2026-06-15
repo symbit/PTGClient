@@ -21,12 +21,20 @@ app.post('/generate-prediction-pdf/:predictionId', async (req, res) => {
   try {
     const browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      acceptInsecureCerts: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--ignore-certificate-errors',
+        '--host-resolver-rules=MAP backend.prognozy.iptg.pl 192.168.33.21:8000',
+      ],
     });
 
     const page = await browser.newPage();
 
     if (authToken) {
+      const t = `${frontendUrl}/predictions/export/${predictionId}?token=${authToken}`;
+      console.log(t);
       await page.goto(
         `${frontendUrl}/predictions/export/${predictionId}?token=${authToken}`,
         {
