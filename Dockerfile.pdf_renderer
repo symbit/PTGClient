@@ -1,4 +1,4 @@
-FROM node:20-buster-slim
+FROM node:20-bookworm-slim
 ARG APPLICATION
 ARG PROFILE=development
 ARG ARCHITECTURE=x64
@@ -6,7 +6,6 @@ ARG ARCHITECTURE=x64
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
-    libappindicator3-1 \
     libasound2 \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -53,11 +52,12 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /app
 WORKDIR /app
 
+# Install deps first so this layer is cached until dependencies actually change
+COPY package.json package-lock.json /app/
+RUN npm ci --legacy-peer-deps
+
+# Source changes only invalidate from here down, not the install above
 COPY . /app
 COPY .env.production /app/.env
-
-RUN rm -rf /app/node_modules
-RUN npm cache clean --force
-RUN npm install --force
 
 RUN npx nx run ${APPLICATION}:build:${PROFILE}

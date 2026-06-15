@@ -1,0 +1,18 @@
+# Reinstalled inside the image via `npm ci`
+node_modules
+
+# Local build / tool caches — regenerated in the container
+.angular
+.nx
+dist
+
+# VCS / editor / CI noise
+.git
+.gitignore
+.vscode
+.husky
+
+# Logs and crash dumps
+*.log
+npm-debug.log*
+*.stackdump

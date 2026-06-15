@@ -7,11 +7,12 @@ ARG ARCHITECTURE=x64
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY . /app
+# Install deps first so this layer is cached until dependencies actually change
+COPY package.json package-lock.json /app/
+RUN npm ci --legacy-peer-deps
 
-RUN rm -rf /app/node_modules
-RUN npm cache clean --force
-RUN npm install --force
+# Source changes only invalidate from here down, not the install above
+COPY . /app
 RUN npx nx reset
 
 RUN npx nx run ${APPLICATION}:build:${PROFILE}
